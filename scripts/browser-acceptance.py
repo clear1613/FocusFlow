@@ -40,8 +40,10 @@ def seed(page, data):
 
 def select_english(page):
     # Business regression scenarios explicitly run in English. Default Chinese
-    # and live switching are covered by locale-browser-acceptance.py.
-    page.locator('header select').select_option('en')
+    # and live switching are covered by locale-browser-acceptance.py. .first
+    # keeps this stable even while the settings dialog (with its own select)
+    # happens to be open.
+    page.locator('header select').first.select_option('en')
 
 
 def create_task(page, title='Release acceptance'):
@@ -87,6 +89,16 @@ def row_action(row, name):
     row.get_by_role('menuitem', name=name, exact=True).click()
 
 
+def toggle_notification(dialog):
+    """Click the desktop-notification switch through its visible label.
+
+    The switch input is visually hidden (sr-only) and covered by the track, so
+    clicking the input directly is intercepted; users click the label, and so
+    does this suite.
+    """
+    dialog.locator('label').filter(has_text='Desktop notification').click()
+
+
 def open_settings(page):
     page.get_by_role('button', name='Open settings').click()
     return page.get_by_role('dialog', name='Settings')
@@ -102,9 +114,14 @@ def set_theme(page, value):
     close_settings(page)
 
 
+def row_title(row):
+    """Select the row's body button (circle, title, menu — it is the second)."""
+    return row.get_by_role('button').nth(1)
+
+
 def task_timer(page):
     row = create_task(page)
-    row.get_by_role('button', name='Release acceptance').click()
+    row_title(row).click()
     page.get_by_role('button', name='Start focus', exact=True).click()
     data = read(page)
     assert data['timer']['status'] == 'running'
@@ -143,7 +160,7 @@ def task_timer(page):
     expect(page.get_by_text('Release acceptance', exact=True)).to_have_count(0)
     page.get_by_role('button', name='Completed').click()
     row = page.locator('article').filter(has_text='Release acceptance')
-    expect(row.get_by_role('button', name='Release acceptance')).to_be_disabled()
+    expect(row_title(row)).to_be_disabled()
     row_action(row, 'Edit')
     dialog = page.get_by_role('dialog')
     dialog.get_by_label('Task name').fill('Reviewed acceptance')
@@ -240,7 +257,7 @@ def persistence(page):
 
 def expired_analytics(page):
     create_task(page)
-    page.locator('article').get_by_role('button', name='Release acceptance').click()
+    row_title(page.locator('article')).click()
     page.get_by_role('button', name='Start focus', exact=True).click()
     running = read(page)
     page.goto('about:blank')
@@ -314,6 +331,7 @@ def theme_modal_mobile(page):
     page.keyboard.press('Escape')
     expect(menu).to_be_focused()
     menu.click()
+    row.get_by_role('menuitem', name='Edit', exact=True).click()
     page.get_by_role('presentation').click(position={'x': 2, 'y': 2})
     expect(page.get_by_role('dialog')).to_have_count(0)
     expect(menu).to_be_focused()
@@ -337,8 +355,7 @@ def theme_modal_mobile(page):
 
 def notification(page):
     assert page.evaluate('window.__requests') == 0
-    control = open_settings(page).get_by_role('switch', name='Desktop notification')
-    control.click()
+    toggle_notification(open_settings(page))
     close_settings(page)
     assert page.evaluate('window.__requests') == 1
     expect(page.get_by_text('Desktop notifications enabled', exact=True)).to_be_visible()
@@ -364,9 +381,9 @@ NOTIFICATIONS = """() => {
 
 
 def denied_notification(page):
-    switch = open_settings(page).get_by_role('switch', name='Desktop notification')
-    switch.click()
-    switch.click()
+    dialog = open_settings(page)
+    toggle_notification(dialog)
+    toggle_notification(dialog)
     close_settings(page)
     assert page.evaluate('window.__requests') == 0
     expect(page.get_by_text('Notification permission is blocked', exact=True)).to_have_count(2)
@@ -384,7 +401,7 @@ def unsupported_notification(page):
 
 
 def permission_failure(page):
-    open_settings(page).get_by_role('switch', name='Desktop notification').click()
+    toggle_notification(open_settings(page))
     close_settings(page)
     expect(page.get_by_text('Notification permission request failed', exact=True)).to_be_visible()
     assert not read(page)['settings']['notificationEnabled']
@@ -392,7 +409,7 @@ def permission_failure(page):
 
 def native_notification_granted(page):
     assert page.evaluate('Notification.permission') == 'granted'
-    open_settings(page).get_by_role('switch', name='Desktop notification').click()
+    toggle_notification(open_settings(page))
     close_settings(page)
     expect(page.get_by_text('Desktop notifications enabled', exact=True)).to_be_visible()
     page.get_by_role('button', name='Start focus', exact=True).click()
@@ -403,13 +420,13 @@ def native_notification_granted(page):
 
 def capture_readme(page):
     row = create_task(page, 'Review release checklist')
-    row.get_by_role('button', name='Review release checklist').click()
+    row_title(row).click()
     page.get_by_role('button', name='Start focus', exact=True).click()
     page.clock.fast_forward(1_500_000)
     row_action(row, 'Mark as done')
     page.get_by_role('button', name='Skip break', exact=True).click()
     row = create_task(page, 'Prepare documentation')
-    row.get_by_role('button', name='Prepare documentation').click()
+    row_title(row).click()
     page.get_by_role('button', name='Start focus', exact=True).click()
     page.clock.fast_forward(180_000)
     page.get_by_role('button', name='Pause', exact=True).click()

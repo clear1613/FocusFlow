@@ -29,9 +29,20 @@ export function TaskRow({
 }) {
   const { t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropUp, setDropUp] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const completed = task.status === 'completed';
+
+  function toggleMenu() {
+    if (!menuOpen) {
+      // A menu that opens downward from a row near the viewport bottom would
+      // be clipped, so measure the space once and flip upward when needed.
+      const rect = menuButtonRef.current?.getBoundingClientRect();
+      setDropUp(rect ? window.innerHeight - rect.bottom < 160 : false);
+    }
+    setMenuOpen((open) => !open);
+  }
 
   /**
    * Run a menu action and put focus back on the `⋯` button first.
@@ -73,19 +84,25 @@ export function TaskRow({
           : 'border-neutral-200 hover:border-neutral-300 dark:border-neutral-800 dark:hover:border-neutral-700'
       } ${completed ? 'opacity-70' : ''}`}
     >
+      {/* 40px hit area with the 20px circle inside: the tap target is large
+          enough on touch screens while the row keeps its visual density. */}
       <button
         type="button"
         aria-label={t('task.markDoneFor', { title: task.title })}
         aria-pressed={completed}
         disabled={!onComplete}
         onClick={onComplete}
-        className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[11px] leading-none transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 disabled:cursor-default dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-900 ${
-          completed
-            ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
-            : 'border-neutral-300 bg-transparent text-transparent hover:border-neutral-900 hover:text-neutral-500 dark:border-neutral-600 dark:hover:border-white'
-        }`}
+        className="grid h-10 w-10 shrink-0 place-items-center rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 disabled:cursor-default dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-900"
       >
-        ✓
+        <span
+          className={`grid h-5 w-5 place-items-center rounded-full border text-[11px] leading-none transition ${
+            completed
+              ? 'border-neutral-900 bg-neutral-900 text-white dark:border-white dark:bg-white dark:text-neutral-900'
+              : 'border-neutral-300 bg-transparent text-transparent hover:border-neutral-900 hover:text-neutral-500 dark:border-neutral-600 dark:hover:border-white'
+          }`}
+        >
+          ✓
+        </span>
       </button>
 
       <button
@@ -116,8 +133,8 @@ export function TaskRow({
           aria-haspopup="menu"
           aria-expanded={menuOpen}
           aria-label={t('task.moreFor', { title: task.title })}
-          onClick={() => setMenuOpen((open) => !open)}
-          className="grid h-9 w-9 place-items-center rounded-xl text-lg leading-none text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white dark:focus-visible:ring-white"
+          onClick={toggleMenu}
+          className="grid h-10 w-10 place-items-center rounded-xl text-lg leading-none text-neutral-400 transition hover:bg-neutral-100 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-white dark:focus-visible:ring-white"
         >
           ⋯
         </button>
@@ -125,7 +142,9 @@ export function TaskRow({
         {menuOpen ? (
           <div
             role="menu"
-            className="absolute right-0 z-20 mt-1 w-36 overflow-hidden rounded-xl border border-neutral-200 bg-white py-1 shadow-lg dark:border-neutral-700 dark:bg-neutral-900"
+            className={`absolute right-0 z-20 w-36 overflow-hidden rounded-xl border border-neutral-200 bg-white py-1 shadow-lg dark:border-neutral-700 dark:bg-neutral-900 ${
+              dropUp ? 'bottom-full mb-1' : 'top-full mt-1'
+            }`}
           >
             <MenuItem onClick={() => runAction(onEdit)}>{t('edit')}</MenuItem>
             {onComplete ? (

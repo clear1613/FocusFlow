@@ -75,14 +75,23 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
         ) : null}
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.4fr_.6fr]">
-          <TimerCard />
-          <TodayStats />
-        </div>
-
-        <div className="mt-4 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 lg:grid-cols-[1.1fr_.9fr]">
-          <TaskList />
-          <WeeklyChart />
+        {/* One grid, explicitly placed on desktop: the timer spans the two
+            rows of the right column (today + weekly), so both columns end at
+            the same height instead of leaving a hole where Settings used to
+            be. On mobile the DOM order applies: timer, today, tasks, weekly. */}
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.35fr_.65fr]">
+          <div className="min-w-0 lg:col-span-1 lg:col-start-1 lg:row-span-2 lg:row-start-1">
+            <TimerCard />
+          </div>
+          <div className="min-w-0 lg:col-start-2 lg:row-start-1">
+            <TodayStats />
+          </div>
+          <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
+            <TaskList />
+          </div>
+          <div className="min-w-0 lg:col-start-2 lg:row-start-2">
+            <WeeklyChart />
+          </div>
         </div>
 
         <footer className="py-8 text-center text-xs text-neutral-400">

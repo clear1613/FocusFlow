@@ -34,6 +34,12 @@ export function WeeklyChart() {
   const weekdayOf = (dayStart: number) =>
     new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(dayStart);
 
+  // "周三和周五" / "Wed and Fri" — a list, not a claim about a single day.
+  const joinWeekdays = (dayStarts: number[]) => {
+    const formatter = new Intl.ListFormat(locale, { type: 'conjunction' });
+    return formatter.format(dayStarts.map(weekdayOf));
+  };
+
   return (
     <section
       className="min-w-0 rounded-3xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
@@ -52,7 +58,7 @@ export function WeeklyChart() {
         </div>
       </div>
 
-      <div className="h-56" aria-hidden="true">
+      <div className="h-48" aria-hidden="true">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
             <XAxis dataKey="date" axisLine={false} tickLine={false} />
@@ -69,20 +75,26 @@ export function WeeklyChart() {
       </div>
 
       {/* One rule-based sentence. Derived from the same array as the bars, so it
-          can never contradict the chart above it. */}
+          can never contradict the chart above it. Ties never single out one day. */}
       <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-300">
         {summary.bestDay === null
           ? t('weeklyEmpty')
-          : summary.activeDays === 1
-            ? t('weekly.summarySingle', {
+          : summary.tiedDayStarts.length > 1
+            ? t('weekly.summaryTie', {
                 minutes: summary.totalMinutes,
-                weekday: weekdayOf(summary.bestDay.dayStart),
-              })
-            : t('weekly.summaryBest', {
-                minutes: summary.totalMinutes,
-                weekday: weekdayOf(summary.bestDay.dayStart),
+                weekdays: joinWeekdays(summary.tiedDayStarts),
                 dayMinutes: summary.bestDay.minutes,
-              })}
+              })
+            : summary.activeDays === 1
+              ? t('weekly.summarySingle', {
+                  minutes: summary.totalMinutes,
+                  weekday: weekdayOf(summary.bestDay.dayStart),
+                })
+              : t('weekly.summaryBest', {
+                  minutes: summary.totalMinutes,
+                  weekday: weekdayOf(summary.bestDay.dayStart),
+                  dayMinutes: summary.bestDay.minutes,
+                })}
       </p>
 
       <ul className="sr-only" aria-label={t('weeklyAccessible')}>

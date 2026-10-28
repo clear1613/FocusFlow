@@ -94,14 +94,21 @@ export interface WeeklyFocusSummary {
   totalMinutes: number;
   activeDays: number;
   bestDay: { dayStart: number; minutes: number } | null;
+  /**
+   * All days sharing the maximum minutes. Empty when nothing was recorded.
+   * More than one entry means the "strongest day" claim would be misleading,
+   * so the UI switches to a tie-aware sentence instead.
+   */
+  tiedDayStarts: number[];
 }
 
 /**
  * Rule-based conclusion for the weekly chart.
  *
  * The sentence the UI renders is derived from the same array the bars are drawn
- * from, so it cannot disagree with the chart. Ties resolve to the earlier day,
- * which keeps the text stable across re-renders.
+ * from, so it cannot disagree with the chart. The best day is still the earlier
+ * one on a tie (stable across re-renders), but the tie itself is reported so
+ * the text never singles out one day when several are equal.
  */
 export function getWeeklyFocusSummary(
   sessions: FocusSession[],
@@ -116,10 +123,15 @@ export function getWeeklyFocusSummary(
     if (day.minutes > (best?.minutes ?? 0)) best = day;
   }
 
+  const tiedDayStarts = best
+    ? days.filter((day) => day.minutes === best.minutes).map((day) => day.dayStart)
+    : [];
+
   return {
     totalMinutes,
     activeDays,
     bestDay: best ? { dayStart: best.dayStart, minutes: best.minutes } : null,
+    tiedDayStarts,
   };
 }
 

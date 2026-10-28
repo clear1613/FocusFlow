@@ -265,4 +265,30 @@ describe('getWeeklyFocusSummary', () => {
     expect(summary.activeDays).toBe(1);
     expect(summary.bestDay?.minutes).toBe(30);
   });
+
+  it('reports every day tied for the maximum, not just the earlier one', () => {
+    const sessions = [
+      focusSession('wed', localTime(2026, 10, 21, 10), 50 * 60),
+      focusSession('fri', localTime(2026, 10, 23, 10), 50 * 60),
+    ];
+
+    const summary = getWeeklyFocusSummary(sessions, now);
+
+    expect(summary.bestDay?.dayStart).toBe(new Date(2026, 9, 21).getTime());
+    expect(summary.tiedDayStarts).toEqual([
+      new Date(2026, 9, 21).getTime(),
+      new Date(2026, 9, 23).getTime(),
+    ]);
+  });
+
+  it('lists a single tied day when the maximum is unique', () => {
+    const sessions = [
+      focusSession('wed', localTime(2026, 10, 21, 10), 82 * 60),
+      focusSession('sat', localTime(2026, 10, 24, 10), 50 * 60),
+    ];
+
+    const summary = getWeeklyFocusSummary(sessions, now);
+
+    expect(summary.tiedDayStarts).toEqual([new Date(2026, 9, 21).getTime()]);
+  });
 });

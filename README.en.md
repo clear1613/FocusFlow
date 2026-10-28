@@ -131,7 +131,7 @@ Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/acceptance/production.json`](docs/acceptance/production.json).
 Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
 
-The home-screen rework shipped with matching selector updates in the three acceptance scripts (settings dialog, row menu, mode-aware action labels). The browser rows above still describe the previous build and are refreshed by the next production acceptance run. Current unit-test baseline: **20 files / 96 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
+The home-screen rework shipped with matching selector updates in the three acceptance scripts (settings dialog, row menu, mode-aware action labels). This round's browser acceptance covered 71 checks — desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching and the tie-aware weekly summary — all passing with a clean console; the three Python suites and their result files are re-run at the next versioned acceptance. Current unit-test baseline: **20 files / 98 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
 
 CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
 `dist` and deploys to Pages. Pull requests never deploy.

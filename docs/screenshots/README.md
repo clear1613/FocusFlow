@@ -36,4 +36,6 @@ python scripts/language-acceptance.py --output docs/acceptance/language-local.js
 python scripts/browser-acceptance.py --output docs/acceptance/business-local.json --screenshots-dir docs/screenshots/local/business
 ```
 
+首页改为「计时器 + 右上角设置入口 + 任务行菜单」后，`production/` 与 `local/` 两套图会在本次发布验收时按原有文件名整体重拍；README 首图沿用 `production/desktop-zh-CN.png`，换图后不需要改路径。
+
 换托管平台或改版后重拍时，用同样的文件名覆盖，并同步更新 [验收记录](../10-ACCEPTANCE.md) 里的地址与版本号，避免旧图被当成新版本证据。

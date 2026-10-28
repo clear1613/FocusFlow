@@ -1,5 +1,6 @@
 """Real elapsed-time check with a frozen Chromium page (no fake clock)."""
 import json
+import re
 import math
 import time
 from pathlib import Path
@@ -12,11 +13,11 @@ with sync_playwright() as p:
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.goto('http://127.0.0.1:5173', wait_until='networkidle')
-    page.locator('header select').select_option('en')
+    page.locator('header select').first.select_option('en')
     # Settings live behind the header icon; the main screen stays a timer.
     page.get_by_role('button', name='Open settings').click()
     dialog = page.get_by_role('dialog', name='Settings')
-    dialog.get_by_role('switch', name='Sound', exact=True).click()
+    dialog.locator('label').filter(has_text=re.compile(r'^Sound$')).click()
     dialog.get_by_role('spinbutton', name='Focus', exact=True).fill('5')
     page.keyboard.press('Escape')
     page.get_by_role('button', name='Start focus', exact=True).click()
