@@ -1,7 +1,11 @@
 {
-  "browser": "Edge 155.0.4283.62",
+  "browser": "Edge 156.0.4314.42",
   "url": "http://127.0.0.1:5173",
   "timezone": "Asia/Singapore",
+  "environment": "local",
+  "application_versions": [
+    "1.1.0"
+  ],
   "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
   "results": [
     {
@@ -52,7 +56,7 @@
   "console": [
     {
       "type": "warning",
-      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (http://127.0.0.1:5173/src/services/storageService.ts:42:21)\n    at initializeApp (http://127.0.0.1:5173/src/services/initializeApp.ts:10:33)\n    at http://127.0.0.1:5173/src/main.tsx:7:23"
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (http://127.0.0.1:5173/src/services/storageService.ts:42:21)\n    at initializeApp (http://127.0.0.1:5173/src/services/initializeApp.ts:11:33)\n    at http://127.0.0.1:5173/src/main.tsx?t=1793203466814:7:23"
     },
     {
       "type": "warning",
@@ -72,7 +76,7 @@
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 1."
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 2."
     },
     {
       "type": "warning",
@@ -80,11 +84,15 @@
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:12:59)\n    at Object.notify (http://127.0.0.1:5173/src/services/notificationService.ts:17:7)\n    at http://127.0.0.1:5173/src/hooks/usePomodoroTimer.ts:117:27\n    at http://127.0.0.1:5173/src/hooks/usePomodoroTimer.ts:201:7\n    at ClockController._callFirstTimer (<anonymous>:247:20)\n    at ClockController._runTo (<anonymous>:103:33)\n    at ClockController._innerFastForwardTo (<anonymous>:169:16)\n    at ClockController.fastForward (<anonymous>:160:16)\n    at eval (eval at evaluate (:234:30), <anonymous>:1:33)\n    at eval (<anonymous>)"
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:11:46)\n    at Object.requestPermission (http://127.0.0.1:5173/src/services/notificationService.ts:10:32)\n    at toggleNotification (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:90:80)\n    at onChange (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:300:43)\n    at onChange (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:485:30)\n    at executeDispatch (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=b4b8411f:14740:11)\n    at runWithFiberInDEV (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=b4b8411f:1133:72)\n    at processDispatchQueue (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=b4b8411f:14776:37)\n    at http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=b4b8411f:15170:11\n    at batchedUpdates$1 (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=b4b8411f:2769:42)"
+      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:7:59)\n    at Object.notify (http://127.0.0.1:5173/src/services/notificationService.ts:17:7)\n    at http://127.0.0.1:5173/src/hooks/usePomodoroTimer.ts:120:27\n    at http://127.0.0.1:5173/src/hooks/usePomodoroTimer.ts:204:7\n    at ClockController._callFirstTimer (<anonymous>:285:20)\n    at ClockController._runTo (<anonymous>:120:33)\n    at <anonymous>:168:38"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:6:46)\n    at Object.requestPermission (http://127.0.0.1:5173/src/services/notificationService.ts:10:32)\n    at toggleNotification (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:93:80)\n    at onChange (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:293:39)\n    at onChange (http://127.0.0.1:5173/src/components/settings/SettingsPanel.tsx:469:32)\n    at executeDispatch (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0468ab05:14740:11)\n    at runWithFiberInDEV (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0468ab05:1133:72)\n    at processDispatchQueue (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0468ab05:14776:37)\n    at http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0468ab05:15170:11\n    at batchedUpdates$1 (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=0468ab05:2769:42)"
     }
   ],
   "unexpected_errors": []

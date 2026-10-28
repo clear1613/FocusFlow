@@ -56,3 +56,36 @@ it('reads as a sentence and keeps the streak as the secondary line', () => {
   expect(stats.getByText('1 次专注 · 完成 0 个任务')).toBeInTheDocument();
   expect(stats.getByText('连续第 2 天')).toBeInTheDocument();
 });
+
+it('keeps showing the streak before the first session of the day', () => {
+  useSettingsStore.getState().patch({ locale: 'zh-CN' });
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2026, 9, 25, 8, 0));
+  useTaskStore.getState().hydrate([], null);
+  useSessionStore.getState().hydrate([
+    sessionOn(23, new Date(2026, 9, 23, 10).getTime()),
+    sessionOn(24, new Date(2026, 9, 24, 23).getTime()),
+  ]);
+
+  render(<TodayStats />);
+  const stats = within(screen.getByRole('region', { name: '今日概览' }));
+
+  // Nothing today, but the run is still alive: the card must say so instead of
+  // looking like the streak ended at midnight.
+  expect(stats.getByText('今天还没有专注记录')).toBeInTheDocument();
+  expect(stats.getByText('连续第 2 天')).toBeInTheDocument();
+});
+
+it('omits the streak line entirely when there is no run to keep', () => {
+  useSettingsStore.getState().patch({ locale: 'zh-CN' });
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2026, 9, 25, 8, 0));
+  useTaskStore.getState().hydrate([], null);
+  useSessionStore.getState().hydrate([]);
+
+  render(<TodayStats />);
+  const stats = within(screen.getByRole('region', { name: '今日概览' }));
+
+  expect(stats.getByText('今天还没有专注记录')).toBeInTheDocument();
+  expect(stats.queryByText(/连续第/)).toBeNull();
+});

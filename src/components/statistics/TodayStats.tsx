@@ -47,7 +47,7 @@ export function TodayStats() {
               tasks: stats.completedTasks,
             })}
           </p>
-          {stats.currentStreak > 1 ? (
+          {stats.currentStreak > 0 ? (
             <p className="mt-1 text-sm text-neutral-400">
               {t('stats.streakDays', { days: stats.currentStreak })}
             </p>
@@ -57,6 +57,14 @@ export function TodayStats() {
         <>
           <p className="mt-3 text-lg font-medium leading-snug">{t('stats.emptyTitle')}</p>
           <p className="mt-1 text-sm text-neutral-400">{t('stats.emptyHint')}</p>
+          {/* The streak deliberately survives a day you have not started yet, so
+              the empty state has to say so — otherwise the card looks like the
+              run just ended when it is still intact. */}
+          {stats.currentStreak > 0 ? (
+            <p className="mt-1 text-sm text-neutral-400">
+              {t('stats.streakDays', { days: stats.currentStreak })}
+            </p>
+          ) : null}
         </>
       )}
     </section>

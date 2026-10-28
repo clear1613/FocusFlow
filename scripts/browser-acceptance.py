@@ -57,8 +57,8 @@ def stat(page, label):
 
     TodayStats renders prose ("Focused for 1 h 40 min", "2 sessions · 1 tasks
     done") instead of four tiles, so the value is parsed out of the rendered
-    text. A missing streak line means the streak is 0 (nothing today) or 1
-    (not worth a sentence).
+    text. The streak line is rendered in both the active and the empty state,
+    so a missing line means the streak really is 0.
     """
     text = page.get_by_role('region', name='Today', exact=True).inner_text()
     if label == 'Pomodoros':
@@ -76,10 +76,9 @@ def stat(page, label):
         total = int(hours.group(1)) * 60 if hours else 0
         return total + (int(minutes.group(1)) if minutes else 0)
     if label == 'Day streak':
-        if 'No focus sessions yet today' in text:
-            return 0
+        # Rendered in the empty state as well, so absence really means zero.
         match = re.search(r'Day (\d+) streak', text)
-        return int(match.group(1)) if match else 1
+        return int(match.group(1)) if match else 0
     raise AssertionError('Unknown stat label: ' + label)
 
 
@@ -249,6 +248,9 @@ def persistence(page):
     open_settings(page).get_by_role('button', name='Reset', exact=True).click()
     page.get_by_role('dialog', name='Reset all FocusFlow data?').get_by_role('button', name='Reset all data', exact=True).click()
     expect(page.get_by_text('本地数据已重置', exact=True)).to_be_visible()
+    # Resetting intentionally leaves the settings dialog open, so it has to be
+    # dismissed before the page behind it accepts clicks again.
+    close_settings(page)
     select_english(page)
     expect(page.get_by_role('alert')).to_have_count(0)
     create_task(page, 'Writes unlocked')
