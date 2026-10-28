@@ -13,9 +13,7 @@ Create today's tasks, select one to work on, and track progress through complete
   <img src="docs/screenshots/production/desktop-en.png" alt="FocusFlow v1.1.0 English interface with a language selector in the top-right corner" width="100%" />
 </p>
 
-> Screenshot from the live GitHub Pages deployment, using sample tasks. Mobile and dialog evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
->
-> The capture shows the previous layout. This release moves settings behind a header icon and row actions into a menu, so the production screenshots are re-taken as part of the same release acceptance run.
+> Screenshot from the live GitHub Pages deployment, re-taken during the 2026-10-29 acceptance run with sample tasks. Mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
 
 ## At a glance
 
@@ -119,7 +117,7 @@ Results below are for **v1.1.0**; the first release (v1.0.0) is recorded in the 
 | --- | --- | --- |
 | Install | `npm ci` | passes, 0 vulnerabilities |
 | Lint | `npm run lint` | 0 errors, 0 warnings |
-| Tests | `npm run test` | 20 files, 96 tests passing |
+| Tests | `npm run test` | 20 files, 100 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
 | Production browser acceptance | `python scripts/browser-acceptance.py --production` | 11/11 PASS, Desktop + 375×812 + 390×844, 0 unexpected console errors |
@@ -131,7 +129,7 @@ Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/acceptance/production.json`](docs/acceptance/production.json).
 Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
 
-The home-screen rework shipped with matching selector updates in the three acceptance scripts (settings dialog, row menu, mode-aware action labels). This round's browser acceptance covered 71 checks — desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching and the tie-aware weekly summary — all passing with a clean console; the three Python suites and their result files are re-run at the next versioned acceptance. Current unit-test baseline: **20 files / 98 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
+The home-screen rework (settings behind a dialog, the current task inside the timer card, the row menu, mode-aware action labels, the today summary and the weekly conclusion) was re-verified against production on 2026-10-29: the three Python suites were updated for the new DOM, business regression **11/11** and language acceptance **4/4** against Pages, the real-wait background check passes, and a 71-check extended audit (desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching, the tie-aware weekly summary) passes with a clean console. The re-run caught a missing streak line in the today card's empty state, which is fixed — details in the [acceptance record](docs/10-ACCEPTANCE.md). Current unit-test baseline: **20 files / 100 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
 
 CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
 `dist` and deploys to Pages. Pull requests never deploy.

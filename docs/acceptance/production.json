@@ -1,10 +1,10 @@
 {
-  "browser": "Edge 155.0.4283.62",
+  "browser": "Edge 156.0.4314.42",
   "url": "https://clear1613.github.io/FocusFlow/",
   "timezone": "Asia/Singapore",
   "environment": "production",
   "application_versions": [
-    "1.0.0"
+    "1.1.0"
   ],
   "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
   "results": [
@@ -56,7 +56,7 @@
   "console": [
     {
       "type": "warning",
-      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:64317)\n    at sX (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:63:30792)\n    at https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:63:31867"
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:77009)\n    at kX (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:63:36529)\n    at https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:63:37471"
     },
     {
       "type": "warning",
@@ -76,7 +76,7 @@
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 1."
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 2."
     },
     {
       "type": "warning",
@@ -84,11 +84,15 @@
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:12:59)\n    at Object.notify (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:54525)\n    at https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:63:21207\n    at https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:63:22434\n    at ClockController._callFirstTimer (<anonymous>:247:20)\n    at ClockController._runTo (<anonymous>:103:33)\n    at async ClockController._innerFastForwardTo (<anonymous>:169:5)\n    at async ClockController.fastForward (<anonymous>:160:5)\n    at async <anonymous>:260:30"
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
     },
     {
       "type": "warning",
-      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:11:46)\n    at Object.requestPermission (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:54404)\n    at g (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:70732)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:73095)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:75339)\n    at Hx (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:8:140530)\n    at https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:8:145369\n    at Yp (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:8:15235)\n    at Dm (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:8:141764)\n    at Zm (https://clear1613.github.io/FocusFlow/assets/index-3O03jwDs.js:9:42668)"
+      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:7:59)\n    at Object.notify (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:81914)\n    at https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:63:24406\n    at https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:63:25633\n    at ClockController._callFirstTimer (<anonymous>:285:20)\n    at ClockController._runTo (<anonymous>:120:33)\n    at async ClockController._innerFastForwardTo (<anonymous>:207:5)\n    at async <anonymous>:197:7\n    at async ClockController._runWithDisabledRealTimeSync (<anonymous>:189:7)\n    at async ClockController.fastForward (<anonymous>:196:5)"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:6:46)\n    at Object.requestPermission (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:81793)\n    at p (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:84689)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:86846)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:88992)\n    at Vx (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:8:140530)\n    at https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:8:145369\n    at K0 (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:8:15235)\n    at Nv (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:8:141764)\n    at Qv (https://clear1613.github.io/FocusFlow/assets/index-ep2JqiSc.js:9:42668)"
     }
   ],
   "unexpected_errors": []

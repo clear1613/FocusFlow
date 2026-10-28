@@ -3,12 +3,12 @@
 截图全部来自实际运行的应用，按来源分成两套，文件名保持一致，方便对照同一界面在本地和线上的表现。
 
 ```text
-production/          线上 https://clear1613.github.io/FocusFlow/ 的 v1.1.0 截图
+production/          线上 https://clear1613.github.io/FocusFlow/ 的截图（2026-10-29 随首页改版复验整体重拍）
 ├── desktop-zh-CN.png / desktop-en.png
 ├── landscape-zh-CN.png / landscape-en.png
 ├── mobile-375-zh-CN.png / mobile-375-en.png
 ├── mobile-390-zh-CN.png / mobile-390-en.png
-└── business/       线上业务回归：home-desktop、timer-desktop、mobile-375/390 与弹窗
+└── business/       线上业务回归与界面细节：home-desktop、timer-desktop、mobile-375/390 与弹窗、settings-dialog、task-menu、暗色模式
 local/               本地开发服务器上的同款截图
 └── business/
 ```
@@ -36,6 +36,6 @@ python scripts/language-acceptance.py --output docs/acceptance/language-local.js
 python scripts/browser-acceptance.py --output docs/acceptance/business-local.json --screenshots-dir docs/screenshots/local/business
 ```
 
-首页改为「计时器 + 右上角设置入口 + 任务行菜单」后，`production/` 与 `local/` 两套图会在本次发布验收时按原有文件名整体重拍；README 首图沿用 `production/desktop-zh-CN.png`，换图后不需要改路径。
+首页改为「计时器 + 右上角设置入口 + 任务行菜单」后，`production/` 与 `local/` 两套图已在 2026-10-29 的线上验收时按原有文件名整体重拍；README 首图沿用 `production/desktop-zh-CN.png`，换图后不需要改路径。`business/` 下另有四张界面细节图：`settings-dialog.png`（设置弹窗）、`task-menu.png`（任务行 `⋯` 菜单）、`desktop-dark-zh-CN.png` 与 `dark-settings-dialog.png`（暗色模式），均取自线上地址。
 
 换托管平台或改版后重拍时，用同样的文件名覆盖，并同步更新 [验收记录](../10-ACCEPTANCE.md) 里的地址与版本号，避免旧图被当成新版本证据。

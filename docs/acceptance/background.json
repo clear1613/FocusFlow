@@ -1,9 +1,9 @@
 {
   "result": "PASS",
-  "browser": "155.0.4283.62",
+  "browser": "156.0.4314.42",
   "method": "Isolated Edge; second tab plus CDP frozen page lifecycle; real elapsed time, no clock fast-forward",
-  "elapsed_seconds": 181.44,
-  "remaining_seconds": 119,
+  "elapsed_seconds": 181.31,
+  "remaining_seconds": 120,
   "timestamp_expected": 119,
   "sessions": 1,
   "pageerrors": []
