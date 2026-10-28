@@ -90,6 +90,39 @@ export function getLast7DaysFocusMinutes(
   });
 }
 
+export interface WeeklyFocusSummary {
+  totalMinutes: number;
+  activeDays: number;
+  bestDay: { dayStart: number; minutes: number } | null;
+}
+
+/**
+ * Rule-based conclusion for the weekly chart.
+ *
+ * The sentence the UI renders is derived from the same array the bars are drawn
+ * from, so it cannot disagree with the chart. Ties resolve to the earlier day,
+ * which keeps the text stable across re-renders.
+ */
+export function getWeeklyFocusSummary(
+  sessions: FocusSession[],
+  now = new Date(),
+): WeeklyFocusSummary {
+  const days = getLast7DaysFocusMinutes(sessions, now);
+  const totalMinutes = days.reduce((sum, day) => sum + day.minutes, 0);
+  const activeDays = days.filter((day) => day.minutes > 0).length;
+
+  let best: DailyFocusMinutes | null = null;
+  for (const day of days) {
+    if (day.minutes > (best?.minutes ?? 0)) best = day;
+  }
+
+  return {
+    totalMinutes,
+    activeDays,
+    bestDay: best ? { dayStart: best.dayStart, minutes: best.minutes } : null,
+  };
+}
+
 /**
  * Current streak is calculated from completed Focus Sessions only.
  *

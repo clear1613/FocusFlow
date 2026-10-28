@@ -14,6 +14,8 @@ Create today's tasks, select one to work on, and track progress through complete
 </p>
 
 > Screenshot from the live GitHub Pages deployment, using sample tasks. Mobile and dialog evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
+>
+> The capture shows the previous layout. This release moves settings behind a header icon and row actions into a menu, so the production screenshots are re-taken as part of the same release acceptance run.
 
 ## At a glance
 
@@ -29,13 +31,13 @@ Create today's tasks, select one to work on, and track progress through complete
 
 ## Features
 
-- **Tasks:** create, edit, complete and delete; estimate Pomodoros and select the active task.
-- **Timer:** Focus, Short Break and Long Break, with start, pause, resume, reset and skip.
+- **Tasks:** create a task and tick the circle to finish it; edit and delete live in the row's `⋯` menu; pick the current task inside the timer card.
+- **Timer:** Focus, Short Break and Long Break; the button is labelled by what it does — Start focus, Pause, Resume focus, End this round, Skip.
 - **Progress:** each completed Focus Session increments its linked task once.
 - **Recovery:** restore timer state after refresh and process expired Sessions through the completion flow.
-- **Analytics:** today's Pomodoros, focus minutes, completed tasks, current streak and last seven days.
+- **Analytics:** today's progress as one sentence (focus time, sessions, tasks, streak), plus a rule-based conclusion for the last seven days.
 - **Persistence:** versioned storage, migration, validation, damaged-data fallback and incompatible-version write protection.
-- **Preferences:** Toast, audio feedback, optional notifications, configurable durations and automatic phase starts.
+- **Preferences:** a settings dialog behind the header icon — durations, automatic phase starts, switch-style sound and notification, theme and data reset.
 - **Interface:** system/light/dark themes, responsive layout, keyboard-accessible dialogs and focus management.
 - **Languages:** Chinese by default; switch to English in the top-right corner. The choice persists after refresh.
 
@@ -117,7 +119,7 @@ Results below are for **v1.1.0**; the first release (v1.0.0) is recorded in the 
 | --- | --- | --- |
 | Install | `npm ci` | passes, 0 vulnerabilities |
 | Lint | `npm run lint` | 0 errors, 0 warnings |
-| Tests | `npm run test` | 20 files, 86 tests passing |
+| Tests | `npm run test` | 20 files, 96 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
 | Production browser acceptance | `python scripts/browser-acceptance.py --production` | 11/11 PASS, Desktop + 375×812 + 390×844, 0 unexpected console errors |
@@ -127,7 +129,9 @@ Results below are for **v1.1.0**; the first release (v1.0.0) is recorded in the 
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
 [`docs/acceptance/production.json`](docs/acceptance/production.json).
-Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
+Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
+
+The home-screen rework shipped with matching selector updates in the three acceptance scripts (settings dialog, row menu, mode-aware action labels). The browser rows above still describe the previous build and are refreshed by the next production acceptance run. Current unit-test baseline: **20 files / 96 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
 
 CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
 `dist` and deploys to Pages. Pull requests never deploy.

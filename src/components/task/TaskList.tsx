@@ -1,14 +1,16 @@
 import { useState, type FormEvent } from 'react';
 import { useI18n } from '../../hooks/useI18n';
 import { persistAppState } from '../../services/persistAppState';
+import { assignTask, hasBoundSession } from '../../services/taskAssignment';
 import { hasTaskHistory } from '../../services/taskService';
 import { useSessionStore } from '../../stores/sessionStore';
 import { useTaskStore } from '../../stores/taskStore';
-import { useTimerStore } from '../../stores/timerStore';
 import type { Task } from '../../types';
 import { Button } from '../common/Button';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { SwitchTaskDialog } from './SwitchTaskDialog';
 import { TaskEditDialog } from './TaskEditDialog';
+import { TaskRow } from './TaskRow';
 
 export function TaskList() {
   const { t } = useI18n();
@@ -23,13 +25,11 @@ export function TaskList() {
   const activeTaskId = useTaskStore((s) => s.activeTaskId);
   const createTask = useTaskStore((s) => s.createTask);
   const updateTask = useTaskStore((s) => s.updateTask);
-  const setActiveTask = useTaskStore((s) => s.setActiveTask);
   const completeTask = useTaskStore((s) => s.completeTask);
   const deleteTask = useTaskStore((s) => s.deleteTask);
 
   const todoTasks = tasks.filter((task) => task.status === 'todo');
   const completedTasks = tasks.filter((task) => task.status === 'completed');
-  const pendingTask = tasks.find((task) => task.id === pendingTaskId);
   const editingTask = tasks.find((task) => task.id === editingTaskId) ?? null;
   const deletingTask = tasks.find((task) => task.id === deletingTaskId);
 
@@ -47,39 +47,16 @@ export function TaskList() {
     persistAppState();
   }
 
-  function assignTask(taskId: string) {
+  function selectTask(taskId: string) {
     if (taskId === activeTaskId) return;
 
-    const timer = useTimerStore.getState().timer;
-    if (
-      (timer.status === 'running' || timer.status === 'paused') &&
-      timer.activeSessionId
-    ) {
+    // A bound Session would silently change meaning, so ask first.
+    if (hasBoundSession()) {
       setPendingTaskId(taskId);
       return;
     }
 
-    setActiveTask(taskId);
-    persistAppState();
-  }
-
-  function confirmRunningTaskSwitch() {
-    if (!pendingTaskId) return;
-
-    const timer = useTimerStore.getState().timer;
-    if (timer.activeSessionId) {
-      useSessionStore.getState().replace(
-        useSessionStore.getState().sessions.map((session) =>
-          session.id === timer.activeSessionId && session.status === 'running'
-            ? { ...session, taskId: pendingTaskId }
-            : session,
-        ),
-      );
-    }
-
-    setActiveTask(pendingTaskId);
-    setPendingTaskId(null);
-    persistAppState();
+    assignTask(taskId);
   }
 
   function requestDelete(task: Task) {
@@ -116,10 +93,7 @@ export function TaskList() {
           <span className="text-sm text-neutral-400">{t('openTasks', { count: todoTasks.length })}</span>
         </div>
 
-        <form
-          onSubmit={submit}
-          className="mb-5 grid gap-2 sm:grid-cols-[1fr_100px_auto]"
-        >
+        <form onSubmit={submit} className="mb-5 grid gap-2 sm:grid-cols-[1fr_100px_auto]">
           <label className="sr-only" htmlFor="new-task-title">
             {t('taskName')}
           </label>
@@ -146,8 +120,13 @@ export function TaskList() {
 
         <div className="space-y-2">
           {todoTasks.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-neutral-200 px-4 py-8 text-center text-sm text-neutral-400 dark:border-neutral-700">
-              {t('tasksEmpty')}
+            <div className="rounded-2xl border border-dashed border-neutral-200 px-4 py-6 dark:border-neutral-700">
+              <div className="text-sm font-medium">{t('task.emptyTitle')}</div>
+              <ol className="mt-2 space-y-1 text-xs leading-5 text-neutral-400">
+                <li>1. {t('task.emptyStep1')}</li>
+                <li>2. {t('task.emptyStep2')}</li>
+                <li>3. {t('task.emptyStep3')}</li>
+              </ol>
             </div>
           ) : (
             todoTasks.map((task) => (
@@ -156,7 +135,7 @@ export function TaskList() {
                 task={task}
                 active={task.id === activeTaskId}
                 canSelect
-                onSelect={() => assignTask(task.id)}
+                onSelect={() => selectTask(task.id)}
                 onEdit={() => setEditingTaskId(task.id)}
                 onComplete={() => {
                   completeTask(task.id);
@@ -211,14 +190,7 @@ export function TaskList() {
         }}
       />
 
-      <ConfirmDialog
-        open={pendingTaskId !== null}
-        title={t('switchTaskTitle')}
-        description={t('switchTaskDescription', { title: pendingTask?.title ?? t('newTask') })}
-        confirmLabel={t('switchTask')}
-        onCancel={() => setPendingTaskId(null)}
-        onConfirm={confirmRunningTaskSwitch}
-      />
+      <SwitchTaskDialog taskId={pendingTaskId} onClose={() => setPendingTaskId(null)} />
 
       <ConfirmDialog
         open={deletingTaskId !== null}
@@ -229,62 +201,5 @@ export function TaskList() {
         onConfirm={confirmDelete}
       />
     </>
-  );
-}
-
-function TaskRow({
-  task,
-  active,
-  canSelect,
-  onSelect,
-  onEdit,
-  onComplete,
-  onDelete,
-}: {
-  task: Task;
-  active: boolean;
-  canSelect: boolean;
-  onSelect: () => void;
-  onEdit: () => void;
-  onComplete?: () => void;
-  onDelete: () => void;
-}) {
-  const { t } = useI18n();
-  return (
-    <article
-      className={`flex flex-col items-stretch gap-3 rounded-2xl border p-3 sm:flex-row sm:items-center ${
-        active
-          ? 'border-neutral-900 dark:border-white'
-          : 'border-neutral-200 dark:border-neutral-800'
-      } ${task.status === 'completed' ? 'opacity-75' : ''}`}
-    >
-      <button
-        type="button"
-        disabled={!canSelect}
-        className="min-h-11 min-w-0 flex-1 rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 disabled:cursor-default dark:focus-visible:ring-white"
-        onClick={onSelect}
-      >
-        <div className={`truncate font-medium ${task.status === 'completed' ? 'line-through' : ''}`}>
-          {task.title}
-        </div>
-        <div className="mt-1 text-xs text-neutral-400">
-          {t('taskProgress', { done: task.completedPomodoros, total: task.estimatedPomodoros })}
-        </div>
-      </button>
-
-      <div className="flex flex-wrap justify-end gap-1 sm:flex-nowrap">
-        <Button variant="ghost" onClick={onEdit}>
-          {t('edit')}
-        </Button>
-        {onComplete ? (
-          <Button variant="ghost" onClick={onComplete}>
-            {t('done')}
-          </Button>
-        ) : null}
-        <Button variant="ghost" onClick={onDelete}>
-          {t('delete')}
-        </Button>
-      </div>
-    </article>
   );
 }

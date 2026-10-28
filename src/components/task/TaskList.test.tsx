@@ -40,6 +40,21 @@ const historicalSession: FocusSession = {
   completedAt: 2,
 };
 
+function todoRow() {
+  const row = screen.getByText('Write README').closest('article');
+  if (!row) throw new Error('Todo row not found');
+  return row as HTMLElement;
+}
+
+/**
+ * Row actions live behind the `⋯` menu by design, so every action test has to
+ * open that menu first. Keeping the helper here makes the intent obvious.
+ */
+function openRowMenu(row: HTMLElement) {
+  fireEvent.click(within(row).getByRole('button', { name: /More actions for/ }));
+  return within(row).getByRole('menu');
+}
+
 beforeEach(() => {
   useSettingsStore.getState().reset();
   useSettingsStore.getState().patch({ locale: 'en' });
@@ -61,9 +76,8 @@ describe('TaskList Phase 2 workflow', () => {
   it('edits title and estimate without changing completed pomodoros', () => {
     render(<TaskList />);
 
-    const todoRow = screen.getByText('Write README').closest('article');
-    if (!todoRow) throw new Error('Todo row not found');
-    fireEvent.click(within(todoRow).getByRole('button', { name: 'Edit' }));
+    const menu = openRowMenu(todoRow());
+    fireEvent.click(within(menu).getByRole('menuitem', { name: 'Edit' }));
 
     const dialog = within(screen.getByRole('dialog', { name: 'Edit task' }));
     fireEvent.change(dialog.getByLabelText('Task name'), {
@@ -85,9 +99,8 @@ describe('TaskList Phase 2 workflow', () => {
   it('deletes a task without history immediately', () => {
     render(<TaskList />);
 
-    const todoRow = screen.getByText('Write README').closest('article');
-    if (!todoRow) throw new Error('Todo row not found');
-    fireEvent.click(within(todoRow).getByRole('button', { name: 'Delete' }));
+    const menu = openRowMenu(todoRow());
+    fireEvent.click(within(menu).getByRole('menuitem', { name: 'Delete' }));
 
     expect(
       useTaskStore.getState().tasks.some((task) => task.id === todoTask.id),
@@ -101,9 +114,8 @@ describe('TaskList Phase 2 workflow', () => {
     useSessionStore.getState().hydrate([historicalSession]);
     render(<TaskList />);
 
-    const todoRow = screen.getByText('Write README').closest('article');
-    if (!todoRow) throw new Error('Todo row not found');
-    fireEvent.click(within(todoRow).getByRole('button', { name: 'Delete' }));
+    const menu = openRowMenu(todoRow());
+    fireEvent.click(within(menu).getByRole('menuitem', { name: 'Delete' }));
 
     const dialog = screen.getByRole('dialog');
     expect(
@@ -119,5 +131,41 @@ describe('TaskList Phase 2 workflow', () => {
     ).toBe(false);
     expect(useSessionStore.getState().sessions).toHaveLength(1);
     expect(useSessionStore.getState().sessions[0].taskId).toBe(todoTask.id);
+  });
+
+  it('completes a task from the circle without opening the menu', () => {
+    render(<TaskList />);
+
+    fireEvent.click(
+      within(todoRow()).getByRole('button', { name: /Mark .*Write README.* as done/ }),
+    );
+
+    const updated = useTaskStore.getState().tasks.find((task) => task.id === todoTask.id);
+    expect(updated?.status).toBe('completed');
+    expect(screen.queryByRole('menu')).toBeNull();
+  });
+
+  it('only exposes one visible action per row until the menu is opened', () => {
+    render(<TaskList />);
+    const row = todoRow();
+
+    expect(within(row).getByRole('button', { name: /Mark .* as done/ })).toBeTruthy();
+    expect(within(row).queryByRole('menuitem', { name: 'Edit' })).toBeNull();
+
+    openRowMenu(row);
+    expect(within(row).getByRole('menuitem', { name: 'Edit' })).toBeTruthy();
+    expect(within(row).getByRole('menuitem', { name: 'Mark as done' })).toBeTruthy();
+  });
+
+  it('returns focus to the row menu button after closing an action dialog', () => {
+    render(<TaskList />);
+    const row = todoRow();
+    const trigger = within(row).getByRole('button', { name: /More actions for/ });
+
+    fireEvent.click(trigger);
+    fireEvent.click(within(row).getByRole('menuitem', { name: 'Edit' }));
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    expect(trigger).toHaveFocus();
   });
 });

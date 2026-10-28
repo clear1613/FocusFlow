@@ -5,6 +5,7 @@ browser profile. Production captures are written only when given a public URL.
 """
 import argparse
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
@@ -32,18 +33,28 @@ def layout(page):
     assert box['x'] >= 0 and box['x'] + box['width'] <= page.viewport_size['width']
 
 
+def open_settings(page):
+    # Every call site below runs while the interface is Chinese.
+    page.get_by_role('button', name='打开设置').click()
+    return page.get_by_role('dialog', name='设置')
+
+
 def language_workflow(page, name):
     expect(page.locator('html')).to_have_attribute('lang', 'zh-CN')
     expect(page.get_by_role('heading', name='今日概览', exact=True)).to_be_visible()
-    expect(page.get_by_role('heading', name='设置', exact=True)).to_be_visible()
     expect(page.get_by_role('heading', name='任务清单', exact=True)).to_be_visible()
+    page.get_by_role('button', name='打开设置').click()
+    expect(page.get_by_role('heading', name='设置', exact=True)).to_be_visible()
+    page.keyboard.press('Escape')
     expect(page.get_by_role('combobox', name='界面语言')).to_have_value('zh-CN')
     assert 'source of truth' not in page.locator('body').inner_text()
-    page.get_by_role('checkbox', name='声音提醒', exact=True).uncheck()
+    open_settings(page)
+    page.get_by_role('switch', name='声音提醒', exact=True).click()
+    page.keyboard.press('Escape')
     page.get_by_role('textbox', name='任务名称').fill('完成项目文档')
     page.get_by_role('button', name='添加', exact=True).click()
     page.locator('article').get_by_role('button', name='完成项目文档').click()
-    page.get_by_role('button', name='开始', exact=True).click()
+    page.get_by_role('button', name='开始专注', exact=True).click()
     page.clock.fast_forward(10_000)
     before = read(page)
     page.get_by_role('textbox', name='任务名称').fill('保留输入草稿')
@@ -78,30 +89,32 @@ def language_workflow(page, name):
     assert completed['sessions'][0]['status'] == 'completed'
     assert completed['tasks'][0]['completedPomodoros'] == 1
     page.get_by_role('combobox', name='界面语言').select_option('en')
-    page.get_by_role('button', name='Start', exact=True).click()
+    page.get_by_role('button', name='Start break', exact=True).click()
     page.clock.fast_forward(300_000)
     expect(page.get_by_text('Break complete', exact=True)).to_be_visible()
 
     page.get_by_role('combobox', name='Interface language').select_option('zh-CN')
-    page.get_by_role('button', name='开始', exact=True).click()
+    page.get_by_role('button', name='开始专注', exact=True).click()
     page.clock.fast_forward(180_000)
-    page.get_by_role('button', name='暂停', exact=True).click()
+    page.get_by_role('button', name='暂停一下', exact=True).click()
     page.clock.fast_forward(5_000)
     layout(page)
     page.screenshot(path=str(shots / (name + '-zh-CN.png')), full_page=True)
     page.get_by_role('combobox', name='界面语言').select_option('en')
     layout(page)
     page.screenshot(path=str(shots / (name + '-en.png')), full_page=True)
-    page.get_by_role('region', name='Pomodoro timer').get_by_role('button', name='Reset', exact=True).click()
+    page.get_by_role('region', name='Pomodoro timer').get_by_role('button', name='End this round', exact=True).click()
     expect(page.get_by_role('dialog', name='Reset current timer?')).to_be_visible()
     page.keyboard.press('Escape')
     row = page.locator('article')
-    row.get_by_role('button', name='Edit', exact=True).click()
+    row.get_by_role('button', name=re.compile('More actions for')).click()
+    row.get_by_role('menuitem', name='Edit', exact=True).click()
     expect(page.get_by_role('dialog', name='Edit task')).to_be_visible()
     expect(page.get_by_role('textbox', name='Task name').last).to_be_focused()
     page.keyboard.press('Escape')
     page.get_by_role('combobox', name='Interface language').select_option('zh-CN')
-    row.get_by_role('button', name='编辑', exact=True).click()
+    row.get_by_role('button', name=re.compile('更多操作')).click()
+    row.get_by_role('menuitem', name='编辑', exact=True).click()
     expect(page.get_by_role('dialog', name='编辑任务')).to_be_visible()
     box = page.get_by_role('dialog').bounding_box()
     assert box['x'] >= 0 and box['y'] >= 0
@@ -126,7 +139,9 @@ with sync_playwright() as p:
         page.clock.install(time=datetime(2026, 10, 28, 4, tzinfo=timezone.utc))
         try:
             page.goto(args.url, wait_until='networkidle')
-            expect(page.get_by_label('FocusFlow 版本 ' + args.expected_version, exact=True)).to_be_visible()
+            open_settings(page)
+            expect(page.get_by_text('FocusFlow 版本 ' + args.expected_version, exact=True)).to_be_visible()
+            page.keyboard.press('Escape')
             language_workflow(page, name)
             results.append({'case': name, 'result': 'PASS', 'languages': ['zh-CN', 'en']})
             print('PASS ' + name, flush=True)

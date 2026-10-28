@@ -2,15 +2,13 @@ import { useEffect, useState } from 'react';
 import { ToastViewport } from './components/common/ToastViewport';
 import { LanguageSwitcher } from './components/common/LanguageSwitcher';
 import { useI18n } from './hooks/useI18n';
-import { SettingsPanel } from './components/settings/SettingsPanel';
+import { SettingsDialog } from './components/settings/SettingsDialog';
 import { TodayStats } from './components/statistics/TodayStats';
 import { WeeklyChart } from './components/statistics/WeeklyChart';
-import { ActiveTask } from './components/task/ActiveTask';
 import { TaskList } from './components/task/TaskList';
 import { TimerCard } from './components/timer/TimerCard';
 import { useTheme } from './hooks/useTheme';
 import type { StorageNotice } from './services/initializeApp';
-import { version } from '../package.json';
 
 export default function App({ initialStorageNotice = null }: { initialStorageNotice?: StorageNotice }) {
   useTheme();
@@ -46,12 +44,7 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
           <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
-            <div
-              className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-xs text-neutral-500 dark:border-neutral-800 dark:bg-neutral-900"
-              aria-label={t('version', { version })}
-            >
-              v{version}
-            </div>
+            <SettingsDialog />
           </div>
         </header>
 
@@ -82,15 +75,9 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
         ) : null}
 
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.25fr_.75fr]">
-          <div>
-            <TimerCard />
-            <ActiveTask />
-          </div>
-          <div className="grid gap-4 sm:gap-5">
-            <TodayStats />
-            <SettingsPanel />
-          </div>
+        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.4fr_.6fr]">
+          <TimerCard />
+          <TodayStats />
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-4 sm:mt-5 sm:gap-5 lg:grid-cols-[1.1fr_.9fr]">

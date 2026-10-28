@@ -30,7 +30,7 @@ export function Modal({
   description?: string;
   onClose: () => void;
   footer?: ReactNode;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
 }>) {
   const { t } = useI18n();
   const titleId = useId();
@@ -110,7 +110,7 @@ export function Modal({
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={`max-h-[90dvh] w-full overflow-y-auto rounded-3xl bg-white p-5 shadow-2xl outline-none dark:bg-neutral-900 ${
-          size === 'md' ? 'max-w-md' : 'max-w-sm'
+          size === 'lg' ? 'max-w-lg' : size === 'md' ? 'max-w-md' : 'max-w-sm'
         }`}
       >
         <div className="flex items-start gap-4">

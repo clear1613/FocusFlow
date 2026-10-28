@@ -4,6 +4,7 @@ import {
   getCurrentStreak,
   getLast7DaysFocusMinutes,
   getTodayStats,
+  getWeeklyFocusSummary,
 } from './statisticsService';
 
 function localTime(
@@ -227,5 +228,41 @@ describe('getCurrentStreak', () => {
     ];
 
     expect(getCurrentStreak(sessions, now)).toBe(1);
+  });
+});
+
+describe('getWeeklyFocusSummary', () => {
+  const now = new Date(2026, 9, 24, 12, 0, 0);
+
+  it('reports the total, active days and the strongest day', () => {
+    const sessions = [
+      focusSession('wed', localTime(2026, 10, 21, 10), 82 * 60),
+      focusSession('sat', localTime(2026, 10, 24, 10), 50 * 60),
+    ];
+
+    const summary = getWeeklyFocusSummary(sessions, now);
+
+    expect(summary.totalMinutes).toBe(132);
+    expect(summary.activeDays).toBe(2);
+    expect(summary.bestDay?.minutes).toBe(82);
+    expect(summary.bestDay?.dayStart).toBe(new Date(2026, 9, 21).getTime());
+  });
+
+  it('leaves the best day empty when nothing was recorded', () => {
+    const summary = getWeeklyFocusSummary([], now);
+
+    expect(summary.totalMinutes).toBe(0);
+    expect(summary.activeDays).toBe(0);
+    expect(summary.bestDay).toBeNull();
+  });
+
+  it('keeps a single active day distinct from a spread-out week', () => {
+    const summary = getWeeklyFocusSummary(
+      [focusSession('only', localTime(2026, 10, 23, 9), 30 * 60)],
+      now,
+    );
+
+    expect(summary.activeDays).toBe(1);
+    expect(summary.bestDay?.minutes).toBe(30);
   });
 });

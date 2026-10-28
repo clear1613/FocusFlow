@@ -30,14 +30,20 @@ beforeEach(() => {
 
 afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
-it('opens in Chinese with a labelled language selector', () => {
+it('opens in Chinese with the timer first and settings behind an icon', () => {
   render(<App />);
   expect(screen.getByRole('heading', { name: '今日概览' })).toBeInTheDocument();
-  expect(screen.getByRole('heading', { name: '设置' })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: '任务清单' })).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: '开始' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: '开始专注' })).toBeInTheDocument();
   expect(screen.getByRole('combobox', { name: '界面语言' })).toHaveValue('zh-CN');
   expect(document.documentElement.lang).toBe('zh-CN');
+
+  // Settings are not part of the main screen any more: they open from the header.
+  expect(screen.queryByRole('dialog')).toBeNull();
+  fireEvent.click(screen.getByRole('button', { name: '打开设置' }));
+  const dialog = within(screen.getByRole('dialog', { name: '设置' }));
+  expect(dialog.getByRole('switch', { name: '声音提醒' })).toBeInTheDocument();
+  expect(dialog.getByRole('spinbutton', { name: '专注' })).toBeInTheDocument();
 });
 
 it('switches both ways while preserving the active session, task and input draft', () => {
@@ -45,7 +51,7 @@ it('switches both ways while preserving the active session, task and input draft
   useTaskStore.getState().setActiveTask(useTaskStore.getState().tasks[0].id);
   render(<App />);
   fireEvent.change(screen.getByRole('textbox', { name: '任务名称' }), { target: { value: '未提交的草稿' } });
-  fireEvent.click(screen.getByRole('button', { name: '开始' }));
+  fireEvent.click(screen.getByRole('button', { name: '开始专注' }));
   const timer = useTimerStore.getState().timer;
   const sessions = useSessionStore.getState().sessions;
   const tasks = useTaskStore.getState().tasks;
@@ -60,11 +66,11 @@ it('switches both ways while preserving the active session, task and input draft
   expect(useTaskStore.getState().tasks).toEqual(tasks);
   expect(JSON.parse(localStorage.getItem('focusflow:data')!).settings.locale).toBe('en');
 
-  fireEvent.click(within(screen.getByRole('region', { name: 'Pomodoro timer' })).getByRole('button', { name: 'Reset' }));
+  fireEvent.click(within(screen.getByRole('region', { name: 'Pomodoro timer' })).getByRole('button', { name: 'End this round' }));
   expect(screen.getByRole('dialog', { name: 'Reset current timer?' })).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
   fireEvent.change(screen.getByRole('combobox', { name: 'Interface language' }), { target: { value: 'zh-CN' } });
-  expect(screen.getByRole('button', { name: '暂停' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: '暂停一下' })).toBeInTheDocument();
   expect(screen.getByRole('textbox', { name: '任务名称' })).toHaveValue('未提交的草稿');
   expect(useTimerStore.getState().timer.activeSessionId).toBe(timer.activeSessionId);
 });
@@ -77,7 +83,7 @@ it('restores English after reinitializing from persisted settings', () => {
   initializeApp();
   render(<App />);
   expect(screen.getByRole('combobox', { name: 'Interface language' })).toHaveValue('en');
-  expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Open settings' })).toBeInTheDocument();
 });
 
 it.each([undefined, 'unsupported'])('loads older or unsupported language preferences without losing business data (%s)', (locale) => {
@@ -101,6 +107,6 @@ it('preserves future-version data when switching language under write protection
   const notice = initializeApp();
   render(<App initialStorageNotice={notice} />);
   fireEvent.change(screen.getByRole('combobox', { name: '界面语言' }), { target: { value: 'en' } });
-  expect(screen.getByRole('heading', { name: 'Settings' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Open settings' })).toBeInTheDocument();
   expect(localStorage.getItem('focusflow:data')).toBe(future);
 });

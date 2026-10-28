@@ -9,19 +9,30 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { getLast7DaysFocusMinutes } from '../../services/statisticsService';
+import {
+  getLast7DaysFocusMinutes,
+  getWeeklyFocusSummary,
+} from '../../services/statisticsService';
 import { useSessionStore } from '../../stores/sessionStore';
 
 export function WeeklyChart() {
   const { locale, t } = useI18n();
   const sessions = useSessionStore((s) => s.sessions);
   const day = useLocalDay();
-  const data = useMemo(() => getLast7DaysFocusMinutes(sessions, new Date(day)).map((item) => ({
-    ...item,
-    date: new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(item.dayStart),
-  })), [sessions, day, locale]);
-  const totalMinutes = data.reduce((sum, item) => sum + item.minutes, 0);
-  const hasFocusData = totalMinutes > 0;
+  const now = useMemo(() => new Date(day), [day]);
+
+  const data = useMemo(
+    () =>
+      getLast7DaysFocusMinutes(sessions, now).map((item) => ({
+        ...item,
+        date: new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(item.dayStart),
+      })),
+    [sessions, now, locale],
+  );
+
+  const summary = useMemo(() => getWeeklyFocusSummary(sessions, now), [sessions, now]);
+  const weekdayOf = (dayStart: number) =>
+    new Intl.DateTimeFormat(locale, { weekday: 'short' }).format(dayStart);
 
   return (
     <section
@@ -35,17 +46,11 @@ export function WeeklyChart() {
           </h2>
           <p className="text-sm text-neutral-400">{t('weeklyDescription')}</p>
         </div>
-        <div className="text-right">
-          <div className="text-xl font-semibold">{totalMinutes}</div>
+        <div className="shrink-0 text-right">
+          <div className="text-xl font-semibold tabular-nums">{summary.totalMinutes}</div>
           <div className="text-xs text-neutral-400">{t('minutes')}</div>
         </div>
       </div>
-
-      {!hasFocusData ? (
-        <p className="mb-3 text-sm text-neutral-400">
-          {t('weeklyEmpty')}
-        </p>
-      ) : null}
 
       <div className="h-56" aria-hidden="true">
         <ResponsiveContainer width="100%" height="100%">
@@ -62,6 +67,23 @@ export function WeeklyChart() {
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      {/* One rule-based sentence. Derived from the same array as the bars, so it
+          can never contradict the chart above it. */}
+      <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-300">
+        {summary.bestDay === null
+          ? t('weeklyEmpty')
+          : summary.activeDays === 1
+            ? t('weekly.summarySingle', {
+                minutes: summary.totalMinutes,
+                weekday: weekdayOf(summary.bestDay.dayStart),
+              })
+            : t('weekly.summaryBest', {
+                minutes: summary.totalMinutes,
+                weekday: weekdayOf(summary.bestDay.dayStart),
+                dayMinutes: summary.bestDay.minutes,
+              })}
+      </p>
 
       <ul className="sr-only" aria-label={t('weeklyAccessible')}>
         {data.map((item) => (

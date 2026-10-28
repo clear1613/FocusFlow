@@ -13,9 +13,13 @@ with sync_playwright() as p:
     page.on('pageerror', lambda e: errors.append(str(e)))
     page.goto('http://127.0.0.1:5173', wait_until='networkidle')
     page.locator('header select').select_option('en')
-    page.get_by_role('checkbox', name='Sound', exact=True).uncheck()
-    page.get_by_role('spinbutton', name='Focus', exact=True).fill('5')
-    page.get_by_role('button', name='Start', exact=True).click()
+    # Settings live behind the header icon; the main screen stays a timer.
+    page.get_by_role('button', name='Open settings').click()
+    dialog = page.get_by_role('dialog', name='Settings')
+    dialog.get_by_role('switch', name='Sound', exact=True).click()
+    dialog.get_by_role('spinbutton', name='Focus', exact=True).fill('5')
+    page.keyboard.press('Escape')
+    page.get_by_role('button', name='Start focus', exact=True).click()
     initial = page.evaluate("JSON.parse(localStorage.getItem('focusflow:data'))")
     deadline = initial['timer']['endAt']
     other = context.new_page()
