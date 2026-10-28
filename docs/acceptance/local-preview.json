@@ -1,0 +1,91 @@
+{
+  "browser": "Edge 155.0.4283.62",
+  "url": "http://127.0.0.1:4173",
+  "timezone": "Asia/Singapore",
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "task_timer",
+      "result": "PASS"
+    },
+    {
+      "case": "reset_skip_cycle",
+      "result": "PASS"
+    },
+    {
+      "case": "persistence",
+      "result": "PASS"
+    },
+    {
+      "case": "expired_analytics",
+      "result": "PASS"
+    },
+    {
+      "case": "theme_modal_mobile",
+      "result": "PASS"
+    },
+    {
+      "case": "notification",
+      "result": "PASS"
+    },
+    {
+      "case": "denied_notification",
+      "result": "PASS"
+    },
+    {
+      "case": "unsupported_notification",
+      "result": "PASS"
+    },
+    {
+      "case": "permission_failure",
+      "result": "PASS"
+    },
+    {
+      "case": "native_notification_granted",
+      "result": "PASS"
+    },
+    {
+      "case": "capture_readme",
+      "result": "PASS"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:64317)\n    at sX (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:63:30797)\n    at http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:63:31872"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 1."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:12:59)\n    at Object.notify (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:54525)\n    at http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:63:21207\n    at http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:63:22434\n    at ClockController._callFirstTimer (<anonymous>:247:20)\n    at ClockController._runTo (<anonymous>:103:33)\n    at async ClockController._innerFastForwardTo (<anonymous>:169:5)\n    at async ClockController.fastForward (<anonymous>:160:5)\n    at async <anonymous>:260:30"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:11:46)\n    at Object.requestPermission (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:54404)\n    at g (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:70732)\n    at onChange (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:73095)\n    at onChange (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:75339)\n    at Hx (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:8:140530)\n    at http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:8:145369\n    at Yp (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:8:15235)\n    at Dm (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:8:141764)\n    at Zm (http://127.0.0.1:4173/assets/index-Dn2VR5aQ.js:9:42668)"
+    }
+  ],
+  "unexpected_errors": []
+}

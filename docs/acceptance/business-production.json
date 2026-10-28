@@ -1,0 +1,99 @@
+{
+  "browser": "Edge 156.0.4314.42",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.1.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "task_timer",
+      "result": "PASS"
+    },
+    {
+      "case": "reset_skip_cycle",
+      "result": "PASS"
+    },
+    {
+      "case": "persistence",
+      "result": "PASS"
+    },
+    {
+      "case": "expired_analytics",
+      "result": "PASS"
+    },
+    {
+      "case": "theme_modal_mobile",
+      "result": "PASS"
+    },
+    {
+      "case": "notification",
+      "result": "PASS"
+    },
+    {
+      "case": "denied_notification",
+      "result": "PASS"
+    },
+    {
+      "case": "unsupported_notification",
+      "result": "PASS"
+    },
+    {
+      "case": "permission_failure",
+      "result": "PASS"
+    },
+    {
+      "case": "native_notification_granted",
+      "result": "PASS"
+    },
+    {
+      "case": "capture_readme",
+      "result": "PASS"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:73867)\n    at TX (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:63:31135)\n    at https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:63:32077"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 2."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:12:59)\n    at Object.notify (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:76360)\n    at https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:63:21377\n    at https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:63:22604\n    at ClockController._callFirstTimer (<anonymous>:247:20)\n    at ClockController._runTo (<anonymous>:103:33)\n    at async ClockController._innerFastForwardTo (<anonymous>:169:5)\n    at async ClockController.fastForward (<anonymous>:160:5)\n    at async <anonymous>:260:30"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:11:46)\n    at Object.requestPermission (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:76239)\n    at p (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:81516)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:83781)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:85667)\n    at qx (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:8:140523)\n    at https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:8:145362\n    at G0 (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:8:15235)\n    at jm (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:8:141757)\n    at Qm (https://clear1613.github.io/FocusFlow/assets/index-RkFJFbyt.js:9:42667)"
+    }
+  ],
+  "unexpected_errors": []
+}
