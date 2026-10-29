@@ -2,7 +2,7 @@
 
 **A released web application for tasks, Pomodoro timing, focus sessions and daily analytics.**
 
-Create today's tasks, select one to work on, and track progress through completed focus sessions. Tasks, timer state and session records are saved in the current browser and restored after a page refresh. Export a backup file to keep your records or restore them in another browser.
+Create tasks, focus, and review progress through daily analytics and individual session history. Filter records, review daily totals and export CSV. Tasks, timer state and records stay in the current browser, with file backup and restore across browsers.
 
 [Open FocusFlow](https://clear1613.github.io/FocusFlow/) · [Architecture](docs/architecture.md) · [Release record](docs/11-RELEASE.md) · [中文](README.md)
 
@@ -20,8 +20,8 @@ Create today's tasks, select one to work on, and track progress through complete
 | | |
 | --- | --- |
 | **Workflow** | Create task → select task → focus → record Session → update progress → review analytics |
-| **Release** | v1.2.0, backup and restore, Chinese by default with English switching |
-| **Quality gate** | lint 0 errors 0 warnings · 123 tests · TypeScript and Vite build · release audit |
+| **Release** | v1.3.0, focus history, filters, daily summaries and CSV; Chinese by default with English switching |
+| **Quality gate** | lint 0 errors 0 warnings · 148 tests · TypeScript and Vite build · release audit |
 | **Hosting** | GitHub Pages |
 | **Stack** | React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · Zustand · Recharts · Vitest |
 | **Data** | Business data saved in browser LocalStorage; no registration required |
@@ -34,6 +34,7 @@ Create today's tasks, select one to work on, and track progress through complete
 - **Progress:** each completed Focus Session increments its linked task once.
 - **Recovery:** restore timer state after refresh and process expired Sessions through the completion flow.
 - **Analytics:** today's progress as one sentence (focus time, sessions, tasks, streak), plus a rule-based conclusion for the last seven days.
+- **History:** review finished focus sessions grouped by end date; combine date, task and status filters, view daily totals, paginate and export every filtered record as CSV.
 - **Persistence:** versioned storage, migration, validation, damaged-data fallback and incompatible-version write protection.
 - **Backup and restore:** export JSON from Settings, preview an imported file, then explicitly confirm replacement. Unfinished timers restore paused; failed imports retain current data.
 - **Preferences:** a settings dialog behind the header icon — durations, automatic phase starts, switch-style sound and notification, theme and data reset.
@@ -48,6 +49,7 @@ The application opens in Chinese. Select **English** in the top-right language c
 2. Select the task and start focusing. Pause and resume when needed.
 3. Review task progress when the Session completes, then take a short or long break.
 4. Use the analytics panel to review today's activity and the last seven days.
+5. Open **Focus history** in the header to review or export records. The timer keeps running, and returning to the workspace preserves the task input draft.
 
 Records stay in the current browser; clearing site data removes them. Use **Settings → Backup and restore** to export a file and import it on another browser or device. Import replaces current data after confirmation, so export a backup first. Files are limited to 5 MB. See the [backup guide](docs/14-BACKUP.md).
 
@@ -112,25 +114,26 @@ version write protection, streak boundaries across local midnight, and the
 
 ## Release verification
 
-**v1.2.0 is live and production verification is complete.** Earlier results remain in the [release notes](docs/11-RELEASE.md).
+**v1.3.0 local acceptance is complete.** This release's production verification is recorded in the [history guide](docs/15-HISTORY.md); earlier results remain in the [release notes](docs/11-RELEASE.md).
 
 | Check | Command | Last recorded result |
 | --- | --- | --- |
 | Lint | `npm run lint` | 0 errors, 0 warnings |
-| Tests | `npm run test` | 23 files, 123 tests passing |
+| Tests | `npm run test` | 26 files, 148 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
-| Backup acceptance | `node scripts/backup-acceptance.cjs` | local and production 4/4 PASS: real downloads, restore, mobile, dark mode and failure protection |
-| Business regression | `python scripts/browser-acceptance.py --expected-version 1.2.0` | local 11/11; all 11 production cases pass, including 2 reruns after navigation connection failures; no unexpected application errors |
-| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.2.0` | local and production 4/4 PASS, Chinese default and English switching |
+| History acceptance | `python scripts/history-acceptance.py` | local 4/4: real CSV, full filtered export across pages, summaries, timer continuity, languages and mobile dark mode |
+| Backup acceptance | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | local 4/4: real download, restore and failure protection |
+| Business regression | `python scripts/browser-acceptance.py --expected-version 1.3.0` | local 11/11, no unexpected application errors |
+| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.3.0` | local 4/4, Chinese default and English switching |
 
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
-[`docs/14-BACKUP.md`](docs/14-BACKUP.md),
-[`docs/acceptance/v1.2-business-production.json`](docs/acceptance/v1.2-business-production.json).
+[`docs/15-HISTORY.md`](docs/15-HISTORY.md),
+[`docs/acceptance/history-local.json`](docs/acceptance/history-local.json).
 Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
 
-The home-screen rework (settings behind a dialog, the current task inside the timer card, the row menu, mode-aware action labels, the today summary and the weekly conclusion) was re-verified against production on 2026-10-29: the three Python suites were updated for the new DOM, business regression **11/11** and language acceptance **4/4** against Pages, the real-wait background check passes, and a 71-check extended audit (desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching, the tie-aware weekly summary) passes with a clean console. The re-run caught a missing streak line in the today card's empty state, which is fixed — details in the [acceptance record](docs/10-ACCEPTANCE.md). That release reached **20 files / 100 tests**; v1.2.0 adds 23 backup tests for a total of **123**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
+v1.3.0 adds 25 tests. Its 19 query and CSV tests also pass in the America/New_York timezone across the daylight-saving boundary. The v1.2.0 baseline of 123 tests and its production results remain in the [backup record](docs/14-BACKUP.md); earlier UI and real elapsed-time background checks remain in the [acceptance record](docs/10-ACCEPTANCE.md).
 
 CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
 `dist` and deploys to Pages. Pull requests never deploy.
@@ -177,6 +180,7 @@ npm run check   # lint + test + build + release audit
 | [`11-RELEASE.md`](docs/11-RELEASE.md) | version history and release verification |
 | [`13-LANGUAGE.md`](docs/13-LANGUAGE.md) | Chinese-first UI with English switching: design and verification |
 | [`14-BACKUP.md`](docs/14-BACKUP.md) | backup format, preview, restore and failure protection |
+| [`15-HISTORY.md`](docs/15-HISTORY.md) | focus history, date boundaries, filters, daily summaries, paging and CSV |
 
 ## License
 

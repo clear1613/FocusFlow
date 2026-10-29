@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import App from './App';
 import { createDefaultAppData } from './constants/defaults';
@@ -28,7 +28,28 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => { vi.unstubAllGlobals(); vi.restoreAllMocks(); });
+afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
+
+it('keeps the timer and task draft alive while viewing history and completes a session once', () => {
+  vi.useFakeTimers();
+  useSettingsStore.getState().patch({ focusMinutes: 1 });
+  useTaskStore.getState().createTask({ title: '完成后进入历史', estimatedPomodoros: 1 });
+  useTaskStore.getState().setActiveTask(useTaskStore.getState().tasks[0].id);
+  render(<App />);
+  fireEvent.change(screen.getByRole('textbox', { name: '任务名称' }), { target: { value: '保留输入草稿' } });
+  fireEvent.click(screen.getByRole('button', { name: '开始专注' }));
+  const id = useTimerStore.getState().timer.activeSessionId;
+  fireEvent.click(screen.getByRole('button', { name: '查看专注历史' }));
+  expect(screen.queryByRole('button', { name: '暂停一下' })).toBeNull();
+  act(() => vi.advanceTimersByTime(61000));
+  expect(useSessionStore.getState().sessions).toHaveLength(1);
+  expect(useSessionStore.getState().sessions[0]).toMatchObject({ id, status: 'completed' });
+  expect(useTaskStore.getState().tasks[0].completedPomodoros).toBe(1);
+  expect(screen.getByText('1 次完成 · 专注 1 分钟')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: '返回专注' }));
+  expect(screen.getByRole('textbox', { name: '任务名称' })).toHaveValue('保留输入草稿');
+  expect(screen.getByRole('button', { name: '开始休息' })).toBeVisible();
+});
 
 it('opens in Chinese with the timer first and settings behind an icon', () => {
   render(<App />);

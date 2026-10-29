@@ -81,3 +81,13 @@
 - [x] Keep current storage and stores on validation or persistence failure
 - [x] Preserve future-schema write protection and browser notification permissions
 - [x] Production browser acceptance and release record
+
+## V1.3 — Focus history and review
+- [x] End-date grouping of completed, cancelled and skipped focus sessions
+- [x] Today / seven / thirty / custom dates, task and status filters
+- [x] Daily summaries consistent with existing completed-focus analytics
+- [x] Twenty-row pages and CSV export of every filtered record
+- [x] Unicode, quoting, timezone, exact seconds and spreadsheet formula-text protection
+- [x] Timer continuity, draft retention, bilingual and dark / mobile interfaces
+- [x] Unit tests and local history browser acceptance
+- [ ] Production regression and release evidence

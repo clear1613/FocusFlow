@@ -1,6 +1,6 @@
 # FocusFlow · 个人专注与任务管理工具
 
-FocusFlow v1.2.0 提供任务管理、专注计时、刷新恢复、进度累计、专注统计，以及 JSON 备份与恢复。默认中文，右上角可切换英文，语言选择随设置保存在当前浏览器。
+FocusFlow v1.3.0 提供任务管理、专注计时、统计、历史记录、日期与任务筛选、每日汇总、CSV 导出，以及 JSON 备份与恢复。默认中文，右上角可切换英文，语言选择随设置保存在当前浏览器。
 
 [在线使用](https://clear1613.github.io/FocusFlow/) · [完整中文介绍](README.md) · [技术架构](docs/architecture.md) · [发布记录](docs/11-RELEASE.md) · [English](README.en.md)
 

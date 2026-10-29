@@ -4,9 +4,9 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 
-const options = { url: 'http://127.0.0.1:5173', output: 'docs/acceptance/backup-local.json', screenshotsDir: 'docs/screenshots/backup/local' };
+const options = { url: 'http://127.0.0.1:5173', output: 'docs/acceptance/backup-local.json', screenshotsDir: 'docs/screenshots/backup/local', expectedVersion: '1.3.0' };
 for (let index = 2; index < process.argv.length; index += 2) {
-  const key = { '--url': 'url', '--output': 'output', '--screenshots-dir': 'screenshotsDir' }[process.argv[index]];
+  const key = { '--url': 'url', '--output': 'output', '--screenshots-dir': 'screenshotsDir', '--expected-version': 'expectedVersion' }[process.argv[index]];
   if (!key || !process.argv[index + 1]) throw new Error('Unknown or missing argument: ' + process.argv[index]);
   options[key] = process.argv[index + 1];
 }
@@ -37,7 +37,7 @@ async function exercise(page, language, name, folder) {
   };
   async function settings() {
     await page.getByRole('button', { name: labels.settings, exact: true }).click();
-    await expect(page.getByText(zh ? 'FocusFlow 版本 1.2.0' : 'FocusFlow version 1.2.0', { exact: true })).toBeVisible();
+    await expect(page.getByText((zh ? 'FocusFlow 版本 ' : 'FocusFlow version ') + options.expectedVersion, { exact: true })).toBeVisible();
   }
   const button = (name) => page.getByRole('button', { name, exact: true });
   const upload = (text) => page.getByLabel(labels.file, { exact: true }).setInputFiles({ name: 'backup.json', mimeType: 'application/json', buffer: Buffer.from(text) });

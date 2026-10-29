@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ArrowLeft, History } from 'lucide-react';
+import { HistoryView } from './components/history/HistoryView';
 import { ToastViewport } from './components/common/ToastViewport';
 import { LanguageSwitcher } from './components/common/LanguageSwitcher';
 import { useI18n } from './hooks/useI18n';
@@ -13,6 +15,8 @@ import type { StorageNotice } from './services/initializeApp';
 export default function App({ initialStorageNotice = null }: { initialStorageNotice?: StorageNotice }) {
   useTheme();
   const { locale, t } = useI18n();
+  const [showHistory, setShowHistory] = useState(false);
+  const historyButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.documentElement.lang = locale;
@@ -48,6 +52,12 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
           <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
             <LanguageSwitcher />
+            <button ref={historyButton} type="button" aria-label={t(showHistory ? 'history.back' : 'history.open')} title={t(showHistory ? 'history.back' : 'history.title')}
+              onClick={() => { setShowHistory(!showHistory); if (showHistory) historyButton.current?.focus(); }}
+              className="flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-3 text-sm text-neutral-600 transition hover:border-neutral-400 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 focus-visible:ring-offset-2 dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:text-white dark:focus-visible:ring-white dark:focus-visible:ring-offset-neutral-950">
+              {showHistory ? <ArrowLeft size={18} aria-hidden="true" /> : <History size={18} aria-hidden="true" />}
+              <span className={showHistory ? '' : 'hidden sm:inline'}>{t(showHistory ? 'history.back' : 'history.title')}</span>
+            </button>
             <SettingsDialog />
           </div>
         </header>
@@ -79,22 +89,25 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
         ) : null}
 
-        {/* One grid, explicitly placed on desktop: the timer spans the two
-            rows of the right column (today + weekly), so both columns end at
-            the same height instead of leaving a hole where Settings used to
-            be. On mobile the DOM order applies: timer, today, tasks, weekly. */}
-        <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.35fr_.65fr]">
-          <div className="min-w-0 lg:col-span-1 lg:col-start-1 lg:row-span-2 lg:row-start-1">
-            <TimerCard />
-          </div>
-          <div className="min-w-0 lg:col-start-2 lg:row-start-1">
-            <TodayStats />
-          </div>
-          <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
-            <TaskList />
-          </div>
-          <div className="min-w-0 lg:col-start-2 lg:row-start-2">
-            <WeeklyChart />
+        {showHistory ? <HistoryView /> : null}
+
+        {/* Keep the timer and task draft mounted while history is visible. */}
+        <div hidden={showHistory}>
+          {/* The timer spans the today/weekly rows on desktop. On mobile the
+              DOM order is timer, today, tasks, weekly. */}
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 lg:grid-cols-[1.35fr_.65fr]">
+            <div className="min-w-0 lg:col-span-1 lg:col-start-1 lg:row-span-2 lg:row-start-1">
+              <TimerCard />
+            </div>
+            <div className="min-w-0 lg:col-start-2 lg:row-start-1">
+              <TodayStats />
+            </div>
+            <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
+              <TaskList />
+            </div>
+            <div className="min-w-0 lg:col-start-2 lg:row-start-2">
+              {!showHistory ? <WeeklyChart /> : null}
+            </div>
           </div>
         </div>
 

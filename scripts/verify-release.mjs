@@ -15,6 +15,7 @@ const requiredFiles = [
   'docs/03-ENGINEERING.md',
   'docs/13-LANGUAGE.md',
   'docs/14-BACKUP.md',
+  'docs/15-HISTORY.md',
   'vite.config.ts',
   'docs/11-RELEASE.md',
   '.github/workflows/ci.yml',

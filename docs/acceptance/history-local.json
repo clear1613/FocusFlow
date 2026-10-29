@@ -1,0 +1,25 @@
+{
+  "url": "http://127.0.0.1:4173/FocusFlow/",
+  "expected_version": "1.3.0",
+  "clock": "Script-controlled time; sample tasks; isolated Edge processes; real downloaded CSV files",
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "PASS"
+    },
+    {
+      "case": "landscape-en",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}
