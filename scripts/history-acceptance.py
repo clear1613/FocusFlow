@@ -15,6 +15,7 @@ parser.add_argument('--url', default='http://127.0.0.1:5173')
 parser.add_argument('--expected-version', default='1.3.0')
 parser.add_argument('--output', default='docs/acceptance/history-local.json')
 parser.add_argument('--screenshots-dir', default='docs/screenshots/history/local')
+parser.add_argument('--case', choices=['desktop-zh', 'mobile-375-zh', 'mobile-390-en-dark', 'landscape-en'])
 args = parser.parse_args()
 shots = Path(args.screenshots_dir)
 shots.mkdir(parents=True, exist_ok=True)
@@ -174,6 +175,8 @@ with tempfile.TemporaryDirectory(prefix='focusflow-history-') as temporary, sync
     for name, width, height, language, theme in [
         ('desktop-zh', 1440, 1000, 'zh-CN', 'light'), ('mobile-375-zh', 375, 812, 'zh-CN', 'light'),
         ('mobile-390-en-dark', 390, 844, 'en', 'dark'), ('landscape-en', 812, 375, 'en', 'light')]:
+        if args.case and args.case != name:
+            continue
         browser = p.chromium.launch(channel='msedge', headless=True)
         context = browser.new_context(viewport={'width': width, 'height': height}, locale='en-US', timezone_id='Asia/Singapore', color_scheme=theme, accept_downloads=True)
         page = context.new_page()
@@ -196,6 +199,7 @@ with tempfile.TemporaryDirectory(prefix='focusflow-history-') as temporary, sync
             context.close()
             browser.close()
 report = {'url': args.url, 'expected_version': args.expected_version,
+          'case_filter': args.case,
           'clock': 'Script-controlled time; sample tasks; isolated Edge processes; real downloaded CSV files',
           'results': results, 'unexpected_errors': errors, 'navigation_retries': retries}
 with Path(args.output).open('w', encoding='utf-8', newline='\n') as output:

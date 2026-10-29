@@ -16,6 +16,7 @@ parser.add_argument('--url', default='http://127.0.0.1:5173')
 parser.add_argument('--output', default='docs/acceptance/language-local.json')
 parser.add_argument('--screenshots-dir', default='docs/screenshots/local')
 parser.add_argument('--expected-version', default='1.3.0')
+parser.add_argument('--case', choices=['desktop', 'mobile-375', 'mobile-390', 'landscape'])
 args = parser.parse_args()
 shots = Path(args.screenshots_dir)
 shots.mkdir(parents=True, exist_ok=True)
@@ -130,6 +131,8 @@ def language_workflow(page, name):
 with sync_playwright() as p:
     for name, width, height in [('desktop', 1440, 1000), ('mobile-375', 375, 812),
                                 ('mobile-390', 390, 844), ('landscape', 812, 375)]:
+        if args.case and args.case != name:
+            continue
         # Also isolate the browser's network process after large clock advances.
         browser = p.chromium.launch(channel='msedge', headless=True)
         context = browser.new_context(viewport={'width': width, 'height': height},
