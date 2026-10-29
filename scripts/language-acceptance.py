@@ -9,6 +9,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
+from acceptance_navigation import navigate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', default='http://127.0.0.1:5173')
@@ -19,6 +20,7 @@ args = parser.parse_args()
 shots = Path(args.screenshots_dir)
 shots.mkdir(parents=True, exist_ok=True)
 results, errors = [], []
+navigation_retries = []
 
 
 def read(page):
@@ -126,9 +128,10 @@ def language_workflow(page, name):
 
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(channel='msedge', headless=True)
     for name, width, height in [('desktop', 1440, 1000), ('mobile-375', 375, 812),
                                 ('mobile-390', 390, 844), ('landscape', 812, 375)]:
+        # Also isolate the browser's network process after large clock advances.
+        browser = p.chromium.launch(channel='msedge', headless=True)
         context = browser.new_context(viewport={'width': width, 'height': height},
                                       locale='en-US', timezone_id='Asia/Singapore', reduced_motion='reduce')
         page = context.new_page()
@@ -138,7 +141,7 @@ with sync_playwright() as p:
         page.on('console', lambda message: errors.append(message.text) if message.type == 'error' else None)
         page.clock.install(time=datetime(2026, 10, 28, 4, tzinfo=timezone.utc))
         try:
-            page.goto(args.url, wait_until='networkidle')
+            navigate(page, args.url, navigation_retries)
             open_settings(page)
             expect(page.get_by_text('FocusFlow 版本 ' + args.expected_version, exact=True)).to_be_visible()
             page.keyboard.press('Escape')
@@ -150,12 +153,12 @@ with sync_playwright() as p:
             print('FAIL ' + name + ': ' + str(error), flush=True)
         finally:
             context.close()
-    browser.close()
+            browser.close()
 
 Path(args.output).write_text(json.dumps({
     'url': args.url, 'expected_version': args.expected_version,
     'browser': 'isolated Microsoft Edge', 'browser_locale': 'en-US',
     'clock': 'Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale',
-    'results': results, 'unexpected_errors': errors,
+    'results': results, 'unexpected_errors': errors, 'navigation_retries': navigation_retries,
 }, ensure_ascii=False, indent=2), encoding='utf-8')
 raise SystemExit(1 if errors or any(item['result'] != 'PASS' for item in results) else 0)

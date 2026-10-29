@@ -10,9 +10,21 @@ for (let index = 2; index < process.argv.length; index += 2) {
   if (!key || !process.argv[index + 1]) throw new Error('Unknown or missing argument: ' + process.argv[index]);
   options[key] = process.argv[index + 1];
 }
-const results = [], errors = [], expectedErrors = [];
+const results = [], errors = [], expectedErrors = [], navigationRetries = [];
 const assert = require('node:assert/strict');
 const raw = (page) => page.evaluate(() => localStorage.getItem('focusflow:data'));
+
+async function navigate(page) {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try { return await page.goto(options.url, { waitUntil: 'networkidle' }); }
+    catch (error) {
+      if (attempt === 2 || !/net::ERR_(CONNECTION_CLOSED|CONNECTION_RESET|NETWORK_CHANGED)/.test(String(error))) throw error;
+      navigationRetries.push({ url: options.url, attempt: attempt + 1, error: String(error).split('\n')[0] });
+      console.log('RETRY navigation: ' + String(error).split('\n')[0]);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+  }
+}
 
 async function exercise(page, language, name, folder) {
   const zh = language === 'zh-CN';
@@ -127,7 +139,7 @@ async function exercise(page, language, name, folder) {
       });
       await page.clock.install({ time: new Date('2026-10-29T04:00:00Z') });
       try {
-        await page.goto(options.url, { waitUntil: 'networkidle' });
+        await navigate(page);
         await exercise(page, language, name, temporary);
         results.push({ case: name, result: 'PASS' });
         console.log('PASS ' + name);
@@ -143,7 +155,7 @@ async function exercise(page, language, name, folder) {
       throw new Error('Refusing cleanup outside the acceptance temporary directory');
     }
     await fs.rm(resolved, { recursive: true, force: true });
-    await fs.writeFile(options.output, JSON.stringify({ url: options.url, clock: 'script-controlled time; sample data; isolated Edge contexts', results, unexpected_errors: errors, injected_storage_errors: expectedErrors }, null, 2) + '\n');
+    await fs.writeFile(options.output, JSON.stringify({ url: options.url, clock: 'script-controlled time; sample data; isolated Edge contexts', results, unexpected_errors: errors, injected_storage_errors: expectedErrors, navigation_retries: navigationRetries }, null, 2) + '\n');
   }
   if (errors.length || results.some((item) => item.result !== 'PASS')) process.exitCode = 1;
 })().catch((error) => { console.error(error); process.exitCode = 1; });

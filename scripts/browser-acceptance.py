@@ -11,6 +11,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from playwright.sync_api import sync_playwright, expect
+from acceptance_navigation import navigate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', default='http://127.0.0.1:5173')
@@ -23,6 +24,7 @@ args = parser.parse_args()
 shots = Path(args.screenshots_dir or ('docs/screenshots/production/business' if args.production else 'docs/screenshots/local/business'))
 shots.mkdir(parents=True, exist_ok=True)
 results, messages = [], []
+navigation_retries = []
 versions = set()
 NOW = datetime(2026, 10, 24, 4, 0, tzinfo=timezone.utc)
 
@@ -437,8 +439,7 @@ def capture_readme(page):
 
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(channel='msedge', headless=True)
-    browser_version = browser.version
+    browser_version = None
     cases = [(task_timer, None), (reset_skip_cycle, None), (persistence, None),
              (expired_analytics, None), (theme_modal_mobile, None),
              (notification, NOTIFICATIONS),
@@ -450,6 +451,9 @@ with sync_playwright() as p:
     for case, init in cases:
         if args.case and case.__name__ != args.case:
             continue
+        # Keep transport state isolated as well as storage and the page clock.
+        browser = p.chromium.launch(channel='msedge', headless=True)
+        browser_version = browser.version
         context = browser.new_context(viewport={'width': 1440, 'height': 1000}, timezone_id='Asia/Singapore')
         if case.__name__ == 'native_notification_granted':
             context.grant_permissions(['notifications'], origin=args.url)
@@ -463,7 +467,7 @@ with sync_playwright() as p:
         page.on('console', lambda message: messages.append({'type': message.type, 'text': message.text}) if message.type in ('error', 'warning') else None)
         page.clock.install(time=NOW)
         try:
-            page.goto(args.url, wait_until='networkidle')
+            navigate(page, args.url, navigation_retries)
             select_english(page)
             dialog = open_settings(page)
             version = dialog.locator('p').last.inner_text().replace('FocusFlow version ', '').strip()
@@ -481,7 +485,7 @@ with sync_playwright() as p:
             print(f'FAIL {case.__name__}: {error}', flush=True)
         finally:
             context.close()
-    browser.close()
+            browser.close()
 
 unexpected = [m for m in messages if m['type'] in ('pageerror', 'error') and
               'write-protected because stored data' not in m['text']]
@@ -489,7 +493,8 @@ report = {'browser': f'Edge {browser_version}', 'url': args.url, 'timezone': 'As
           'environment': 'production' if args.production else 'local',
           'application_versions': sorted(versions),
           'clock': 'Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts',
-          'results': results, 'console': messages, 'unexpected_errors': unexpected}
+          'results': results, 'console': messages, 'unexpected_errors': unexpected,
+          'navigation_retries': navigation_retries}
 Path(args.output).write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
 if not results:
     raise SystemExit('No acceptance cases selected')
