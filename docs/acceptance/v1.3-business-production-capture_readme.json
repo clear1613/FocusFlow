@@ -1,0 +1,19 @@
+{
+  "browser": "Edge 156.0.4314.50",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.3.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "capture_readme",
+      "result": "PASS"
+    }
+  ],
+  "console": [],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

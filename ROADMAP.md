@@ -90,4 +90,4 @@
 - [x] Unicode, quoting, timezone, exact seconds and spreadsheet formula-text protection
 - [x] Timer continuity, draft retention, bilingual and dark / mobile interfaces
 - [x] Unit tests and local history browser acceptance
-- [ ] Production regression and release evidence
+- [x] Production regression and release evidence

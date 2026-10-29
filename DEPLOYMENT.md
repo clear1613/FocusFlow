@@ -6,7 +6,7 @@ The production application is hosted on **GitHub Pages**. FocusFlow is a static 
 
 Repository: [clear1613/FocusFlow](https://github.com/clear1613/FocusFlow).
 
-Production application: [FocusFlow on GitHub Pages](https://clear1613.github.io/FocusFlow/). The verified v1.2.0 release and production results are recorded in [docs/11-RELEASE.md](docs/11-RELEASE.md).
+Production application: [FocusFlow on GitHub Pages](https://clear1613.github.io/FocusFlow/). The verified v1.3.0 release and production results are recorded in [docs/11-RELEASE.md](docs/11-RELEASE.md).
 
 1. Repository Settings → Pages → Source: **GitHub Actions**. This repository has been configured with build_type `workflow` and HTTPS.
 2. Push to main or run CI manually. PRs run quality checks without deploying.
@@ -29,19 +29,20 @@ Open the preview at its `/FocusFlow/` path. For a fork or renamed repository, CI
 
 ## Online acceptance and screenshots
 
-Install Python Playwright separately (v1.2.0 production checks used 1.64.1 with Python 3.12) and use an installed Microsoft Edge. After deployment:
+Install Python Playwright separately (v1.3.0 production checks used 1.64.1 with Python 3.12) and use an installed Microsoft Edge. After deployment:
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.2.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.2-business-production-run.json --screenshots-dir docs/screenshots/v1.2/production/business
-python scripts/language-acceptance.py --expected-version 1.2.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.2-language-production.json --screenshots-dir docs/screenshots/v1.2/production/language
-node scripts/backup-acceptance.cjs --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/backup-production.json --screenshots-dir docs/screenshots/backup/production
+python scripts/history-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/history-production-run.json --screenshots-dir docs/screenshots/history/production
+python scripts/browser-acceptance.py --production --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-business-production-run.json --screenshots-dir docs/screenshots/v1.3/production/business
+python scripts/language-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-language-production-run.json --screenshots-dir docs/screenshots/v1.3/production/language
+node scripts/backup-acceptance.cjs --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-backup-production.json --screenshots-dir docs/screenshots/v1.3/production/backup
 ```
 
 The suite uses isolated contexts and fixed sample tasks, records how timers are advanced in each result file, and tests desktop plus 375×812 and 390×844. It covers Timer, tasks, refresh/expiry restore, persistence/recovery/migration, analytics, notification fallback, themes, modal focus, mobile overflow and unexpected console errors.
 
 The backup script requires Node to resolve `playwright/test` (verified with 1.62.1); set `NODE_PATH` to a separate tool installation if needed. These browser tools are not application dependencies. Known connection failures at initial navigation have at most two recorded retries; business assertions are not retried. The Python suites isolate each case in a new browser process.
 
-Current screenshots are saved in `docs/screenshots/v1.2/production/` and `docs/screenshots/backup/production/`; the earlier `production/` set is retained for v1.1. README uses actual production captures. Local captures remain separate. The application has no multi-page router; its entry URL and refresh must work. Detailed results, including two individually rerun business cases, are in [docs/14-BACKUP.md](docs/14-BACKUP.md).
+Current screenshots are saved in `docs/screenshots/v1.3/production/` and `docs/screenshots/history/production/`; earlier version folders are retained. README uses actual production captures. Local captures remain separate. The application switches views without adding a multi-page router; its entry URL and refresh must work. Detailed results and explicitly recorded navigation reruns are in [docs/15-HISTORY.md](docs/15-HISTORY.md). History, language and business scripts support `--case` to replay a named case without altering its assertions.
 
 ## Formal release
 

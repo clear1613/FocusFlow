@@ -40,7 +40,24 @@
 
 原有功能本地回归：[业务](acceptance/v1.3-business-local.json) **11/11**、[语言](acceptance/v1.3-language-local.json) **4/4**、[备份](acceptance/v1.3-backup-local.json) **4/4**，均无非预期应用错误。
 
-本地截图位于 `docs/screenshots/history/local/`。生产结果将在部署复验后记录。
+本地截图位于 `docs/screenshots/history/local/`。
+
+## 发布与生产验收
+
+2026-10-29 正常推送功能提交 `35f988e`，[CI #21](https://github.com/clear1613/FocusFlow/actions/runs/40905599700) 成功并部署 Pages；2026-10-30 完成生产复验。未改写已有提交或旧版本验收数字。
+
+| 范围 | 已验证覆盖 | 原始记录 |
+| --- | --- | --- |
+| 历史专项 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/history-production.json)、[完整运行](acceptance/history-production-attempt.json)、[横屏重跑](acceptance/history-production-landscape-en.json) |
+| 语言 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/v1.3-language-production.json)、[完整运行](acceptance/v1.3-language-production-attempt.json)、[横屏重跑](acceptance/v1.3-language-production-landscape.json) |
+| 业务 | 11 项均通过；完整运行 6 项通过，5 项初次导航失败后单独通过 | [覆盖汇总与逐项原始指针](acceptance/v1.3-business-production.json)、[完整运行](acceptance/v1.3-business-production-attempt.json) |
+| 备份 | 完整运行 4/4 | [原始结果](acceptance/v1.3-backup-production.json) |
+
+所有实际执行的业务断言均保留。失败发生在初始文档导航的 `ERR_CONNECTION_CLOSED`，通过原脚本 `--case` 单独重跑；不重试或放宽业务断言。三个覆盖汇总明确标注合并来源，未记作一次连续全通过；非预期应用错误为 0，备份中刻意注入的存储错误单独记录。v1.1.0 的真实等待后台计时仍是历史验证，本轮没有重新运行。
+
+正式截图位于 `docs/screenshots/history/production/` 与 `docs/screenshots/v1.3/production/`，后者包含首页、语言、业务及备份视图。下图取自线上独立测试上下文，使用示例任务：
+
+![线上中文历史：日期任务状态筛选、完成汇总与记录明细](screenshots/history/production/desktop-zh-history.png)
 
 ## 重跑
 

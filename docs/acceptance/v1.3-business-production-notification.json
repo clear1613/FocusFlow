@@ -1,0 +1,24 @@
+{
+  "browser": "Edge 156.0.4314.50",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.3.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "notification",
+      "result": "PASS"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification failed. Error: Injected notification failure\n    at new window.Notification (<anonymous>:7:59)\n    at Object.notify (https://clear1613.github.io/FocusFlow/assets/index-BeV1X2TQ.js:11:27074)\n    at https://clear1613.github.io/FocusFlow/assets/index-BeV1X2TQ.js:65:23074\n    at https://clear1613.github.io/FocusFlow/assets/index-BeV1X2TQ.js:65:24301\n    at ClockController._callFirstTimer (<anonymous>:285:20)\n    at ClockController._runTo (<anonymous>:120:33)\n    at async ClockController._innerFastForwardTo (<anonymous>:207:5)\n    at async <anonymous>:197:7\n    at async ClockController._runWithDisabledRealTimeSync (<anonymous>:189:7)\n    at async ClockController.fastForward (<anonymous>:196:5)"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

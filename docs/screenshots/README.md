@@ -1,6 +1,18 @@
 # Screenshots
 
-## v1.2.0 当前截图
+## v1.3.0 当前截图
+
+正式站点复验图，使用示例任务与独立浏览器：
+
+- `v1.3/production/language/`：桌面、375 / 390 手机、横屏中英文，README 首图取其中的 `desktop-zh-CN.png` 与 `desktop-en.png`。
+- `v1.3/production/business/`：首页、计时、长任务名、手机弹窗。
+- `v1.3/production/backup/`：桌面中文、375 中文、390 英文暗色、横屏英文的备份预览。
+- `history/production/`：四种尺寸的历史概览（`*-history.png`）及自定义日期（`*-custom.png`）。
+- 对应本地截图在 `v1.3/local/` 和 `history/local/`。
+
+结果与重跑记录见 [历史与复盘验收](../15-HISTORY.md)。
+
+## v1.2.0 截图记录
 
 2026-10-29 从正式站点重拍，使用独立浏览器与示例任务：
 

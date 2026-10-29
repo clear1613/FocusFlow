@@ -10,10 +10,10 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/v1.2/production/language/desktop-zh-CN.png" alt="FocusFlow v1.2.0 中文界面：番茄钟、任务清单、专注统计与右上角语言切换" width="100%" />
+  <img src="docs/screenshots/v1.3/production/language/desktop-zh-CN.png" alt="FocusFlow v1.3.0 中文界面：番茄钟、任务清单、统计，以及右上角的历史、语言与设置入口" width="100%" />
 </p>
 
-> 正式站点运行截图（2026-10-29 验收时重拍），画面使用示例任务。更多桌面端、移动端、弹窗与暗色模式截图见 [界面截图](docs/screenshots/README.md)。
+> 正式站点 v1.3.0 验收截图，画面使用示例任务。更多桌面端、移动端、历史、弹窗与暗色模式截图见 [界面截图](docs/screenshots/README.md)。
 
 ## 项目概览
 
@@ -122,7 +122,7 @@ flowchart LR
 
 ## 验收结果
 
-**v1.3.0 本地验收已完成。** 本轮生产复验见[历史与复盘验收](docs/15-HISTORY.md)，历史版本记录见[发布记录](docs/11-RELEASE.md)。
+**v1.3.0 已上线并完成生产复验。** 本轮结果见[历史与复盘验收](docs/15-HISTORY.md)，历史版本记录见[发布记录](docs/11-RELEASE.md)。
 
 | 检查 | 命令 | 已记录结果 |
 | --- | --- | --- |
@@ -130,16 +130,16 @@ flowchart LR
 | 自动化测试 | `npm run test` | 26 个测试文件，148 个用例通过 |
 | 构建 | `npm run build` | TypeScript 检查与 Vite 构建通过 |
 | 发布校验 | `npm run verify:release` | 必需文件、lockfile、Node 版本与本地链接校验通过 |
-| 历史专项 | `python scripts/history-acceptance.py` | 本地 4/4，真实 CSV 下载、跨页全量导出、筛选与汇总、计时连续性、中英文及手机暗色 |
-| 备份专项 | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | 本地 4/4，真实下载与恢复、失败保护 |
-| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.3.0` | 本地 11/11，0 非预期应用错误 |
-| 语言验收 | `python scripts/language-acceptance.py --expected-version 1.3.0` | 本地 4/4，中文默认与中英切换 |
+| 历史专项 | `python scripts/history-acceptance.py` | 本地 4/4；线上 4 项均通过，含 1 项导航失败后单独重跑；真实 CSV、跨页导出、汇总、计时与备份恢复联动 |
+| 备份专项 | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | 本地与线上均 4/4，真实下载与恢复、失败保护 |
+| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.3.0` | 本地 11/11；线上 11 项均通过，含 5 项导航失败后单独重跑 |
+| 语言验收 | `python scripts/language-acceptance.py --expected-version 1.3.0` | 本地 4/4；线上 4 项均通过，含 1 项导航失败后单独重跑 |
 
-浏览器验收使用独立上下文与示例任务；计时推进方式在结果文件中标注。后台计时另有真实等待验证。
+浏览器验收使用独立上下文与示例任务；计时推进方式在结果文件中标注。线上未发现非预期应用错误，连接中断的完整运行与单独重跑结果均保留，覆盖汇总不记作一次连续全通过。后台计时的真实等待验证保留在历史记录中。
 
 v1.3.0 新增 25 项自动化用例，历史查询与 CSV 的 19 项另在纽约时区通过，覆盖夏令时边界。v1.2.0 的 123 项测试及生产验收见 [备份记录](docs/14-BACKUP.md)；v1.1.0 的扩展 UI 与真实等待后台计时记录保留在 [验收记录](docs/10-ACCEPTANCE.md)。
 
-[发布记录](docs/11-RELEASE.md) · [历史与本轮验收](docs/15-HISTORY.md) · [本地历史验收结果](docs/acceptance/history-local.json)
+[发布记录](docs/11-RELEASE.md) · [历史与本轮验收](docs/15-HISTORY.md) · [线上历史覆盖与重跑记录](docs/acceptance/history-production.json)
 
 ## 技术阅读入口
 

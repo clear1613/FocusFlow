@@ -1,0 +1,51 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.3.0",
+  "browser": "isolated Microsoft Edge",
+  "browser_locale": "en-US",
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale",
+  "results": [
+    {
+      "case": "desktop",
+      "result": "PASS",
+      "languages": [
+        "zh-CN",
+        "en"
+      ]
+    },
+    {
+      "case": "mobile-375",
+      "result": "PASS",
+      "languages": [
+        "zh-CN",
+        "en"
+      ]
+    },
+    {
+      "case": "mobile-390",
+      "result": "PASS",
+      "languages": [
+        "zh-CN",
+        "en"
+      ]
+    },
+    {
+      "case": "landscape",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": [
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    }
+  ]
+}

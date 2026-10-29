@@ -1,0 +1,36 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.3.0",
+  "report_type": "combined coverage with separately recorded navigation reruns",
+  "note": "The full run passed 3/4. The remaining 1 cases failed at initial navigation with ERR_CONNECTION_CLOSED and passed unchanged in separate runs. This is not a single uninterrupted full pass.",
+  "rerun_cases": [
+    "landscape-en"
+  ],
+  "source_files": [
+    "history-production-attempt.json",
+    "history-production-landscape-en.json"
+  ],
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS",
+      "source": "history-production-attempt.json"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS",
+      "source": "history-production-attempt.json"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "PASS",
+      "source": "history-production-attempt.json"
+    },
+    {
+      "case": "landscape-en",
+      "result": "PASS",
+      "source": "history-production-landscape-en.json"
+    }
+  ],
+  "unexpected_errors": []
+}

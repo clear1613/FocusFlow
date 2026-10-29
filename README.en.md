@@ -10,10 +10,10 @@ Create tasks, focus, and review progress through daily analytics and individual 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/v1.2/production/language/desktop-en.png" alt="FocusFlow v1.2.0 English interface with a language selector in the top-right corner" width="100%" />
+  <img src="docs/screenshots/v1.3/production/language/desktop-en.png" alt="FocusFlow v1.3.0 English interface with history, language and settings controls in the header" width="100%" />
 </p>
 
-> Screenshot from the live GitHub Pages deployment, re-taken during the 2026-10-29 acceptance run with sample tasks. Mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
+> Screenshot from the live v1.3.0 GitHub Pages deployment with sample tasks. History, mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
 
 ## At a glance
 
@@ -114,7 +114,7 @@ version write protection, streak boundaries across local midnight, and the
 
 ## Release verification
 
-**v1.3.0 local acceptance is complete.** This release's production verification is recorded in the [history guide](docs/15-HISTORY.md); earlier results remain in the [release notes](docs/11-RELEASE.md).
+**v1.3.0 is live and production verification is complete.** Results are recorded in the [history guide](docs/15-HISTORY.md); earlier results remain in the [release notes](docs/11-RELEASE.md).
 
 | Check | Command | Last recorded result |
 | --- | --- | --- |
@@ -122,16 +122,16 @@ version write protection, streak boundaries across local midnight, and the
 | Tests | `npm run test` | 26 files, 148 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
-| History acceptance | `python scripts/history-acceptance.py` | local 4/4: real CSV, full filtered export across pages, summaries, timer continuity, languages and mobile dark mode |
-| Backup acceptance | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | local 4/4: real download, restore and failure protection |
-| Business regression | `python scripts/browser-acceptance.py --expected-version 1.3.0` | local 11/11, no unexpected application errors |
-| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.3.0` | local 4/4, Chinese default and English switching |
+| History acceptance | `python scripts/history-acceptance.py` | local 4/4; all 4 production cases pass, including 1 navigation rerun: real CSV, full filtered export, summaries, timer and backup integration |
+| Backup acceptance | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | local and production 4/4: real download, restore and failure protection |
+| Business regression | `python scripts/browser-acceptance.py --expected-version 1.3.0` | local 11/11; all 11 production cases pass, including 5 navigation reruns |
+| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.3.0` | local 4/4; all 4 production cases pass, including 1 navigation rerun |
 
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
 [`docs/15-HISTORY.md`](docs/15-HISTORY.md),
-[`docs/acceptance/history-local.json`](docs/acceptance/history-local.json).
-Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
+[`docs/acceptance/history-production.json`](docs/acceptance/history-production.json).
+Browser acceptance uses isolated contexts and sample tasks. Production had no unexpected application errors. Initial navigation failures and separate reruns are retained; combined coverage is not presented as one uninterrupted full pass. Timer advancement is recorded in each result file; earlier real-wait background timing remains in the historical record.
 
 v1.3.0 adds 25 tests. Its 19 query and CSV tests also pass in the America/New_York timezone across the daylight-saving boundary. The v1.2.0 baseline of 123 tests and its production results remain in the [backup record](docs/14-BACKUP.md); earlier UI and real elapsed-time background checks remain in the [acceptance record](docs/10-ACCEPTANCE.md).
 
