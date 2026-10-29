@@ -1,6 +1,6 @@
 # Contributing
 
-FocusFlow is a small portfolio-oriented open-source project. Contributions should preserve the project boundaries documented in `docs/01-PRD.md`, `docs/02-TECH_DESIGN.md`, and `docs/03-ENGINEERING.md`.
+Contributions should preserve the project boundaries documented in `docs/01-PRD.md`, `docs/02-TECH_DESIGN.md`, and `docs/03-ENGINEERING.md`.
 
 ## Local workflow
 

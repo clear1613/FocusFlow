@@ -63,7 +63,7 @@
 
 ## Phase 6 — GitHub delivery
 - [x] CI workflow and release verification
-- [x] Full portfolio README
+- [x] Complete README with usage, architecture and acceptance
 - [x] UI preview asset + production screenshot replacement guide
 - [x] Architecture diagrams
 - [x] GitHub Pages workflow, repository subpath and deployment guide
