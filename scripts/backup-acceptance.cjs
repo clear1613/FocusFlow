@@ -4,7 +4,7 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 
-const options = { url: 'http://127.0.0.1:5173', output: 'docs/acceptance/backup-local.json', screenshotsDir: 'docs/screenshots/backup/local', expectedVersion: '1.3.0' };
+const options = { url: 'http://127.0.0.1:5173', output: '.artifacts/acceptance/local/backup.json', screenshotsDir: '.artifacts/screenshots/local/backup', expectedVersion: '1.3.0' };
 for (let index = 2; index < process.argv.length; index += 2) {
   const key = { '--url': 'url', '--output': 'output', '--screenshots-dir': 'screenshotsDir', '--expected-version': 'expectedVersion' }[process.argv[index]];
   if (!key || !process.argv[index + 1]) throw new Error('Unknown or missing argument: ' + process.argv[index]);

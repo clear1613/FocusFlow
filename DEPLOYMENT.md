@@ -32,17 +32,19 @@ Open the preview at its `/FocusFlow/` path. For a fork or renamed repository, CI
 Install Python Playwright separately (v1.3.0 production checks used 1.64.1 with Python 3.12) and use an installed Microsoft Edge. After deployment:
 
 ```bash
-python scripts/history-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/history-production-run.json --screenshots-dir docs/screenshots/history/production
-python scripts/browser-acceptance.py --production --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-business-production-run.json --screenshots-dir docs/screenshots/v1.3/production/business
-python scripts/language-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-language-production-run.json --screenshots-dir docs/screenshots/v1.3/production/language
-node scripts/backup-acceptance.cjs --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.3-backup-production.json --screenshots-dir docs/screenshots/v1.3/production/backup
+python scripts/history-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/history.json --screenshots-dir .artifacts/screenshots/production/history
+python scripts/browser-acceptance.py --production --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/business.json --screenshots-dir .artifacts/screenshots/production/business
+python scripts/language-acceptance.py --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/language.json --screenshots-dir .artifacts/screenshots/production/language
+node scripts/backup-acceptance.cjs --expected-version 1.3.0 --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/backup.json --screenshots-dir .artifacts/screenshots/production/backup
 ```
+
+For another run or a single-case rerun, use a distinct output filename so the initial report remains available. Do not replace the archived reports under `docs/acceptance/` during debugging.
 
 The suite uses isolated contexts and fixed sample tasks, records how timers are advanced in each result file, and tests desktop plus 375×812 and 390×844. It covers Timer, tasks, refresh/expiry restore, persistence/recovery/migration, analytics, notification fallback, themes, modal focus, mobile overflow and unexpected console errors.
 
 The backup script requires Node to resolve `playwright/test` (verified with 1.62.1); set `NODE_PATH` to a separate tool installation if needed. These browser tools are not application dependencies. Known connection failures at initial navigation have at most two recorded retries; business assertions are not retried. The Python suites isolate each case in a new browser process.
 
-Current screenshots are saved in `docs/screenshots/v1.3/production/` and `docs/screenshots/history/production/`; earlier version folders are retained. README uses actual production captures. Local captures remain separate. The application switches views without adding a multi-page router; its entry URL and refresh must work. Detailed results and explicitly recorded navigation reruns are in [docs/15-HISTORY.md](docs/15-HISTORY.md). History, language and business scripts support `--case` to replay a named case without altering its assertions.
+Archived screenshots are saved in `docs/screenshots/v1.3/production/`; earlier versions remain in their own folders. New runs write to ignored `.artifacts/` paths. Review the report and images before archiving a formal run; keep incomplete runs and case reruns under `production/raw/` with relative source pointers. See the [artifact index](docs/acceptance/README.md) and [screenshot index](docs/screenshots/README.md). README uses actual production captures. Local captures remain separate. The application switches views without adding a multi-page router; its entry URL and refresh must work. Detailed results and explicitly recorded navigation reruns are in [docs/15-HISTORY.md](docs/15-HISTORY.md). History, language and business scripts support `--case` to replay a named case without altering its assertions.
 
 ## Formal release
 

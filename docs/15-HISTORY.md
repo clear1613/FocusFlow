@@ -36,11 +36,11 @@
 
 查询与 CSV 的 19 项测试另在 `TZ=America/New_York` 下全部通过，覆盖夏令时结束当天的日期边界。
 
-[历史专项](acceptance/history-local.json) **4/4**，使用本地 Pages 构建与 `/FocusFlow/` 子路径，桌面中文、375 中文、390 英文暗色、812×375 横屏英文；无非预期页面或控制台错误 / 警告。验证真实下载、BOM、多行文本与公式保护、跨页全量导出、日期 / 任务 / 状态筛选、跨午夜、汇总一致性、切换语言和视图、计时完成幂等，以及清空数据后导入备份使历史立即恢复。
+[历史专项](acceptance/v1.3/local/history.json) **4/4**，使用本地 Pages 构建与 `/FocusFlow/` 子路径，桌面中文、375 中文、390 英文暗色、812×375 横屏英文；无非预期页面或控制台错误 / 警告。验证真实下载、BOM、多行文本与公式保护、跨页全量导出、日期 / 任务 / 状态筛选、跨午夜、汇总一致性、切换语言和视图、计时完成幂等，以及清空数据后导入备份使历史立即恢复。
 
-原有功能本地回归：[业务](acceptance/v1.3-business-local.json) **11/11**、[语言](acceptance/v1.3-language-local.json) **4/4**、[备份](acceptance/v1.3-backup-local.json) **4/4**，均无非预期应用错误。
+原有功能本地回归：[业务](acceptance/v1.3/local/business.json) **11/11**、[语言](acceptance/v1.3/local/language.json) **4/4**、[备份](acceptance/v1.3/local/backup.json) **4/4**，均无非预期应用错误。
 
-本地截图位于 `docs/screenshots/history/local/`。
+本地截图位于 `docs/screenshots/v1.3/local/history/`。
 
 ## 发布与生产验收
 
@@ -48,16 +48,16 @@
 
 | 范围 | 已验证覆盖 | 原始记录 |
 | --- | --- | --- |
-| 历史专项 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/history-production.json)、[完整运行](acceptance/history-production-attempt.json)、[横屏重跑](acceptance/history-production-landscape-en.json) |
-| 语言 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/v1.3-language-production.json)、[完整运行](acceptance/v1.3-language-production-attempt.json)、[横屏重跑](acceptance/v1.3-language-production-landscape.json) |
-| 业务 | 11 项均通过；完整运行 6 项通过，5 项初次导航失败后单独通过 | [覆盖汇总与逐项原始指针](acceptance/v1.3-business-production.json)、[完整运行](acceptance/v1.3-business-production-attempt.json) |
-| 备份 | 完整运行 4/4 | [原始结果](acceptance/v1.3-backup-production.json) |
+| 历史专项 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/v1.3/production/history.json)、[完整运行](acceptance/v1.3/production/raw/history-attempt.json)、[横屏重跑](acceptance/v1.3/production/raw/history-landscape-en.json) |
+| 语言 | 4 项均通过；完整运行 3 项通过，横屏初次导航失败后单独通过 | [覆盖汇总](acceptance/v1.3/production/language.json)、[完整运行](acceptance/v1.3/production/raw/language-attempt.json)、[横屏重跑](acceptance/v1.3/production/raw/language-landscape.json) |
+| 业务 | 11 项均通过；完整运行 6 项通过，5 项初次导航失败后单独通过 | [覆盖汇总与逐项原始指针](acceptance/v1.3/production/business.json)、[完整运行](acceptance/v1.3/production/raw/business-attempt.json) |
+| 备份 | 完整运行 4/4 | [原始结果](acceptance/v1.3/production/backup.json) |
 
 所有实际执行的业务断言均保留。失败发生在初始文档导航的 `ERR_CONNECTION_CLOSED`，通过原脚本 `--case` 单独重跑；不重试或放宽业务断言。三个覆盖汇总明确标注合并来源，未记作一次连续全通过；非预期应用错误为 0，备份中刻意注入的存储错误单独记录。v1.1.0 的真实等待后台计时仍是历史验证，本轮没有重新运行。
 
-正式截图位于 `docs/screenshots/history/production/` 与 `docs/screenshots/v1.3/production/`，后者包含首页、语言、业务及备份视图。下图取自线上独立测试上下文，使用示例任务：
+正式截图统一位于 `docs/screenshots/v1.3/production/`，按 `history`、`language`、`business`、`backup` 分类。下图取自线上独立测试上下文，使用示例任务：
 
-![线上中文历史：日期任务状态筛选、完成汇总与记录明细](screenshots/history/production/desktop-zh-history.png)
+![线上中文历史：日期任务状态筛选、完成汇总与记录明细](screenshots/v1.3/production/history/desktop-zh-history.png)
 
 ## 重跑
 
@@ -66,9 +66,9 @@
 ```bash
 npm run dev -- --host 127.0.0.1
 python scripts/history-acceptance.py
-python scripts/browser-acceptance.py --expected-version 1.3.0 --output docs/acceptance/v1.3-business-local.json --screenshots-dir docs/screenshots/v1.3/local/business
-python scripts/language-acceptance.py --expected-version 1.3.0 --output docs/acceptance/v1.3-language-local.json --screenshots-dir docs/screenshots/v1.3/local/language
-node scripts/backup-acceptance.cjs --expected-version 1.3.0 --output docs/acceptance/v1.3-backup-local.json --screenshots-dir docs/screenshots/v1.3/local/backup
+python scripts/browser-acceptance.py --expected-version 1.3.0 --output .artifacts/acceptance/local/business.json --screenshots-dir .artifacts/screenshots/local/business
+python scripts/language-acceptance.py --expected-version 1.3.0 --output .artifacts/acceptance/local/language.json --screenshots-dir .artifacts/screenshots/local/language
+node scripts/backup-acceptance.cjs --expected-version 1.3.0 --output .artifacts/acceptance/local/backup.json --screenshots-dir .artifacts/screenshots/local/backup
 ```
 
-备份脚本另外需要 Node 能解析 `playwright/test`（本轮沿用 1.62.1）。生产复验为各命令追加 `--url https://clear1613.github.io/FocusFlow/` 并指定新的 production 结果和截图目录；业务脚本还需 `--production`。测试使用独立浏览器与示例数据，计时由脚本推进；CSV 下载到经过路径校验的临时目录，结束后删除。
+备份脚本另外需要 Node 能解析 `playwright/test`（本轮沿用 1.62.1）。新运行默认写入 `.artifacts/`，不覆盖本页归档证据。生产复验为各命令追加 `--url https://clear1613.github.io/FocusFlow/` 并指定新的 production 结果和截图目录；业务脚本还需 `--production`。测试使用独立浏览器与示例数据，计时由脚本推进；CSV 下载到经过路径校验的临时目录，结束后删除。

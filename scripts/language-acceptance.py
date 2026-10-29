@@ -13,11 +13,12 @@ from acceptance_navigation import navigate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', default='http://127.0.0.1:5173')
-parser.add_argument('--output', default='docs/acceptance/language-local.json')
-parser.add_argument('--screenshots-dir', default='docs/screenshots/local')
+parser.add_argument('--output', default='.artifacts/acceptance/local/language.json')
+parser.add_argument('--screenshots-dir', default='.artifacts/screenshots/local/language')
 parser.add_argument('--expected-version', default='1.3.0')
 parser.add_argument('--case', choices=['desktop', 'mobile-375', 'mobile-390', 'landscape'])
 args = parser.parse_args()
+Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 shots = Path(args.screenshots_dir)
 shots.mkdir(parents=True, exist_ok=True)
 results, errors = [], []

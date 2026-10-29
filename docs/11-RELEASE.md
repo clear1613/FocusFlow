@@ -63,10 +63,10 @@ CI 在 main 构建时传入 `DEPLOY_BASE_PATH=/<repository-name>/`，由 Vite �
 线上复验：
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.1.0 \
-  --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/production.json
+python scripts/browser-acceptance.py --production --expected-version 1.3.0 \
+  --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/business.json
 python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlow/ \
-  --output docs/acceptance/language-production.json --screenshots-dir docs/screenshots/production
+  --output .artifacts/acceptance/production/language.json --screenshots-dir .artifacts/screenshots/production/language
 ```
 
 完整验收矩阵、原始结果与修复记录见 [验收记录](10-ACCEPTANCE.md)，截图说明见 [截图目录](screenshots/README.md)。

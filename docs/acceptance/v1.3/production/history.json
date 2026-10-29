@@ -7,29 +7,29 @@
     "landscape-en"
   ],
   "source_files": [
-    "history-production-attempt.json",
-    "history-production-landscape-en.json"
+    "raw/history-attempt.json",
+    "raw/history-landscape-en.json"
   ],
   "results": [
     {
       "case": "desktop-zh",
       "result": "PASS",
-      "source": "history-production-attempt.json"
+      "source": "raw/history-attempt.json"
     },
     {
       "case": "mobile-375-zh",
       "result": "PASS",
-      "source": "history-production-attempt.json"
+      "source": "raw/history-attempt.json"
     },
     {
       "case": "mobile-390-en-dark",
       "result": "PASS",
-      "source": "history-production-attempt.json"
+      "source": "raw/history-attempt.json"
     },
     {
       "case": "landscape-en",
       "result": "PASS",
-      "source": "history-production-landscape-en.json"
+      "source": "raw/history-landscape-en.json"
     }
   ],
   "unexpected_errors": []

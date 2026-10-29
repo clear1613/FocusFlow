@@ -11,68 +11,68 @@
     "capture_readme"
   ],
   "source_files": [
-    "v1.3-business-production-attempt.json",
-    "v1.3-business-production-expired_analytics.json",
-    "v1.3-business-production-notification.json",
-    "v1.3-business-production-denied_notification.json",
-    "v1.3-business-production-native_notification_granted.json",
-    "v1.3-business-production-capture_readme.json"
+    "raw/business-attempt.json",
+    "raw/business-expired_analytics.json",
+    "raw/business-notification.json",
+    "raw/business-denied_notification.json",
+    "raw/business-native_notification_granted.json",
+    "raw/business-capture_readme.json"
   ],
   "results": [
     {
       "case": "task_timer",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "reset_skip_cycle",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "persistence",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "expired_analytics",
       "result": "PASS",
-      "source": "v1.3-business-production-expired_analytics.json"
+      "source": "raw/business-expired_analytics.json"
     },
     {
       "case": "theme_modal_mobile",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "notification",
       "result": "PASS",
-      "source": "v1.3-business-production-notification.json"
+      "source": "raw/business-notification.json"
     },
     {
       "case": "denied_notification",
       "result": "PASS",
-      "source": "v1.3-business-production-denied_notification.json"
+      "source": "raw/business-denied_notification.json"
     },
     {
       "case": "unsupported_notification",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "permission_failure",
       "result": "PASS",
-      "source": "v1.3-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "native_notification_granted",
       "result": "PASS",
-      "source": "v1.3-business-production-native_notification_granted.json"
+      "source": "raw/business-native_notification_granted.json"
     },
     {
       "case": "capture_readme",
       "result": "PASS",
-      "source": "v1.3-business-production-capture_readme.json"
+      "source": "raw/business-capture_readme.json"
     }
   ],
   "unexpected_errors": []

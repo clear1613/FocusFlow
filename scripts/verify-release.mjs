@@ -10,6 +10,10 @@ const requiredFiles = [
   'DEPLOYMENT.md',
   'RELEASE_CHECKLIST.md',
   'docs/architecture.md',
+  'docs/README.md',
+  'docs/acceptance/README.md',
+  'docs/screenshots/README.md',
+  'docs/archive/README.md',
   'docs/01-PRD.md',
   'docs/02-TECH_DESIGN.md',
   'docs/03-ENGINEERING.md',
@@ -43,7 +47,7 @@ const nodeVersion = (await readFile('.nvmrc', 'utf8')).trim();
 if (process.versions.node !== nodeVersion) throw new Error(`Use verified Node ${nodeVersion}.`);
 const workflow = await readFile('.github/workflows/ci.yml', 'utf8');
 const ignoredPaths = new Set((await readFile('.gitignore', 'utf8')).split(/\r?\n/).map(line => line.trim().replace(/\/$/, '')));
-for (const generated of ['node_modules', 'dist', 'coverage', '.env', '.env.*', '__pycache__']) {
+for (const generated of ['node_modules', 'dist', 'coverage', '.artifacts', '.env', '.env.*', '__pycache__']) {
   if (!ignoredPaths.has(generated)) throw new Error(`.gitignore must exclude ${generated}`);
 }
 for (const command of ['npm ci', 'npm run lint', 'npm run test', 'npm run build', 'npm run verify:release']) {
@@ -57,7 +61,7 @@ for (const required of ['needs: quality', 'pages: write', 'id-token: write', 'na
 
 // Inspect release sources and, when Git exists, every tracked path. Generated
 // runtime dependencies/build output are valid locally but must never be tracked.
-const excluded = new Set(['node_modules', 'dist', '.git', 'coverage', '.idea', '.vscode', '__pycache__']);
+const excluded = new Set(['node_modules', 'dist', '.git', 'coverage', '.artifacts', '.idea', '.vscode', '__pycache__']);
 async function walk(directory = '.') {
   const files = [];
   for (const entry of await readdir(directory, { withFileTypes: true })) {
@@ -76,12 +80,13 @@ try {
   console.log('Git index unavailable; auditing release sources (no remote CI claim).');
 }
 for (const file of [...files, ...tracked]) {
-  if (file.split('/').some(part => ['node_modules', 'dist', 'coverage', '__pycache__'].includes(part)) ||
+  if (file.split('/').some(part => ['node_modules', 'dist', 'coverage', '.artifacts', '__pycache__'].includes(part)) ||
       /(^|\/)\.env(?:\.|$)/.test(file) || /\.(log|tmp|tsbuildinfo)$/.test(file)) {
     throw new Error(`Unpublishable file: ${file}`);
   }
 }
 let links = 0;
+let evidenceLinks = 0;
 const textExtensions = new Set(['.md', '.ts', '.tsx', '.js', '.mjs', '.cjs', '.json', '.html', '.svg', '.yml', '.yaml', '.py', '.css']);
 for (const file of files) {
   if (!textExtensions.has(extname(file))) continue;
@@ -91,6 +96,26 @@ for (const file of files) {
   }
   if (/(?:ghp_|github_pat_)[A-Za-z0-9_]{20,}|\bsk-[A-Za-z0-9_-]{20,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----/.test(source)) {
     throw new Error(`Possible credential in ${file}; inspect locally without printing it.`);
+  }
+  if (file.startsWith('docs/acceptance/') && extname(file) === '.json') {
+    const report = JSON.parse(source);
+    if (report.source_files) {
+      const originals = new Map();
+      for (const target of report.source_files) {
+        const absolute = resolve(dirname(file), target);
+        if (relative(resolve(dirname(file)), absolute).startsWith('..')) {
+          throw new Error(`Evidence source escapes report directory in ${file}`);
+        }
+        originals.set(target, JSON.parse(await readFile(absolute, 'utf8')));
+        evidenceLinks++;
+      }
+      for (const result of report.results) {
+        const original = originals.get(result.source)?.results?.find(item => item.case === result.case);
+        if (!original || original.result !== result.result) {
+          throw new Error(`Evidence source/result mismatch for ${result.case} in ${file}`);
+        }
+      }
+    }
   }
   if (extname(file) !== '.md') continue;
   const targets = [...source.matchAll(/!?\[[^\]]*\]\(([^\s)]+)(?:\s+"[^"]*")?\)/g)].map(m => m[1]);
@@ -107,3 +132,4 @@ for (const file of files) {
 
 console.log(`Release structure verified: ${requiredFiles.length} required files present.`);
 console.log(`Release audit: ${files.length} source files, ${links} local Markdown/image links; CI, lockfile and Node version verified.`);
+console.log(`Acceptance provenance verified: ${evidenceLinks} original report references.`);

@@ -15,13 +15,16 @@ from acceptance_navigation import navigate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', default='http://127.0.0.1:5173')
-parser.add_argument('--output', default='docs/acceptance/local-dev.json')
+parser.add_argument('--output', help='Result path; defaults to .artifacts/acceptance/<environment>/business.json')
 parser.add_argument('--case', help='Run a single acceptance case while debugging')
-parser.add_argument('--production', action='store_true', help='Run against the live site and keep the result in docs/acceptance/production.json')
+parser.add_argument('--production', action='store_true', help='Label this run as production and separate its generated files')
 parser.add_argument('--expected-version', help='Reject a stale deployment before running a case')
 parser.add_argument('--screenshots-dir', help='Keep screenshots for a new acceptance run separate')
 args = parser.parse_args()
-shots = Path(args.screenshots_dir or ('docs/screenshots/production/business' if args.production else 'docs/screenshots/local/business'))
+environment = 'production' if args.production else 'local'
+args.output = args.output or f'.artifacts/acceptance/{environment}/business.json'
+Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+shots = Path(args.screenshots_dir or f'.artifacts/screenshots/{environment}/business')
 shots.mkdir(parents=True, exist_ok=True)
 results, messages = [], []
 navigation_retries = []

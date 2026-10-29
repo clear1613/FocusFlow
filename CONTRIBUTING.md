@@ -5,7 +5,7 @@ Contributions should preserve the project boundaries documented in `docs/01-PRD.
 ## Local workflow
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -28,3 +28,7 @@ npm run check
 ## Pull requests
 
 Keep changes scoped. Include tests for Timer, persistence, analytics, or state-transition changes. Update architecture/product docs when behavior changes materially.
+
+## Repository housekeeping
+
+Use the [documentation index](docs/README.md) to locate current designs and historical records. Acceptance scripts write generated reports and screenshots to ignored `.artifacts/` paths by default. Archive reviewed release evidence under `docs/acceptance/v1.x/<environment>/` and `docs/screenshots/v1.x/<environment>/<suite>/`; retain raw failures and reruns with working relative source pointers. Keep prior releases intact and update the artifact and screenshot indexes when adding a formal run.

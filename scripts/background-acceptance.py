@@ -1,4 +1,5 @@
 """Real elapsed-time check with a frozen Chromium page (no fake clock)."""
+import argparse
 import json
 import re
 import math
@@ -6,13 +7,18 @@ import time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--url', default='http://127.0.0.1:5173')
+parser.add_argument('--output', default='.artifacts/acceptance/local/background.json')
+args = parser.parse_args()
+
 with sync_playwright() as p:
     browser = p.chromium.launch(channel='msedge', headless=True)
     context = browser.new_context()
     page = context.new_page()
     errors = []
     page.on('pageerror', lambda e: errors.append(str(e)))
-    page.goto('http://127.0.0.1:5173', wait_until='networkidle')
+    page.goto(args.url, wait_until='networkidle')
     page.locator('header select').first.select_option('en')
     # Settings live behind the header icon; the main screen stays a timer.
     page.get_by_role('button', name='Open settings').click()
@@ -51,6 +57,8 @@ with sync_playwright() as p:
               'elapsed_seconds': round(time.monotonic() - start, 2),
               'remaining_seconds': remaining, 'timestamp_expected': expected,
               'sessions': len(state['sessions']), 'pageerrors': errors}
-    Path('docs/acceptance/background.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(result, indent=2), encoding='utf-8')
     print(json.dumps(result), flush=True)
     browser.close()

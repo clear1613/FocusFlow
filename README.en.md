@@ -106,7 +106,7 @@ version write protection, streak boundaries across local midnight, and the
 
 | You want to see | Open |
 | --- | --- |
-| The hardest correctness problem | [`src/hooks/usePomodoroTimer.ts`](src/hooks/usePomodoroTimer.ts), [`docs/04-PHASE1-TIMER-CORRECTNESS.md`](docs/04-PHASE1-TIMER-CORRECTNESS.md) |
+| The hardest correctness problem | [`src/hooks/usePomodoroTimer.ts`](src/hooks/usePomodoroTimer.ts), [`docs/archive/v1.0/04-PHASE1-TIMER-CORRECTNESS.md`](docs/archive/v1.0/04-PHASE1-TIMER-CORRECTNESS.md) |
 | The data model | [`src/services/storageSchema.ts`](src/services/storageSchema.ts), [`src/types/`](src/types) |
 | Test strategy | [`src/services/statisticsService.test.ts`](src/services/statisticsService.test.ts), [`src/services/storageMigration.test.ts`](src/services/storageMigration.test.ts) |
 | Design reasoning | [`docs/02-TECH_DESIGN.md`](docs/02-TECH_DESIGN.md), [`docs/architecture.md`](docs/architecture.md) |
@@ -130,7 +130,7 @@ version write protection, streak boundaries across local midnight, and the
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
 [`docs/15-HISTORY.md`](docs/15-HISTORY.md),
-[`docs/acceptance/history-production.json`](docs/acceptance/history-production.json).
+[`docs/acceptance/v1.3/production/history.json`](docs/acceptance/v1.3/production/history.json).
 Browser acceptance uses isolated contexts and sample tasks. Production had no unexpected application errors. Initial navigation failures and separate reruns are retained; combined coverage is not presented as one uninterrupted full pass. Timer advancement is recorded in each result file; earlier real-wait background timing remains in the historical record.
 
 v1.3.0 adds 25 tests. Its 19 query and CSV tests also pass in the America/New_York timezone across the daylight-saving boundary. The v1.2.0 baseline of 123 tests and its production results remain in the [backup record](docs/14-BACKUP.md); earlier UI and real elapsed-time background checks remain in the [acceptance record](docs/10-ACCEPTANCE.md).
@@ -170,12 +170,14 @@ npm run check   # lint + test + build + release audit
 
 ## Docs
 
+The [documentation index](docs/README.md) links current designs, archived acceptance reports, screenshots and development records.
+
 | Doc | Content |
 | --- | --- |
 | [`01-PRD.md`](docs/01-PRD.md) | product scope and acceptance criteria |
 | [`02-TECH_DESIGN.md`](docs/02-TECH_DESIGN.md) | state, data model, persistence, testing strategy |
 | [`03-ENGINEERING.md`](docs/03-ENGINEERING.md) | directory layout, state, persistence, testing and commit conventions |
-| [`04`](docs/04-PHASE1-TIMER-CORRECTNESS.md) – [`09`](docs/09-PHASE6-GITHUB-DELIVERY.md) | phase records: what broke, what was fixed, how it was verified |
+| [`04`](docs/archive/v1.0/04-PHASE1-TIMER-CORRECTNESS.md) – [`09`](docs/archive/v1.0/09-PHASE6-GITHUB-DELIVERY.md) | phase records: what broke, what was fixed, how it was verified |
 | [`10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md) | acceptance record: environment, case matrix, fixed defects |
 | [`11-RELEASE.md`](docs/11-RELEASE.md) | version history and release verification |
 | [`13-LANGUAGE.md`](docs/13-LANGUAGE.md) | Chinese-first UI with English switching: design and verification |

@@ -139,7 +139,7 @@ flowchart LR
 
 v1.3.0 新增 25 项自动化用例，历史查询与 CSV 的 19 项另在纽约时区通过，覆盖夏令时边界。v1.2.0 的 123 项测试及生产验收见 [备份记录](docs/14-BACKUP.md)；v1.1.0 的扩展 UI 与真实等待后台计时记录保留在 [验收记录](docs/10-ACCEPTANCE.md)。
 
-[发布记录](docs/11-RELEASE.md) · [历史与本轮验收](docs/15-HISTORY.md) · [线上历史覆盖与重跑记录](docs/acceptance/history-production.json)
+[发布记录](docs/11-RELEASE.md) · [历史与本轮验收](docs/15-HISTORY.md) · [线上历史覆盖与重跑记录](docs/acceptance/v1.3/production/history.json)
 
 ## 技术阅读入口
 
@@ -169,6 +169,8 @@ npm run check   # lint + test + build + 发布校验
 部署与浏览器验收操作见 [部署说明](DEPLOYMENT.md)。
 
 ## 项目文档
+
+[文档导航](docs/README.md)汇总当前设计、验收文件、截图和历史开发记录。
 
 - [产品需求](docs/01-PRD.md)：功能范围与验收标准。
 - [技术设计](docs/02-TECH_DESIGN.md)：状态、数据模型、持久化与测试策略。

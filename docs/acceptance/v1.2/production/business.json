@@ -7,65 +7,65 @@
   "report_type": "combined coverage with separately recorded reruns",
   "note": "The full run passed 9/11. Two cases failed at initial navigation with ERR_CONNECTION_CLOSED and passed unchanged in separate runs. This is not a single uninterrupted 11/11 run.",
   "source_files": [
-    "v1.2-business-production-attempt.json",
-    "v1.2-business-production-unsupported_notification.json",
-    "v1.2-business-production-permission_failure.json"
+    "raw/business-attempt.json",
+    "raw/business-unsupported_notification.json",
+    "raw/business-permission_failure.json"
   ],
   "results": [
     {
       "case": "task_timer",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "reset_skip_cycle",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "persistence",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "expired_analytics",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "theme_modal_mobile",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "notification",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "denied_notification",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "unsupported_notification",
       "result": "PASS",
-      "source": "v1.2-business-production-unsupported_notification.json"
+      "source": "raw/business-unsupported_notification.json"
     },
     {
       "case": "permission_failure",
       "result": "PASS",
-      "source": "v1.2-business-production-permission_failure.json"
+      "source": "raw/business-permission_failure.json"
     },
     {
       "case": "native_notification_granted",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     },
     {
       "case": "capture_readme",
       "result": "PASS",
-      "source": "v1.2-business-production-attempt.json"
+      "source": "raw/business-attempt.json"
     }
   ],
   "unexpected_errors": []

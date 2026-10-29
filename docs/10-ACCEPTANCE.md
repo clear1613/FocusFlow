@@ -38,7 +38,7 @@
 | 范围 | 覆盖点 |
 | --- | --- |
 | Timer | 启动创建一个 running Session；暂停/继续/刷新保持同一 ID；暂停不计时；重复完成最多一次；运行中 Reset 记为 cancelled；Focus Skip 不加番茄数；第 4 轮 Focus 进入长休息并清零周期 |
-| 后台计时 | 5 分钟计时，第二标签页并冻结原页面生命周期，真实等待约 181 秒；返回后剩余时间 119 秒，与 `endAt` 计算一致；1 个 Session，0 pageerror |
+| 后台计时 | 5 分钟计时，第二标签页并冻结原页面生命周期，真实等待约 181 秒；返回后剩余 120 秒，`endAt` 预期 119 秒，误差在 1 秒内；1 个 Session，0 pageerror |
 | 刷新与过期 | Running/Paused 刷新、关闭页面后过期重开、连续多次刷新；只完成一次并进入正确的休息阶段 |
 | Task | 创建、编辑、选中、完成、删除；无历史直接删除；有历史需确认且 Session 保留；Completed 区默认折叠、可展开编辑删除、不能设为当前任务 |
 | Persistence | 任务/会话/设置/计时/当前任务刷新保留；损坏 JSON 回退；非法状态、负时长、缺字段拒绝；V0→V1→V2 迁移；未来版本写保护与 Reset All Data 解锁 |
@@ -54,17 +54,17 @@
 
 - 业务用例：开发模式 **11/11**、本地生产构建 **11/11**、线上 Pages **11/11**，均 0 个非预期 Console Error / Page Error；
 - 语言用例：本地与线上均 **4/4**，覆盖 1440×1000、375×812、390×844、812×375。
-- 首页交互改版后（2026-10-29）：线上业务 **11/11**、线上语言 **4/4**、后台计时真实等待通过；另有 71 项扩展检查（无头 Edge）全部通过，Console 0 错误 0 警告；`production/` 与 `local/` 两套截图按新布局整体重拍。
+- 首页交互改版后（2026-10-29）：线上业务 **11/11**、线上语言 **4/4**、本地后台计时真实等待通过；另有 71 项扩展检查（无头 Edge）全部通过，Console 0 错误 0 警告；两套截图按新布局整体重拍，现归档于 `docs/screenshots/v1.1/production/` 与 `docs/screenshots/v1.1/local/`。
 
 每次运行另有若干预期 warning，来自刻意注入的损坏 JSON、非法字段、未来版本迁移与写保护、通知构造与权限异常，用于确认降级路径生效。原始输出：
 
 | 场景 | 结果文件 |
 | --- | --- |
-| 本地开发模式业务回归 | [local-dev.json](acceptance/local-dev.json) |
-| 本地生产构建业务回归 | [local-preview.json](acceptance/local-preview.json) |
-| 线上业务回归（1.1.0） | [business-production.json](acceptance/business-production.json) |
-| 线上语言验收（1.1.0） | [language-production.json](acceptance/language-production.json) |
-| 真实等待的后台计时 | [background.json](acceptance/background.json) |
+| 本地开发模式业务回归 | [v1.1/local/business-dev.json](acceptance/v1.1/local/business-dev.json) |
+| 本地生产构建业务回归 | [v1.0/local/business-preview.json](acceptance/v1.0/local/business-preview.json) |
+| 线上业务回归（1.1.0） | [v1.1/production/business.json](acceptance/v1.1/production/business.json) |
+| 线上语言验收（1.1.0） | [v1.1/production/language.json](acceptance/v1.1/production/language.json) |
+| 真实等待的后台计时 | [background.json](acceptance/v1.1/local/background.json) |
 
 ## 4. 验收中发现并修复的问题
 
@@ -99,10 +99,10 @@ python scripts/language-acceptance.py
 线上复验：
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.1.0 \
-  --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/production.json
+python scripts/browser-acceptance.py --production --expected-version 1.3.0 \
+  --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/business.json
 python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlow/ \
-  --output docs/acceptance/language-production.json --screenshots-dir docs/screenshots/production
+  --output .artifacts/acceptance/production/language.json --screenshots-dir .artifacts/screenshots/production/language
 ```
 
 浏览器脚本需要本机安装 Python Playwright 与 Microsoft Edge；它们不进入应用的 npm 依赖。
