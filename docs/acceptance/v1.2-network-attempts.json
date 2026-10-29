@@ -1,0 +1,342 @@
+{
+  "note": "Earlier incomplete production attempts; connection failures before application assertions. Final passing evidence is stored separately.",
+  "attempts": [
+    {
+      "name": "v1.2-network-attempt-backup-2.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "clock": "script-controlled time; sample data; isolated Edge contexts",
+        "results": [
+          {
+            "case": "desktop-zh",
+            "result": "PASS"
+          },
+          {
+            "case": "mobile-375-zh",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          },
+          {
+            "case": "mobile-390-en-dark",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          },
+          {
+            "case": "landscape-en",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          }
+        ],
+        "unexpected_errors": [],
+        "injected_storage_errors": [
+          "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure"
+        ]
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-backup-3.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "clock": "script-controlled time; sample data; isolated Edge contexts",
+        "results": [
+          {
+            "case": "desktop-zh",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          },
+          {
+            "case": "mobile-375-zh",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          },
+          {
+            "case": "mobile-390-en-dark",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          },
+          {
+            "case": "landscape-en",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          }
+        ],
+        "unexpected_errors": [],
+        "injected_storage_errors": []
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-backup.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "clock": "script-controlled time; sample data; isolated Edge contexts",
+        "results": [
+          {
+            "case": "desktop-zh",
+            "result": "PASS"
+          },
+          {
+            "case": "mobile-375-zh",
+            "result": "PASS"
+          },
+          {
+            "case": "mobile-390-en-dark",
+            "result": "PASS"
+          },
+          {
+            "case": "landscape-en",
+            "result": "FAIL",
+            "detail": "Error: page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n\u001b[2m  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\u001b[22m\n"
+          }
+        ],
+        "unexpected_errors": [],
+        "injected_storage_errors": [
+          "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure",
+          "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure",
+          "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure"
+        ]
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-business.json",
+      "report": {
+        "browser": "Edge 156.0.4314.50",
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "timezone": "Asia/Singapore",
+        "environment": "production",
+        "application_versions": [],
+        "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+        "results": [
+          {
+            "case": "task_timer",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "reset_skip_cycle",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "persistence",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "expired_analytics",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "theme_modal_mobile",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "notification",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "denied_notification",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "unsupported_notification",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "permission_failure",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "native_notification_granted",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "capture_readme",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          }
+        ],
+        "console": [],
+        "unexpected_errors": []
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-language-2.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "expected_version": "1.2.0",
+        "browser": "isolated Microsoft Edge",
+        "browser_locale": "en-US",
+        "clock": "Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale",
+        "results": [
+          {
+            "case": "desktop",
+            "result": "PASS",
+            "languages": [
+              "zh-CN",
+              "en"
+            ]
+          },
+          {
+            "case": "mobile-375",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "mobile-390",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "landscape",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          }
+        ],
+        "unexpected_errors": [],
+        "navigation_retries": [
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          }
+        ]
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-language-3.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "expected_version": "1.2.0",
+        "browser": "isolated Microsoft Edge",
+        "browser_locale": "en-US",
+        "clock": "Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale",
+        "results": [
+          {
+            "case": "desktop",
+            "result": "PASS",
+            "languages": [
+              "zh-CN",
+              "en"
+            ]
+          },
+          {
+            "case": "mobile-375",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "mobile-390",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "landscape",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          }
+        ],
+        "unexpected_errors": [],
+        "navigation_retries": [
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 1,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          },
+          {
+            "url": "https://clear1613.github.io/FocusFlow/",
+            "attempt": 2,
+            "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+          }
+        ]
+      }
+    },
+    {
+      "name": "v1.2-network-attempt-language.json",
+      "report": {
+        "url": "https://clear1613.github.io/FocusFlow/",
+        "expected_version": "1.2.0",
+        "browser": "isolated Microsoft Edge",
+        "browser_locale": "en-US",
+        "clock": "Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale",
+        "results": [
+          {
+            "case": "desktop",
+            "result": "PASS",
+            "languages": [
+              "zh-CN",
+              "en"
+            ]
+          },
+          {
+            "case": "mobile-375",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "mobile-390",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          },
+          {
+            "case": "landscape",
+            "result": "FAIL",
+            "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\nnavigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+          }
+        ],
+        "unexpected_errors": []
+      }
+    }
+  ]
+}

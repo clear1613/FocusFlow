@@ -10,7 +10,7 @@ Create today's tasks, select one to work on, and track progress through complete
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/production/desktop-en.png" alt="FocusFlow v1.1.0 English interface with a language selector in the top-right corner" width="100%" />
+  <img src="docs/screenshots/v1.2/production/language/desktop-en.png" alt="FocusFlow v1.2.0 English interface with a language selector in the top-right corner" width="100%" />
 </p>
 
 > Screenshot from the live GitHub Pages deployment, re-taken during the 2026-10-29 acceptance run with sample tasks. Mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
@@ -112,7 +112,7 @@ version write protection, streak boundaries across local midnight, and the
 
 ## Release verification
 
-**v1.2.0 local checks pass; production verification will be recorded after deployment.** Earlier results remain in the [release notes](docs/11-RELEASE.md).
+**v1.2.0 is live and production verification is complete.** Earlier results remain in the [release notes](docs/11-RELEASE.md).
 
 | Check | Command | Last recorded result |
 | --- | --- | --- |
@@ -120,16 +120,17 @@ version write protection, streak boundaries across local midnight, and the
 | Tests | `npm run test` | 23 files, 123 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
-| Backup acceptance | `node scripts/backup-acceptance.cjs` | local 4/4 PASS: real downloads, restore, mobile, dark mode and failure protection |
-| Business regression | `python scripts/browser-acceptance.py --expected-version 1.2.0` | local 11/11 PASS, no unexpected errors |
-| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.2.0` | local 4/4 PASS, Chinese default and English switching |
+| Backup acceptance | `node scripts/backup-acceptance.cjs` | local and production 4/4 PASS: real downloads, restore, mobile, dark mode and failure protection |
+| Business regression | `python scripts/browser-acceptance.py --expected-version 1.2.0` | local 11/11; all 11 production cases pass, including 2 reruns after navigation connection failures; no unexpected application errors |
+| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.2.0` | local and production 4/4 PASS, Chinese default and English switching |
 
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
-[`docs/acceptance/production.json`](docs/acceptance/production.json).
+[`docs/14-BACKUP.md`](docs/14-BACKUP.md),
+[`docs/acceptance/v1.2-business-production.json`](docs/acceptance/v1.2-business-production.json).
 Browser acceptance uses isolated contexts and sample tasks. How timers are advanced is stated in each result file; background timing has a separate real-wait check.
 
-The home-screen rework (settings behind a dialog, the current task inside the timer card, the row menu, mode-aware action labels, the today summary and the weekly conclusion) was re-verified against production on 2026-10-29: the three Python suites were updated for the new DOM, business regression **11/11** and language acceptance **4/4** against Pages, the real-wait background check passes, and a 71-check extended audit (desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching, the tie-aware weekly summary) passes with a clean console. The re-run caught a missing streak line in the today card's empty state, which is fixed — details in the [acceptance record](docs/10-ACCEPTANCE.md). Current unit-test baseline: **20 files / 100 tests passing**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
+The home-screen rework (settings behind a dialog, the current task inside the timer card, the row menu, mode-aware action labels, the today summary and the weekly conclusion) was re-verified against production on 2026-10-29: the three Python suites were updated for the new DOM, business regression **11/11** and language acceptance **4/4** against Pages, the real-wait background check passes, and a 71-check extended audit (desktop layout balance, settings-dialog focus management, timer and task switching, the row menu, 375/390 mobile viewports, dark-mode contrast, zh/en switching, the tie-aware weekly summary) passes with a clean console. The re-run caught a missing streak line in the today card's empty state, which is fixed — details in the [acceptance record](docs/10-ACCEPTANCE.md). That release reached **20 files / 100 tests**; v1.2.0 adds 23 backup tests for a total of **123**. Toolchain versions are specified in [`.nvmrc`](.nvmrc) and `packageManager`.
 
 CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
 `dist` and deploys to Pages. Pull requests never deploy.

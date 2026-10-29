@@ -6,7 +6,7 @@ The production application is hosted on **GitHub Pages**. FocusFlow is a static 
 
 Repository: [clear1613/FocusFlow](https://github.com/clear1613/FocusFlow).
 
-Production application: [FocusFlow on GitHub Pages](https://clear1613.github.io/FocusFlow/). The verified v1.1.0 release and production results are recorded in [docs/11-RELEASE.md](docs/11-RELEASE.md).
+Production application: [FocusFlow on GitHub Pages](https://clear1613.github.io/FocusFlow/). The verified v1.2.0 release and production results are recorded in [docs/11-RELEASE.md](docs/11-RELEASE.md).
 
 1. Repository Settings → Pages → Source: **GitHub Actions**. This repository has been configured with build_type `workflow` and HTTPS.
 2. Push to main or run CI manually. PRs run quality checks without deploying.
@@ -29,15 +29,19 @@ Open the preview at its `/FocusFlow/` path. For a fork or renamed repository, CI
 
 ## Online acceptance and screenshots
 
-Install Python Playwright separately and use an installed Microsoft Edge. After the first actual Pages deployment:
+Install Python Playwright separately (v1.2.0 production checks used 1.64.1 with Python 3.12) and use an installed Microsoft Edge. After deployment:
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.1.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/production.json
+python scripts/browser-acceptance.py --production --expected-version 1.2.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.2-business-production-run.json --screenshots-dir docs/screenshots/v1.2/production/business
+python scripts/language-acceptance.py --expected-version 1.2.0 --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/v1.2-language-production.json --screenshots-dir docs/screenshots/v1.2/production/language
+node scripts/backup-acceptance.cjs --url https://clear1613.github.io/FocusFlow/ --output docs/acceptance/backup-production.json --screenshots-dir docs/screenshots/backup/production
 ```
 
 The suite uses isolated contexts and fixed sample tasks, records how timers are advanced in each result file, and tests desktop plus 375×812 and 390×844. It covers Timer, tasks, refresh/expiry restore, persistence/recovery/migration, analytics, notification fallback, themes, modal focus, mobile overflow and unexpected console errors.
 
-Production screenshots are saved in `docs/screenshots/production/`. README must use home-desktop.png only after a real capture. Local captures remain separate from the online set. V1.0 has no multi-page router; its entry URL and refresh must work.
+The backup script requires Node to resolve `playwright/test` (verified with 1.62.1); set `NODE_PATH` to a separate tool installation if needed. These browser tools are not application dependencies. Known connection failures at initial navigation have at most two recorded retries; business assertions are not retried. The Python suites isolate each case in a new browser process.
+
+Current screenshots are saved in `docs/screenshots/v1.2/production/` and `docs/screenshots/backup/production/`; the earlier `production/` set is retained for v1.1. README uses actual production captures. Local captures remain separate. The application has no multi-page router; its entry URL and refresh must work. Detailed results, including two individually rerun business cases, are in [docs/14-BACKUP.md](docs/14-BACKUP.md).
 
 ## Formal release
 

@@ -80,4 +80,4 @@
 - [x] Restore unfinished timers paused without adding elapsed time since backup
 - [x] Keep current storage and stores on validation or persistence failure
 - [x] Preserve future-schema write protection and browser notification permissions
-- [ ] Production browser acceptance and release record
+- [x] Production browser acceptance and release record

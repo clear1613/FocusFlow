@@ -10,7 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/production/desktop-zh-CN.png" alt="FocusFlow v1.1.0 中文界面：番茄钟、任务清单、专注统计与右上角语言切换" width="100%" />
+  <img src="docs/screenshots/v1.2/production/language/desktop-zh-CN.png" alt="FocusFlow v1.2.0 中文界面：番茄钟、任务清单、专注统计与右上角语言切换" width="100%" />
 </p>
 
 > 正式站点运行截图（2026-10-29 验收时重拍），画面使用示例任务。更多桌面端、移动端、弹窗与暗色模式截图见 [界面截图](docs/screenshots/README.md)。
@@ -120,7 +120,7 @@ flowchart LR
 
 ## 验收结果
 
-**v1.2.0 本地验收已通过，生产复验随部署完成后补录。** 历史版本的验证记录见[发布记录](docs/11-RELEASE.md)。
+**v1.2.0 已上线并完成生产复验。** 历史版本的验证记录见[发布记录](docs/11-RELEASE.md)。
 
 | 检查 | 命令 | 已记录结果 |
 | --- | --- | --- |
@@ -128,15 +128,15 @@ flowchart LR
 | 自动化测试 | `npm run test` | 23 个测试文件，123 个用例通过 |
 | 构建 | `npm run build` | TypeScript 检查与 Vite 构建通过 |
 | 发布校验 | `npm run verify:release` | 必需文件、lockfile、Node 版本与本地链接校验通过 |
-| 备份专项 | `node scripts/backup-acceptance.cjs` | 本地 4/4 通过，真实下载与恢复、中英文、手机、暗色、失败保护 |
-| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.2.0` | 本地 11/11 通过，0 非预期错误 |
-| 语言验收 | `python scripts/language-acceptance.py --expected-version 1.2.0` | 本地 4/4 通过，中文默认与中英切换 |
+| 备份专项 | `node scripts/backup-acceptance.cjs` | 本地与线上均 4/4 通过，真实下载与恢复、中英文、手机、暗色、失败保护 |
+| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.2.0` | 本地 11/11；线上 11 项均通过，其中 2 项因连接中断单独重跑；0 非预期应用错误 |
+| 语言验收 | `python scripts/language-acceptance.py --expected-version 1.2.0` | 本地与线上均 4/4 通过，中文默认与中英切换 |
 
 浏览器验收使用独立上下文与示例任务；计时推进方式在结果文件中标注。后台计时另有真实等待验证。
 
 v1.1.0 首页交互改版曾完成线上业务 11/11、语言 4/4、71 项扩展 UI 检查及后台计时真实等待验收；历史记录保留在 [验收记录](docs/10-ACCEPTANCE.md)。v1.2.0 新增 23 项自动化用例，覆盖备份格式、数据一致性、恢复提交、预览与失败保护。
 
-[发布记录](docs/11-RELEASE.md) · [完整验收记录](docs/10-ACCEPTANCE.md) · [浏览器验收结果](docs/acceptance/production.json)
+[发布记录](docs/11-RELEASE.md) · [备份与本轮验收](docs/14-BACKUP.md) · [业务覆盖汇总及重跑记录](docs/acceptance/v1.2-business-production.json)
 
 ## 技术阅读入口
 

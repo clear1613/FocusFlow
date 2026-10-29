@@ -8,6 +8,10 @@
 
 选择备份文件后，应用先校验并展示备份时间、任务数与记录数；确认替换后恢复，取消导入则不改变当前数据。该操作会覆盖当前数据及正在进行的计时，界面提示先导出当前备份。
 
+![线上中文备份预览：备份时间、任务与记录数、暂停恢复说明、替换确认](screenshots/backup/production/desktop-zh-preview.png)
+
+该图取自正式站点的独立验收上下文，使用示例任务。手机与英文暗色截图见 `docs/screenshots/backup/production/`。
+
 ## 数据与失败处理
 
 - 文件格式 `focusflow-backup`，文件版本 1，业务 schema 沿用 V2；上限 5 MB。
@@ -28,10 +32,24 @@ python scripts/browser-acceptance.py --expected-version 1.2.0 --output docs/acce
 python scripts/language-acceptance.py --expected-version 1.2.0 --output docs/acceptance/v1.2-language-local.json --screenshots-dir docs/screenshots/v1.2/local/language
 ```
 
-本地浏览器验收前需启动开发服务。备份脚本需要 Node 可解析 `playwright/test`（本轮使用 Playwright 1.62.1，可通过 `NODE_PATH` 指向已有安装），另两个脚本需要 Python Playwright；均使用已安装的 Microsoft Edge，不属于应用运行依赖。测试使用独立上下文和示例任务，计时由脚本推进；下载内容仅保存在临时目录，结束后删除。存储配额错误为刻意注入，单独记录，与非预期错误区分。
+本地浏览器验收前需启动开发服务。备份脚本需要 Node 可解析 `playwright/test`（本轮使用 Playwright 1.62.1，可通过 `NODE_PATH` 指向已有安装），另两个脚本的生产复验使用 Python 3.12 / Playwright 1.64.1；均使用已安装的 Microsoft Edge，不属于应用运行依赖。测试使用独立上下文和示例任务，Python 用例进一步隔离浏览器进程；计时由脚本推进，下载内容仅保存在临时目录，结束后删除。存储配额错误为刻意注入，单独记录，与非预期错误区分。
 
 当前自动化测试为 23 个文件、123 个用例通过。新增备份测试 23 项，覆盖核心校验、暂停恢复、预览 / 取消 / 确认、中英文和失败保护。
 
 本地备份专项 **4/4**、业务回归 **11/11**、语言验收 **4/4**，均无非预期错误。备份专项覆盖真实下载、Unicode、预览取消不写入、覆盖恢复、同一 Session 刷新与继续、损坏 JSON、未来格式 / 数据版本，以及存储配额失败保留原数据。截图覆盖桌面、375 中文、390 英文暗色、横屏英文。
 
-结果：[备份](acceptance/backup-local.json)、[业务](acceptance/v1.2-business-local.json)、[语言](acceptance/v1.2-language-local.json)。生产验收待部署后补录。
+本地结果：[备份](acceptance/backup-local.json)、[业务](acceptance/v1.2-business-local.json)、[语言](acceptance/v1.2-language-local.json)。
+
+## 发布与生产验收
+
+功能提交 `79aae93` 已正常推送，保留远端新增的部署文档提交。[CI #19](https://github.com/clear1613/FocusFlow/actions/runs/40891629650) 成功，Pages 已部署 v1.2.0；功能验收时的线上 JS 指纹 `index-pMmKB1_D.js` 与当时的本地 Pages 构建一致。
+
+| 范围 | 实际结果 | 原始记录 |
+| --- | --- | --- |
+| 备份专项 | 4/4，0 非预期错误，0 导航重试 | [backup-production.json](acceptance/backup-production.json) |
+| 语言验收 | 4/4，0 非预期错误，0 导航重试 | [v1.2-language-production.json](acceptance/v1.2-language-production.json) |
+| 业务回归 | 11 项均通过：完整运行 9 项通过，2 项首次导航连接中断后单独重跑通过 | [覆盖汇总](acceptance/v1.2-business-production.json) |
+
+业务汇总保留每项用例的原始文件指针，不将多次运行写成一次连续的 11/11：[完整运行](acceptance/v1.2-business-production-attempt.json)、[通知不支持重跑](acceptance/v1.2-business-production-unsupported_notification.json)、[权限请求失败重跑](acceptance/v1.2-business-production-permission_failure.json)。两项重跑均无导航重试、无非预期应用错误。
+
+验收期间出现过 `ERR_CONNECTION_CLOSED`，发生在初次文档导航阶段；之前不完整的运行保留在 [连接中断记录](acceptance/v1.2-network-attempts.json)。脚本只对已知连接中断最多重试两次并记录，业务断言不重试、不放宽。更新测试工具并隔离 Python 用例的浏览器进程后完成复验。v1.1.0 的 71 项扩展 UI 与真实等待后台计时记录仍作为历史结果保留，本轮没有将它们记为重新运行。
