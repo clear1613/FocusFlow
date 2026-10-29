@@ -14,6 +14,7 @@ const requiredFiles = [
   'docs/02-TECH_DESIGN.md',
   'docs/03-ENGINEERING.md',
   'docs/13-LANGUAGE.md',
+  'docs/14-BACKUP.md',
   'vite.config.ts',
   'docs/11-RELEASE.md',
   '.github/workflows/ci.yml',
@@ -80,7 +81,7 @@ for (const file of [...files, ...tracked]) {
   }
 }
 let links = 0;
-const textExtensions = new Set(['.md', '.ts', '.tsx', '.js', '.mjs', '.json', '.html', '.svg', '.yml', '.yaml', '.py', '.css']);
+const textExtensions = new Set(['.md', '.ts', '.tsx', '.js', '.mjs', '.cjs', '.json', '.html', '.svg', '.yml', '.yaml', '.py', '.css']);
 for (const file of files) {
   if (!textExtensions.has(extname(file))) continue;
   const source = await readFile(file, 'utf8');

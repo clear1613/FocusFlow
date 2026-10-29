@@ -24,7 +24,11 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
   useEffect(() => {
     const onStorageReset = () => setStorageNotice(null);
     window.addEventListener('focusflow:storage-reset', onStorageReset);
-    return () => window.removeEventListener('focusflow:storage-reset', onStorageReset);
+    window.addEventListener('focusflow:storage-restored', onStorageReset);
+    return () => {
+      window.removeEventListener('focusflow:storage-reset', onStorageReset);
+      window.removeEventListener('focusflow:storage-restored', onStorageReset);
+    };
   }, []);
 
   return (

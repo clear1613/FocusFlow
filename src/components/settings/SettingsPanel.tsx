@@ -10,6 +10,7 @@ import { useTimerStore } from '../../stores/timerStore';
 import type { ThemeMode } from '../../types';
 import { Button } from '../common/Button';
 import { ConfirmDialog } from '../common/ConfirmDialog';
+import { BackupPanel } from './BackupPanel';
 
 type DurationKey = 'focusMinutes' | 'shortBreakMinutes' | 'longBreakMinutes';
 type NumberSettingKey = DurationKey | 'longBreakInterval';
@@ -256,6 +257,8 @@ export function SettingsPanel() {
           </select>
         </label>
       </fieldset>
+
+      <BackupPanel />
 
       <div className="mt-6 border-t border-neutral-100 pt-5 dark:border-neutral-800">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

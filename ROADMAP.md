@@ -73,3 +73,11 @@
 - [x] Final license review
 - [x] Local acceptance: clean install, quality gates, desktop/mobile browser checks and real elapsed-time recovery
 - [x] Replace README design preview with a real local application screenshot (sample data)
+
+## V1.2 — Backup and restore
+- [x] Export all current tasks, Sessions, timer and settings to a versioned JSON file
+- [x] Validate and preview an imported file before explicit replacement
+- [x] Restore unfinished timers paused without adding elapsed time since backup
+- [x] Keep current storage and stores on validation or persistence failure
+- [x] Preserve future-schema write protection and browser notification permissions
+- [ ] Production browser acceptance and release record

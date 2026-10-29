@@ -2,7 +2,7 @@
 
 **A released web application for tasks, Pomodoro timing, focus sessions and daily analytics.**
 
-Create today's tasks, select one to work on, and track progress through completed focus sessions. Tasks, timer state and session records are saved in the current browser and restored after a page refresh.
+Create today's tasks, select one to work on, and track progress through completed focus sessions. Tasks, timer state and session records are saved in the current browser and restored after a page refresh. Export a backup file to keep your records or restore them in another browser.
 
 [Open FocusFlow](https://clear1613.github.io/FocusFlow/) · [Architecture](docs/architecture.md) · [Release record](docs/11-RELEASE.md) · [中文](README.md)
 
@@ -20,9 +20,9 @@ Create today's tasks, select one to work on, and track progress through complete
 | | |
 | --- | --- |
 | **Workflow** | Create task → select task → focus → record Session → update progress → review analytics |
-| **Release** | v1.1.0, Chinese-first interface with English switching |
-| **Quality gate** | lint 0 errors 0 warnings · `tsc -b` + Vite build 962 modules · release-structure audit |
-| **Production** | GitHub Pages, 11/11 browser acceptance across 3 viewports, 0 unexpected console errors |
+| **Release** | v1.2.0, backup and restore, Chinese by default with English switching |
+| **Quality gate** | lint 0 errors 0 warnings · 123 tests · TypeScript and Vite build · release audit |
+| **Hosting** | GitHub Pages |
 | **Stack** | React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · Zustand · Recharts · Vitest |
 | **Data** | Business data saved in browser LocalStorage; no registration required |
 | **Development** | Personal project, built end to end: requirements, frontend implementation, automated tests and deployment |
@@ -35,6 +35,7 @@ Create today's tasks, select one to work on, and track progress through complete
 - **Recovery:** restore timer state after refresh and process expired Sessions through the completion flow.
 - **Analytics:** today's progress as one sentence (focus time, sessions, tasks, streak), plus a rule-based conclusion for the last seven days.
 - **Persistence:** versioned storage, migration, validation, damaged-data fallback and incompatible-version write protection.
+- **Backup and restore:** export JSON from Settings, preview an imported file, then explicitly confirm replacement. Unfinished timers restore paused; failed imports retain current data.
 - **Preferences:** a settings dialog behind the header icon — durations, automatic phase starts, switch-style sound and notification, theme and data reset.
 - **Interface:** system/light/dark themes, responsive layout, keyboard-accessible dialogs and focus management.
 - **Languages:** Chinese by default; switch to English in the top-right corner. The choice persists after refresh.
@@ -48,7 +49,7 @@ The application opens in Chinese. Select **English** in the top-right language c
 3. Review task progress when the Session completes, then take a short or long break.
 4. Use the analytics panel to review today's activity and the last seven days.
 
-Records stay in the current browser; clearing site data removes them. Browsers and devices keep separate records.
+Records stay in the current browser; clearing site data removes them. Use **Settings → Backup and restore** to export a file and import it on another browser or device. Import replaces current data after confirmation, so export a backup first. Files are limited to 5 MB. See the [backup guide](docs/14-BACKUP.md).
 
 ## Engineering design
 
@@ -111,18 +112,17 @@ version write protection, streak boundaries across local midnight, and the
 
 ## Release verification
 
-Results below are for **v1.1.0**; the first release (v1.0.0) is recorded in the [release notes](docs/11-RELEASE.md).
+**v1.2.0 local checks pass; production verification will be recorded after deployment.** Earlier results remain in the [release notes](docs/11-RELEASE.md).
 
 | Check | Command | Last recorded result |
 | --- | --- | --- |
-| Install | `npm ci` | passes, 0 vulnerabilities |
 | Lint | `npm run lint` | 0 errors, 0 warnings |
-| Tests | `npm run test` | 20 files, 100 tests passing |
+| Tests | `npm run test` | 23 files, 123 tests passing |
 | Build | `npm run build` | TypeScript check and Vite build pass |
 | Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
-| Production browser acceptance | `python scripts/browser-acceptance.py --production` | 11/11 PASS, Desktop + 375×812 + 390×844, 0 unexpected console errors |
-| Production language acceptance | `python scripts/language-acceptance.py` | 4/4 PASS, Chinese default with English switching |
-| Background timing | `python scripts/background-acceptance.py` | real elapsed-time check with a frozen page |
+| Backup acceptance | `node scripts/backup-acceptance.cjs` | local 4/4 PASS: real downloads, restore, mobile, dark mode and failure protection |
+| Business regression | `python scripts/browser-acceptance.py --expected-version 1.2.0` | local 11/11 PASS, no unexpected errors |
+| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.2.0` | local 4/4 PASS, Chinese default and English switching |
 
 Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
 [`docs/11-RELEASE.md`](docs/11-RELEASE.md),
@@ -173,8 +173,9 @@ npm run check   # lint + test + build + release audit
 | [`03-ENGINEERING.md`](docs/03-ENGINEERING.md) | directory layout, state, persistence, testing and commit conventions |
 | [`04`](docs/04-PHASE1-TIMER-CORRECTNESS.md) – [`09`](docs/09-PHASE6-GITHUB-DELIVERY.md) | phase records: what broke, what was fixed, how it was verified |
 | [`10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md) | acceptance record: environment, case matrix, fixed defects |
-| [`11-RELEASE.md`](docs/11-RELEASE.md) | release notes for v1.1.0 and v1.0.0 |
+| [`11-RELEASE.md`](docs/11-RELEASE.md) | version history and release verification |
 | [`13-LANGUAGE.md`](docs/13-LANGUAGE.md) | Chinese-first UI with English switching: design and verification |
+| [`14-BACKUP.md`](docs/14-BACKUP.md) | backup format, preview, restore and failure protection |
 
 ## License
 
