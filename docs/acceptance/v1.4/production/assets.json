@@ -1,0 +1,45 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "feature_commit": "04a7798a7816a65df8485b5c7da48ce6e0997027",
+  "entry": "/FocusFlow/assets/index-DXVcUyfL.js",
+  "result": "PASS",
+  "assets": [
+    {
+      "file": "format-C2z1pICL.js",
+      "bytes": 19162,
+      "sha256": "f0778ab48891269d83a6da91d69db91da7872bfad73982752a1c9e27a9a0794d"
+    },
+    {
+      "file": "HistoryView-Cs3NzIdL.js",
+      "bytes": 13358,
+      "sha256": "107eada9ac2dd10c018702fe49cf27f3655f535e6b8841fce604fbdff317ded9"
+    },
+    {
+      "file": "index-DXVcUyfL.js",
+      "bytes": 297092,
+      "sha256": "7d289321157aabe84693d0ca5a24edfa643b4533339d735e90463fd2273ba2b2"
+    },
+    {
+      "file": "index-U0KiOM1N.css",
+      "bytes": 33785,
+      "sha256": "34703c9073695e78d9c45063152c41f0f5608ad38d03af6d73147614b6bb6514"
+    },
+    {
+      "file": "SettingsPanel-VvdA65-L.js",
+      "bytes": 14273,
+      "sha256": "fce5d6051c64054fd72c89760f56b1a5a89ec2a9e2fc24c57bda54d88c170dd7"
+    },
+    {
+      "file": "TaskList-C0ZA6heL.js",
+      "bytes": 9566,
+      "sha256": "70091f88815ea7d38d8158caa0aa9c6aaa0167f38292b37900b7b95def849496"
+    },
+    {
+      "file": "WeeklyChart-Bi1qAilZ.js",
+      "bytes": 360498,
+      "sha256": "eec45567aa0246e62344db9a009b94d4d2b48e1e9e0452d1697247ced5413e73"
+    }
+  ],
+  "favicon_matches": true,
+  "scope": "Exact bytes of every built JavaScript and CSS asset, plus favicon; business assertions run separately"
+}

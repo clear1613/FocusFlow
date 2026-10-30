@@ -1,7 +1,5 @@
 # FocusFlow · 个人专注与任务管理工具
 
-> 当前线上版本仍为 v1.3.0。v1.4.0 升级已通过本地验证，尚未推送和部署，见[断点与继续步骤](docs/16-RELIABILITY.md#当前断点与继续步骤)。
-
 **已发布的 Web 应用，集任务管理、番茄钟、专注记录与数据统计于一体。**
 
 用户可以创建今天的任务，选择任务开始专注，并在完成后查看任务进度、当天专注时长、近七天趋势和每次专注的历史明细。任务、计时状态与记录保存在当前浏览器，支持 CSV 导出、文件备份与跨浏览器恢复。
@@ -12,16 +10,16 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/v1.3/production/language/desktop-zh-CN.png" alt="FocusFlow v1.3.0 中文界面：番茄钟、任务清单、统计，以及右上角的历史、语言与设置入口" width="100%" />
+  <img src="docs/screenshots/v1.4/production/language/desktop-zh-CN.png" alt="FocusFlow v1.4.0 中文界面：番茄钟、任务清单、统计，以及右上角的历史、语言与设置入口" width="100%" />
 </p>
 
-> 正式站点 v1.3.0 验收截图，画面使用示例任务。更多桌面端、移动端、历史、弹窗与暗色模式截图见 [界面截图](docs/screenshots/README.md)。
+> 正式站点 v1.4.0 验收截图，画面使用示例任务。更多桌面端、移动端、历史、弹窗与暗色模式截图见 [界面截图](docs/screenshots/README.md)。
 
 ## 项目概览
 
 | 项目 | 内容 |
 | --- | --- |
-| 当前版本 | v1.3.0，新增专注历史、筛选、每日汇总与 CSV 导出；默认中文，支持英文 |
+| 当前版本 | v1.4.0，新增多窗口保护与按需加载；默认中文，支持英文 |
 | 完整流程 | 创建任务 → 选择任务 → 开始专注 → 记录 Session → 更新任务进度 → 查看统计 |
 | 开发形式 | 个人独立开发，覆盖需求整理、前端实现、自动化测试与上线交付 |
 | 核心技术 | React 19、TypeScript、Vite 7、Tailwind CSS 4、Zustand、Recharts |
@@ -42,6 +40,8 @@
 | 备份与恢复 | 设置中导出 JSON 文件，导入前预览并确认替换；未结束的计时恢复为暂停，失败保留当前数据 |
 | 提醒与设置 | 右上角设置弹窗：时长与长休息间隔、自动开始、开关式声音与通知、主题、清空数据 |
 | 界面适配 | 浅色、深色及系统主题，响应式布局，弹窗键盘操作与焦点管理 |
+| 多窗口保护 | 同一浏览器只允许一个窗口编辑，其他窗口同步查看；关闭原窗口后自动接管，避免旧快照覆盖新数据 |
+| 加载体验 | 图表、历史、设置和任务区域分开加载，局部加载失败时计时继续运行 |
 | 中英文界面 | 默认中文，右上角切换 English；保存语言选择，刷新后沿用 |
 
 ## 使用流程
@@ -53,6 +53,8 @@
 3. 专注结束后查看任务累计进度，进入短休息或长休息。
 4. 在统计区域查看当天完成情况和近七天专注趋势。
 5. 打开右上角“专注历史”，回顾记录或导出 CSV；查看历史时计时继续运行，返回工作台保留任务草稿。
+
+同一浏览器打开多个窗口时，后开的窗口会进入只读同步视图。关闭正在使用的窗口后，等待窗口自动接管；浏览器不支持协调能力时会说明原因并保持只读，见[多窗口说明](docs/16-RELIABILITY.md)。
 
 应用无需注册。数据保存在当前浏览器；清除站点数据会移除本地记录。可在设置的“备份与恢复”中导出文件，再导入其他浏览器或设备；确认导入会替换当前数据，建议先导出备份。文件上限 5 MB，详见 [备份与恢复](docs/14-BACKUP.md)。
 
@@ -124,24 +126,26 @@ flowchart LR
 
 ## 验收结果
 
-**v1.3.0 已上线并完成生产复验。** 本轮结果见[历史与复盘验收](docs/15-HISTORY.md)，历史版本记录见[发布记录](docs/11-RELEASE.md)。
+**v1.4.0 已上线并完成生产复验。** 设计、限制、原始报告与重跑记录见[多窗口保护与加载优化](docs/16-RELIABILITY.md)。
 
 | 检查 | 命令 | 已记录结果 |
 | --- | --- | --- |
 | 静态检查 | `npm run lint` | 0 error，0 warning |
-| 自动化测试 | `npm run test` | 26 个测试文件，148 个用例通过 |
-| 构建 | `npm run build` | TypeScript 检查与 Vite 构建通过 |
-| 发布校验 | `npm run verify:release` | 必需文件、lockfile、Node 版本与本地链接校验通过 |
-| 历史专项 | `python scripts/history-acceptance.py` | 本地 4/4；线上 4 项均通过，含 1 项导航失败后单独重跑；真实 CSV、跨页导出、汇总、计时与备份恢复联动 |
-| 备份专项 | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | 本地与线上均 4/4，真实下载与恢复、失败保护 |
-| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.3.0` | 本地 11/11；线上 11 项均通过，含 5 项导航失败后单独重跑 |
-| 语言验收 | `python scripts/language-acceptance.py --expected-version 1.3.0` | 本地 4/4；线上 4 项均通过，含 1 项导航失败后单独重跑 |
+| 自动化测试 | `npm run test` | 29 个测试文件，162 个用例通过 |
+| 构建 | `npm run build` | TypeScript、Vite 与入口 300,000 字节预算通过 |
+| 发布校验 | `npm run verify:release` | 文件、lockfile、Node、链接及覆盖汇总的原始报告引用校验通过 |
+| 多窗口与加载失败专项 | `python scripts/coordination-acceptance.py` | 本地 8/8；线上 8 项覆盖通过，含 7 项连接故障后的单独重跑 |
+| 历史与 CSV | `python scripts/history-acceptance.py` | 本地 4/4；线上 4 项覆盖通过，含 2 项单独重跑 |
+| 备份与恢复 | `node scripts/backup-acceptance.cjs` | 本地与线上均完整运行 4/4 |
+| 业务回归 | `python scripts/browser-acceptance.py --expected-version 1.4.0` | 本地 11/11；线上 11 项覆盖通过，含 9 项单独重跑 |
+| 语言 | `python scripts/language-acceptance.py` | 本地 4/4；线上 4 项覆盖通过，含 2 项单独重跑 |
+| 真实等待后台计时与接管 | `python scripts/background-acceptance.py --with-reader` | 线上真实冻结约 181 秒，剩余 118 秒 / 预期 118 秒；同一 Session，0 pageerror |
 
-浏览器验收使用独立上下文与示例任务；计时推进方式在结果文件中标注。线上未发现非预期应用错误，连接中断的完整运行与单独重跑结果均保留，覆盖汇总不记作一次连续全通过。后台计时的真实等待验证保留在历史记录中。
+浏览器验收使用独立上下文与示例任务，线上无非预期应用错误。首轮的连接中断、导航 / 重载超时与单项重跑分别保留；四个覆盖汇总不记作一次连续全通过。模块请求失败与备份存储失败为刻意注入，单独记录。
 
-v1.3.0 新增 25 项自动化用例，历史查询与 CSV 的 19 项另在纽约时区通过，覆盖夏令时边界。v1.2.0 的 123 项测试及生产验收见 [备份记录](docs/14-BACKUP.md)；v1.1.0 的扩展 UI 与真实等待后台计时记录保留在 [验收记录](docs/10-ACCEPTANCE.md)。
+入口 JS 从 706,261 降至 297,092 字节，减少 **57.93%**。这是构建产物大小比较，不代表整页下载量或实测加载时间；首页图表和任务区域仍会异步请求。线上 7 个 JS/CSS 文件及 favicon 与本地构建逐字节一致。
 
-[发布记录](docs/11-RELEASE.md) · [历史与本轮验收](docs/15-HISTORY.md) · [线上历史覆盖与重跑记录](docs/acceptance/v1.3/production/history.json)
+v1.4.0 新增 14 项测试。v1.3.0 的 148 项基线及当时的纽约时区验证保留在[历史记录](docs/15-HISTORY.md)，其他版本的数字见[发布记录](docs/11-RELEASE.md)。
 
 ## 技术阅读入口
 
@@ -153,6 +157,7 @@ v1.3.0 新增 25 项自动化用例，历史查询与 CSV 的 19 项另在纽约
 | 数据校验与迁移 | [storageSchema.ts](src/services/storageSchema.ts)、[storageMigration.test.ts](src/services/storageMigration.test.ts) |
 | 备份与安全恢复 | [backupService.ts](src/services/backupService.ts)、[backupActions.ts](src/services/backupActions.ts)、[备份说明](docs/14-BACKUP.md) |
 | 历史筛选、分组与 CSV | [historyService.ts](src/services/historyService.ts)、[historyCsvService.ts](src/services/historyCsvService.ts)、[历史说明](docs/15-HISTORY.md) |
+| 多窗口权限与加载隔离 | [tabCoordinator.ts](src/services/tabCoordinator.ts)、[DeferredPanel.tsx](src/components/common/DeferredPanel.tsx)、[可靠性说明](docs/16-RELIABILITY.md) |
 | 自动化交付 | [ci.yml](.github/workflows/ci.yml)、[verify-release.mjs](scripts/verify-release.mjs) |
 
 ## 本地运行
@@ -182,6 +187,7 @@ npm run check   # lint + test + build + 发布校验
 - [验收记录](docs/10-ACCEPTANCE.md)：验收环境、用例矩阵与修复记录。
 - [语言切换](docs/13-LANGUAGE.md)：默认中文与中英切换的设计与验证。
 - [备份与恢复](docs/14-BACKUP.md)：文件格式、预览确认、计时恢复与失败保护。
+- [多窗口保护与加载优化](docs/16-RELIABILITY.md)：单写入、只读同步、接管、局部错误边界与构建预算。
 - [历史与复盘](docs/15-HISTORY.md)：记录、日期边界、筛选汇总、分页与 CSV。
 
 ## 许可

@@ -1,0 +1,68 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "report_type": "combined coverage with separately recorded transport reruns",
+  "note": "The full run passed 1/8. The remaining 7 cases had document navigation or reload connection failures/timeouts and passed unchanged in separate runs. This is not a single uninterrupted full pass. Original failures and all reruns remain under raw/.",
+  "rerun_cases": [
+    "mobile-375-zh",
+    "mobile-390-en-dark",
+    "landscape-en",
+    "reload-and-return",
+    "unsupported-lock",
+    "history-chunk-failure",
+    "chart-chunk-failure"
+  ],
+  "source_files": [
+    "raw/coordination-attempt.json",
+    "raw/coordination-mobile-375-zh.json",
+    "raw/coordination-mobile-390-en-dark.json",
+    "raw/coordination-landscape-en.json",
+    "raw/coordination-reload-and-return.json",
+    "raw/coordination-unsupported-lock.json",
+    "raw/coordination-history-chunk-failure.json",
+    "raw/coordination-chart-chunk-failure.json"
+  ],
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS",
+      "source": "raw/coordination-attempt.json"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS",
+      "source": "raw/coordination-mobile-375-zh.json"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "PASS",
+      "source": "raw/coordination-mobile-390-en-dark.json"
+    },
+    {
+      "case": "landscape-en",
+      "result": "PASS",
+      "source": "raw/coordination-landscape-en.json"
+    },
+    {
+      "case": "reload-and-return",
+      "result": "PASS",
+      "source": "raw/coordination-reload-and-return.json"
+    },
+    {
+      "case": "unsupported-lock",
+      "result": "PASS",
+      "source": "raw/coordination-unsupported-lock.json"
+    },
+    {
+      "case": "history-chunk-failure",
+      "result": "PASS",
+      "source": "raw/coordination-history-chunk-failure.json"
+    },
+    {
+      "case": "chart-chunk-failure",
+      "result": "PASS",
+      "source": "raw/coordination-chart-chunk-failure.json"
+    }
+  ],
+  "unexpected_errors": []
+}

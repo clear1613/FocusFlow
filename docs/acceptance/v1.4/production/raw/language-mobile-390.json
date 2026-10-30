@@ -1,0 +1,19 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "browser": "isolated Microsoft Edge",
+  "browser_locale": "en-US",
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks and an English browser locale",
+  "results": [
+    {
+      "case": "mobile-390",
+      "result": "PASS",
+      "languages": [
+        "zh-CN",
+        "en"
+      ]
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

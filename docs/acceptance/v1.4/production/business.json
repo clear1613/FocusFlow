@@ -1,0 +1,87 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "report_type": "combined coverage with separately recorded transport reruns",
+  "note": "The full run passed 2/11. The remaining 9 cases had document navigation or reload connection failures/timeouts and passed unchanged in separate runs. This is not a single uninterrupted full pass. Original failures and all reruns remain under raw/.",
+  "rerun_cases": [
+    "persistence",
+    "expired_analytics",
+    "theme_modal_mobile",
+    "notification",
+    "denied_notification",
+    "unsupported_notification",
+    "permission_failure",
+    "native_notification_granted",
+    "capture_readme"
+  ],
+  "source_files": [
+    "raw/business-attempt.json",
+    "raw/business-persistence.json",
+    "raw/business-expired_analytics.json",
+    "raw/business-theme_modal_mobile.json",
+    "raw/business-notification.json",
+    "raw/business-denied_notification.json",
+    "raw/business-unsupported_notification.json",
+    "raw/business-permission_failure.json",
+    "raw/business-native_notification_granted.json",
+    "raw/business-capture_readme.json"
+  ],
+  "results": [
+    {
+      "case": "task_timer",
+      "result": "PASS",
+      "source": "raw/business-attempt.json"
+    },
+    {
+      "case": "reset_skip_cycle",
+      "result": "PASS",
+      "source": "raw/business-attempt.json"
+    },
+    {
+      "case": "persistence",
+      "result": "PASS",
+      "source": "raw/business-persistence.json"
+    },
+    {
+      "case": "expired_analytics",
+      "result": "PASS",
+      "source": "raw/business-expired_analytics.json"
+    },
+    {
+      "case": "theme_modal_mobile",
+      "result": "PASS",
+      "source": "raw/business-theme_modal_mobile.json"
+    },
+    {
+      "case": "notification",
+      "result": "PASS",
+      "source": "raw/business-notification.json"
+    },
+    {
+      "case": "denied_notification",
+      "result": "PASS",
+      "source": "raw/business-denied_notification.json"
+    },
+    {
+      "case": "unsupported_notification",
+      "result": "PASS",
+      "source": "raw/business-unsupported_notification.json"
+    },
+    {
+      "case": "permission_failure",
+      "result": "PASS",
+      "source": "raw/business-permission_failure.json"
+    },
+    {
+      "case": "native_notification_granted",
+      "result": "PASS",
+      "source": "raw/business-native_notification_granted.json"
+    },
+    {
+      "case": "capture_readme",
+      "result": "PASS",
+      "source": "raw/business-capture_readme.json"
+    }
+  ],
+  "unexpected_errors": []
+}

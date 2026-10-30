@@ -2,7 +2,8 @@
 
 这份记录说明当前版本是怎么验的、验了什么、结果如何，以及验收过程中发现并修掉的问题。脚本、命令和原始结果都在仓库里，可以照着重跑。
 
-- 当前 `1.3.0` 本地与生产验收已完成，新增历史与 CSV，结果含完整运行与单项导航重跑记录，见 [历史与复盘](15-HISTORY.md)。
+- 当前 `1.4.0` 本地与生产验收已完成，新增多窗口保护与加载优化，覆盖 31 项浏览器用例并单列连接重跑，见[可靠性记录](16-RELIABILITY.md)。
+- `1.3.0` 本地与生产验收已完成，新增历史与 CSV，结果含完整运行与单项导航重跑记录，见 [历史与复盘](15-HISTORY.md)。
 - `1.2.0` 本地与生产复验见 [备份与恢复](14-BACKUP.md)，包含原始运行与连接中断重跑记录。
 - `1.1.0` 的语言切换专项验收见 [中文默认界面与语言切换](13-LANGUAGE.md)。
 - 首发版本 `1.0.0` 的发布信息见 [发布记录](11-RELEASE.md)。
@@ -23,13 +24,13 @@
 
 | 检查 | 当前结果 |
 | --- | --- |
-| `npm ci` | GitHub Actions #21 安装通过；历史审计数见发布记录 |
+| `npm ci` | GitHub Actions #24 安装通过；历史审计数见发布记录 |
 | `npm run lint` | 0 error，0 warning |
-| `npm run test` | 26 个测试文件，148/148 通过 |
+| `npm run test` | 29 个测试文件，162/162 通过 |
 | `npm run build` | TypeScript 检查通过，Vite 构建通过 |
 | `npm run verify:release` | 必需文件、锁文件、Node 版本、CI 命令与本地链接全部通过 |
 
-`1.0.0` 首发时为 19 个测试文件、78 个用例；`1.1.0` 新增 8 个语言、数据兼容与 V1 → V2 迁移用例；首页交互改版与空状态连续天数修复后累计 100 个；`1.2.0` 新增 23 个备份用例，累计 123 个；`1.3.0` 新增 25 个历史与 CSV 用例，累计 148 个。
+`1.0.0` 首发时为 19 个测试文件、78 个用例；`1.1.0` 新增 8 个语言、数据兼容与 V1 → V2 迁移用例；首页交互改版与空状态连续天数修复后累计 100 个；`1.2.0` 新增 23 个备份用例，累计 123 个；`1.3.0` 新增 25 个历史与 CSV 用例，累计 148 个；`1.4.0` 新增 14 项多窗口、权限和加载失败用例，累计 162 个。
 
 ## 3. 浏览器验收
 
@@ -99,7 +100,7 @@ python scripts/language-acceptance.py
 线上复验：
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.3.0 \
+python scripts/browser-acceptance.py --production --expected-version 1.4.0 \
   --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/business.json
 python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlow/ \
   --output .artifacts/acceptance/production/language.json --screenshots-dir .artifacts/screenshots/production/language
@@ -109,7 +110,7 @@ python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlo
 
 ## 6. 非阻断项
 
-- Vite 主 JS chunk 超过 500 kB，暂未做包拆分；
+- 历史版本的 Vite 主 chunk 超过 500 kB 提示已在 v1.4 模块拆分后消除，当前入口为 297,092 字节；
 - npm 提示 ESLint 版本停止维护、esbuild 安装脚本未配置 allowScripts；
 - 依赖审计为 0 只代表当前时点，不等同于永久无漏洞，工具链升级另行安排。
 

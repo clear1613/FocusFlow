@@ -1,0 +1,14 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "case_filter": "landscape-en",
+  "clock": "Script-controlled time; sample tasks; isolated Edge processes; real downloaded CSV files",
+  "results": [
+    {
+      "case": "landscape-en",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

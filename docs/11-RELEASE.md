@@ -1,8 +1,18 @@
 # FocusFlow 发布记录
 
-当前线上版本 **v1.3.0**，托管在 GitHub Pages。
+当前线上版本 **v1.4.0**，托管在 GitHub Pages。
 
-> 本文保留各版本发布时点的验收基线。当前版本的详细结果见 [历史与复盘](15-HISTORY.md)。历史首页交互改版验证见 [验收记录](10-ACCEPTANCE.md)。
+> 本文保留各版本发布时点的验收基线。当前版本的详细结果见 [多窗口保护与加载优化](16-RELIABILITY.md)。历史首页交互改版验证见 [验收记录](10-ACCEPTANCE.md)。
+
+## v1.4.0 — 多窗口保护与加载优化
+
+2026-10-30 上线并完成生产复验。一个窗口负责写入，其他窗口同步查看，关闭写入窗口后自动接管；接管前读取最新状态并恢复过期计时。原有 V2 数据和版本 1 备份保持兼容。
+
+任务、图表、设置和历史按需加载，局部模块失败不影响计时。入口 JavaScript 为 297,092 字节，相对 v1.3.0 的 706,261 字节减少 57.93%，构建执行 300,000 字节预算。
+
+29 个测试文件、162 项测试、lint / 类型 / 构建 / 发布门禁通过。功能提交 `04a7798`，[CI #24](https://github.com/clear1613/FocusFlow/actions/runs/40981510991) 成功；线上所有 JS/CSS 与 favicon 匹配本地构建。
+
+生产多窗口 8 项、历史 4 项、业务 11 项、语言 4 项均覆盖通过，分别含 7 / 2 / 9 / 2 项连接故障后单独重跑；备份完整运行 4/4。真实后台冻结约 181 秒及随后接管通过。原始失败、单项重跑与覆盖汇总分别保存，不记作一次连续通过。详情见[本轮验证](16-RELIABILITY.md#发布与生产验收)。
 
 ## v1.3.0 — 专注历史与复盘
 
@@ -63,7 +73,7 @@ CI 在 main 构建时传入 `DEPLOY_BASE_PATH=/<repository-name>/`，由 Vite �
 线上复验：
 
 ```bash
-python scripts/browser-acceptance.py --production --expected-version 1.3.0 \
+python scripts/browser-acceptance.py --production --expected-version 1.4.0 \
   --url https://clear1613.github.io/FocusFlow/ --output .artifacts/acceptance/production/business.json
 python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlow/ \
   --output .artifacts/acceptance/production/language.json --screenshots-dir .artifacts/screenshots/production/language
@@ -71,4 +81,4 @@ python scripts/language-acceptance.py --url https://clear1613.github.io/FocusFlo
 
 完整验收矩阵、原始结果与修复记录见 [验收记录](10-ACCEPTANCE.md)，截图说明见 [截图目录](screenshots/README.md)。
 
-Vite 主 chunk 体积提示与 ESLint / esbuild 的安装提示保留为非阻断项，没有通过删测试、关闭规则或降级依赖来消除。
+v1.0—v1.3 的包体与安装提示保留在历史记录中。v1.4 已拆分动态模块，构建不再出现单个 chunk 超过 500 kB 的提示；未删除测试、关闭规则或降级依赖。

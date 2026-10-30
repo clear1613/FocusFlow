@@ -1,0 +1,24 @@
+{
+  "browser": "Edge 156.0.4314.50",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.4.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "permission_failure",
+      "result": "PASS"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Notification permission request failed. Error: Injected permission failure\n    at window.Notification.requestPermission (<anonymous>:6:46)\n    at Object.requestPermission (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:97160)\n    at w (https://clear1613.github.io/FocusFlow/assets/SettingsPanel-VvdA65-L.js:1:8609)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/SettingsPanel-VvdA65-L.js:1:10740)\n    at onChange (https://clear1613.github.io/FocusFlow/assets/SettingsPanel-VvdA65-L.js:1:12895)\n    at qm (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:9:140239)\n    at https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:9:144997\n    at Yf (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:9:15235)\n    at Eo (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:9:141473)\n    at Go (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:42629)"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

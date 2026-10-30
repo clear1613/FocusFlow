@@ -1,0 +1,14 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "clock": "Script-controlled page clocks; isolated Edge processes; tabs share one real browser context and LocalStorage; built chunks aborted only in named failure cases",
+  "results": [
+    {
+      "case": "landscape-en",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "expected_chunk_errors": [],
+  "navigation_retries": []
+}

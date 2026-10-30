@@ -1,0 +1,76 @@
+{
+  "browser": "Edge 156.0.4314.50",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.4.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "persistence",
+      "result": "PASS"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:87450)\n    at Io (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:118458)\n    at h (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:119532)\n    at Gb (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:120078)\n    at https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:120204"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:87450)\n    at Io (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:118458)\n    at https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:119743"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 2."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to migrate persisted data. Persisted data version 999 is newer than supported version 2."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version."
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": []
+}

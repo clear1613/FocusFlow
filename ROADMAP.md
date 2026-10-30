@@ -99,4 +99,4 @@
 - [x] Lazy task, chart, settings and history panels with local error boundaries
 - [x] Entry JavaScript budget checked by every build
 - [x] Local browser acceptance; versioned evidence and screenshots
-- [ ] Push, CI, production browser acceptance and updated live screenshots
+- [x] Push, CI, production browser acceptance and updated live screenshots

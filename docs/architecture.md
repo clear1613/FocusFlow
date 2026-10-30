@@ -168,3 +168,20 @@ This keeps historical statistics stable even when the user later changes Focus d
 6. Deleting a Task never deletes Session history.
 7. Statistics are derived from Sessions.
 8. Persisted schema changes require migration + validation updates.
+
+## Multi-window ownership and deferred panels (v1.4)
+
+```mermaid
+flowchart LR
+  Entry[Browser entry] --> Lock[Exclusive origin-wide writer lock]
+  Lock --> Recovery[Read latest storage and recover timer]
+  Recovery --> Editable[Editable application]
+  Entry --> Reader[Read-only follower]
+  StorageEvent[Browser storage event] --> Reader
+  Editable --> Persist[Guarded storage writes]
+  Close[Writer pagehide or close] --> Lock
+```
+
+Only the lock holder performs business writes, timer completion and reminders. A queued follower hydrates saved snapshots without recovery side effects, and rereads current storage after acquiring ownership. Page lifecycle cleanup revokes access before releasing the lock; storage and timer callbacks independently enforce permissions. Unsupported coordination keeps the page read-only. The V2 data schema and version 1 backup format remain unchanged.
+
+Charts, history, settings and tasks load as separate modules. Local error boundaries preserve the timer if a panel fails to load. The build checks a 300,000-byte entry budget; this measures entry JavaScript, not whole-page transfer or network timing. See [reliability design and acceptance](16-RELIABILITY.md).

@@ -1,0 +1,39 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "case_filter": null,
+  "clock": "Script-controlled time; sample tasks; isolated Edge processes; real downloaded CSV files",
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "FAIL",
+      "detail": "Page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "landscape-en",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": [
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    }
+  ]
+}

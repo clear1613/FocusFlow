@@ -1,0 +1,38 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "report_type": "combined coverage with separately recorded transport reruns",
+  "note": "The full run passed 2/4. The remaining 2 cases had document navigation or reload connection failures/timeouts and passed unchanged in separate runs. This is not a single uninterrupted full pass. Original failures and all reruns remain under raw/.",
+  "rerun_cases": [
+    "mobile-390",
+    "landscape"
+  ],
+  "source_files": [
+    "raw/language-attempt.json",
+    "raw/language-mobile-390.json",
+    "raw/language-landscape.json"
+  ],
+  "results": [
+    {
+      "case": "desktop",
+      "result": "PASS",
+      "source": "raw/language-attempt.json"
+    },
+    {
+      "case": "mobile-375",
+      "result": "PASS",
+      "source": "raw/language-attempt.json"
+    },
+    {
+      "case": "mobile-390",
+      "result": "PASS",
+      "source": "raw/language-mobile-390.json"
+    },
+    {
+      "case": "landscape",
+      "result": "PASS",
+      "source": "raw/language-landscape.json"
+    }
+  ],
+  "unexpected_errors": []
+}

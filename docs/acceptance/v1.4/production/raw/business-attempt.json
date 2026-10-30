@@ -1,0 +1,190 @@
+{
+  "browser": "Edge 156.0.4314.50",
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "timezone": "Asia/Singapore",
+  "environment": "production",
+  "application_versions": [
+    "1.4.0"
+  ],
+  "clock": "Timers advanced by script-set timestamps; fixed sample tasks in isolated contexts",
+  "results": [
+    {
+      "case": "task_timer",
+      "result": "PASS"
+    },
+    {
+      "case": "reset_skip_cycle",
+      "result": "PASS"
+    },
+    {
+      "case": "persistence",
+      "result": "FAIL",
+      "detail": "Page.reload: net::ERR_NETWORK_CHANGED\nCall log:\n  - waiting for navigation until \"networkidle\"\n"
+    },
+    {
+      "case": "expired_analytics",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "theme_modal_mobile",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "notification",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "denied_notification",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "unsupported_notification",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "permission_failure",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "native_notification_granted",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    },
+    {
+      "case": "capture_readme",
+      "result": "FAIL",
+      "detail": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/\nCall log:\n  - navigating to \"https://clear1613.github.io/FocusFlow/\", waiting until \"networkidle\"\n"
+    }
+  ],
+  "console": [
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:87450)\n    at Io (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:118458)\n    at h (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:119532)\n    at Gb (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:120078)\n    at https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:120204"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Failed to parse persisted data. SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)\n    at JSON.parse (<anonymous>)\n    at Object.load (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:87450)\n    at Io (https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:118458)\n    at https://clear1613.github.io/FocusFlow/assets/index-DXVcUyfL.js:10:119743"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [tasks[0].status must be todo or completed]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.status is invalid]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [timer.plannedDurationSeconds must be a positive integer]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    },
+    {
+      "type": "warning",
+      "text": "[FocusFlow] Persisted data failed schema validation. [settings.focusMinutes must be an integer from 1 to 120]"
+    }
+  ],
+  "unexpected_errors": [],
+  "navigation_retries": [
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 1,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    },
+    {
+      "url": "https://clear1613.github.io/FocusFlow/",
+      "attempt": 2,
+      "error": "Page.goto: net::ERR_CONNECTION_CLOSED at https://clear1613.github.io/FocusFlow/"
+    }
+  ]
+}

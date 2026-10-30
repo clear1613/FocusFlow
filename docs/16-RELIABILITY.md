@@ -50,7 +50,7 @@
 
 历史脚本改用固定业务时间并保持 UI 定时调度运行，以覆盖懒加载；未减少筛选、CSV、任务计数与恢复断言。双标签脚本仅偏移只读页的 `Date.now`，避免 Playwright 共享上下文时钟同时推进写入页。
 
-图片见[截图索引](screenshots/README.md)，生产复验结果随后归档于同版本的 `production/`。
+图片见[截图索引](screenshots/README.md)，线上结果已归档于同版本的 `production/`。
 
 ## 重跑
 
@@ -62,18 +62,19 @@ python scripts/coordination-acceptance.py --url http://127.0.0.1:4173/FocusFlow/
 
 构建和 preview 都需设置 `DEPLOY_BASE_PATH=/FocusFlow/`，完整流程见[部署说明](../DEPLOYMENT.md)。工具沿用独立安装的 Python Playwright 与 Edge，默认输出到 `.artifacts/`；正式证据按版本、环境和验收类型归档。`--case` 可执行具名用例，不改变业务断言。
 
-## 当前断点与继续步骤
+## 发布与生产验收
 
-2026-10-30 按用户要求停在本地验收断点。代码版本为 v1.4.0，已完成多窗口保护和按需加载，原有数据与备份格式不变。本地专项 8/8、历史 4/4、业务 11/11、语言 4/4、备份 4/4；29 个测试文件、162 项用例通过。截图及报告已归档至 `v1.4/local/`，旧版证据未改动。
+2026-10-30 正常推送功能提交 `04a7798`，[CI #24](https://github.com/clear1613/FocusFlow/actions/runs/40981510991) 成功并部署 GitHub Pages。线上入口 `index-DXVcUyfL.js`、全部 7 个 JS/CSS 文件以及 favicon 与本地构建逐字节一致，见[资源核对](acceptance/v1.4/production/assets.json)。
 
-本次尚未 push，未运行新提交的远端 CI，也未做 v1.4 生产验收。当前线上仍为 v1.3.0；README 保留线上版本的结果与截图，并标注本地升级断点。没有创建或移动版本标签。
+| 范围 | 覆盖结果 | 报告 |
+| --- | --- | --- |
+| 多窗口与加载失败 | 8 项覆盖；首轮 1 项通过，7 项连接故障后单独重跑通过 | [coordination](acceptance/v1.4/production/coordination.json) |
+| 历史与 CSV | 4 项覆盖；首轮 2 项通过，2 项单独重跑通过 | [history](acceptance/v1.4/production/history.json) |
+| 业务 | 11 项覆盖；首轮 2 项通过，9 项单独重跑通过 | [business](acceptance/v1.4/production/business.json) |
+| 语言 | 4 项覆盖；首轮 2 项通过，2 项单独重跑通过 | [language](acceptance/v1.4/production/language.json) |
+| 备份 | 完整运行 4/4 | [backup](acceptance/v1.4/production/backup.json) |
+| 真实等待后台与接管 | 181.31 秒，剩余 118 秒 / 预期 118 秒，同一暂停 Session，0 pageerror | [background](acceptance/v1.4/production/background.json) |
 
-继续时依次执行：
+四个覆盖汇总的 `source_files` 与每项 `source` 指向 `raw/` 中的原始文件。首轮失败为 `ERR_CONNECTION_CLOSED`、`ERR_NETWORK_CHANGED` 或导航 / 重载超时；降低并发后使用同一脚本的 `--case` 完整重跑，不修改业务断言，不记作一次连续全通过。所有已执行业务覆盖均无非预期应用错误；刻意中断动态模块的预期错误在原始报告中单列。
 
-1. 检查 `git status`，fetch 后确认与远端分歧；普通推送，不重写历史。
-2. 确认本次提交的 CI / Pages 成功，线上入口及各动态模块与本地构建一致。
-3. 按部署说明运行 coordination、history、business、language、backup 生产验收；追加 `--url`，输出到独立 `.artifacts/acceptance/production/` 路径，业务脚本还需 `--production`。
-4. 将最终报告、原始失败与重跑分别归档至 `docs/acceptance/v1.4/production/`；截图按 `docs/screenshots/v1.4/production/<类型>/` 归档。不要把多个重跑合称一次完整通过。
-5. 更新中英文 README 首图、版本、测试数，移除断点提示，补齐发布记录和清单，再提交文档收口。
-
-除非用户另行授权，本轮不包含 PWA、每日目标或其他新功能。
+本轮共归档 31 个生产报告文件（含原始运行、单项重跑、汇总、资源核对和真实等待）及 37 张线上截图。当前首页、手机、横屏、中英文、只读与接管、动态模块失败和备份图片均来自正式 URL 的独立浏览器和示例数据；旧版证据保持原样。未创建或移动版本标签。

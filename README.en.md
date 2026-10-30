@@ -1,7 +1,5 @@
 # FocusFlow · Personal Focus and Task Management
 
-> The live release remains v1.3.0. The v1.4.0 upgrade has passed local checks but has not been pushed or deployed. See the [checkpoint and next steps](docs/16-RELIABILITY.md#当前断点与继续步骤).
-
 **A released web application for tasks, Pomodoro timing, focus sessions and daily analytics.**
 
 Create tasks, focus, and review progress through daily analytics and individual session history. Filter records, review daily totals and export CSV. Tasks, timer state and records stay in the current browser, with file backup and restore across browsers.
@@ -12,18 +10,18 @@ Create tasks, focus, and review progress through daily analytics and individual 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 <p align="center">
-  <img src="docs/screenshots/v1.3/production/language/desktop-en.png" alt="FocusFlow v1.3.0 English interface with history, language and settings controls in the header" width="100%" />
+  <img src="docs/screenshots/v1.4/production/language/desktop-en.png" alt="FocusFlow v1.4.0 English interface with history, language and settings controls in the header" width="100%" />
 </p>
 
-> Screenshot from the live v1.3.0 GitHub Pages deployment with sample tasks. History, mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
+> Screenshot from the live v1.4.0 GitHub Pages deployment with sample tasks. History, mobile, dialog and dark-mode evidence: [`docs/screenshots/README.md`](docs/screenshots/README.md).
 
 ## At a glance
 
 | | |
 | --- | --- |
 | **Workflow** | Create task → select task → focus → record Session → update progress → review analytics |
-| **Release** | v1.3.0, focus history, filters, daily summaries and CSV; Chinese by default with English switching |
-| **Quality gate** | lint 0 errors 0 warnings · 148 tests · TypeScript and Vite build · release audit |
+| **Release** | v1.4.0, single-writer window coordination and deferred panels; Chinese by default with English switching |
+| **Quality gate** | lint 0 errors 0 warnings · 162 tests · TypeScript and Vite build · release audit |
 | **Hosting** | GitHub Pages |
 | **Stack** | React 19 · TypeScript · Vite 7 · Tailwind CSS 4 · Zustand · Recharts · Vitest |
 | **Data** | Business data saved in browser LocalStorage; no registration required |
@@ -42,6 +40,9 @@ Create tasks, focus, and review progress through daily analytics and individual 
 - **Preferences:** a settings dialog behind the header icon — durations, automatic phase starts, switch-style sound and notification, theme and data reset.
 - **Interface:** system/light/dark themes, responsive layout, keyboard-accessible dialogs and focus management.
 - **Languages:** Chinese by default; switch to English in the top-right corner. The choice persists after refresh.
+
+- **Multiple windows:** one editable window per browser origin; read-only followers sync saved state and take over when the writer closes.
+- **Deferred panels:** charts, history, settings and tasks load separately, with local error boundaries that keep the timer running.
 
 ## Using the application
 
@@ -104,6 +105,10 @@ pure functions, services, Hooks and components: timer arithmetic, legacy migrati
 version write protection, streak boundaries across local midnight, and the
 "delete a task must not delete its sessions" invariant.
 
+### 6. Window ownership and deferred UI
+
+A browser-managed exclusive lock permits one writer. Followers hydrate saved snapshots without completing timers; takeover rereads current storage before enabling edits. Storage and timer callbacks enforce ownership independently. Unsupported coordination stays read-only. [Design and acceptance](docs/16-RELIABILITY.md).
+
 ## Technical reading guide
 
 | You want to see | Open |
@@ -116,29 +121,26 @@ version write protection, streak boundaries across local midnight, and the
 
 ## Release verification
 
-**v1.3.0 is live and production verification is complete.** Results are recorded in the [history guide](docs/15-HISTORY.md); earlier results remain in the [release notes](docs/11-RELEASE.md).
+**v1.4.0 is live and production verification is complete.** Design, limitations and raw evidence: [reliability guide](docs/16-RELIABILITY.md).
 
-| Check | Command | Last recorded result |
-| --- | --- | --- |
-| Lint | `npm run lint` | 0 errors, 0 warnings |
-| Tests | `npm run test` | 26 files, 148 tests passing |
-| Build | `npm run build` | TypeScript check and Vite build pass |
-| Release audit | `npm run verify:release` | required files + lockfile + Node version + local link audit |
-| History acceptance | `python scripts/history-acceptance.py` | local 4/4; all 4 production cases pass, including 1 navigation rerun: real CSV, full filtered export, summaries, timer and backup integration |
-| Backup acceptance | `node scripts/backup-acceptance.cjs --expected-version 1.3.0` | local and production 4/4: real download, restore and failure protection |
-| Business regression | `python scripts/browser-acceptance.py --expected-version 1.3.0` | local 11/11; all 11 production cases pass, including 5 navigation reruns |
-| Language acceptance | `python scripts/language-acceptance.py --expected-version 1.3.0` | local 4/4; all 4 production cases pass, including 1 navigation rerun |
+| Check | Recorded result |
+| --- | --- |
+| Lint / tests | 0 errors or warnings; 29 files, 162 tests pass |
+| Build / release audit | Types, build, 300,000-byte entry budget, local links and original-report references pass |
+| Coordination and failed chunks | local 8/8; all 8 production cases covered, including 7 separate transport reruns |
+| History and CSV | local 4/4; all 4 production cases covered, including 2 separate reruns |
+| Backup | local and production full runs 4/4 |
+| Business | local 11/11; all 11 production cases covered, including 9 separate reruns |
+| Languages | local 4/4; all 4 production cases covered, including 2 separate reruns |
+| Real elapsed-time background and takeover | about 181 seconds frozen; 118 seconds remaining / expected 118, one Session, no page errors |
 
-Details and dates: [`docs/10-ACCEPTANCE.md`](docs/10-ACCEPTANCE.md),
-[`docs/11-RELEASE.md`](docs/11-RELEASE.md),
-[`docs/15-HISTORY.md`](docs/15-HISTORY.md),
-[`docs/acceptance/v1.3/production/history.json`](docs/acceptance/v1.3/production/history.json).
-Browser acceptance uses isolated contexts and sample tasks. Production had no unexpected application errors. Initial navigation failures and separate reruns are retained; combined coverage is not presented as one uninterrupted full pass. Timer advancement is recorded in each result file; earlier real-wait background timing remains in the historical record.
+There were no unexpected application errors. Original navigation/reload connection failures and all case reruns are retained. The four combined coverage reports are not presented as uninterrupted full passes. Deliberate chunk and storage failures are recorded separately.
 
-v1.3.0 adds 25 tests. Its 19 query and CSV tests also pass in the America/New_York timezone across the daylight-saving boundary. The v1.2.0 baseline of 123 tests and its production results remain in the [backup record](docs/14-BACKUP.md); earlier UI and real elapsed-time background checks remain in the [acceptance record](docs/10-ACCEPTANCE.md).
+Entry JavaScript decreased from 706,261 to 297,092 bytes (**57.93%**). This compares built entry size, not whole-page transfer or measured load time; the home chart and task panel still load asynchronously. All seven deployed JS/CSS assets plus the favicon match local build bytes.
 
-CI runs `npm ci → lint → test → build → verify:release`, and only then uploads
-`dist` and deploys to Pages. Pull requests never deploy.
+v1.4.0 adds 14 tests. The v1.3.0 baseline of 148 tests and its timezone checks remain in the [history record](docs/15-HISTORY.md). Earlier version results are preserved in the [release notes](docs/11-RELEASE.md).
+
+CI runs `npm ci → lint → test → build → verify:release` before deploying Pages. Pull requests run checks without deployment.
 
 ## Architecture
 
@@ -185,6 +187,8 @@ The [documentation index](docs/README.md) links current designs, archived accept
 | [`13-LANGUAGE.md`](docs/13-LANGUAGE.md) | Chinese-first UI with English switching: design and verification |
 | [`14-BACKUP.md`](docs/14-BACKUP.md) | backup format, preview, restore and failure protection |
 | [`15-HISTORY.md`](docs/15-HISTORY.md) | focus history, date boundaries, filters, daily summaries, paging and CSV |
+
+See [multi-window reliability and loading](docs/16-RELIABILITY.md) for v1.4.0 design and production evidence.
 
 ## License
 

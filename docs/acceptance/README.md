@@ -2,10 +2,14 @@
 
 结果按版本与环境保存。当前代码版本为 **v1.4.0**；这些文件是已归档证据，新运行默认写入 `.artifacts/acceptance/`，不覆盖历史文件。
 
+v1.4 线上：[多窗口覆盖与重跑](v1.4/production/coordination.json)、[业务](v1.4/production/business.json)、[语言](v1.4/production/language.json)、[备份](v1.4/production/backup.json)、[历史](v1.4/production/history.json)、[静态资源核对](v1.4/production/assets.json)、[真实等待后台计时与接管](v1.4/production/background.json)。
+
 v1.4 本地：[多窗口专项](v1.4/local/coordination.json)、[业务](v1.4/local/business.json)、[语言](v1.4/local/language.json)、[备份](v1.4/local/backup.json)、[历史](v1.4/local/history.json)、[包体](v1.4/local/bundle.json)、[真实等待后台计时与接管](v1.4/local/background.json)。设计与验证口径见[可靠性记录](../16-RELIABILITY.md)。
 
 | 版本 / 环境 | 业务 | 语言 | 备份 | 历史 |
 | --- | --- | --- | --- | --- |
+| v1.4 本地 | [business](v1.4/local/business.json) | [language](v1.4/local/language.json) | [backup](v1.4/local/backup.json) | [history](v1.4/local/history.json) |
+| v1.4 线上 | [business](v1.4/production/business.json) | [language](v1.4/production/language.json) | [backup](v1.4/production/backup.json) | [history](v1.4/production/history.json) |
 | v1.3 本地 | [business](v1.3/local/business.json) | [language](v1.3/local/language.json) | [backup](v1.3/local/backup.json) | [history](v1.3/local/history.json) |
 | v1.3 线上 | [business](v1.3/production/business.json) | [language](v1.3/production/language.json) | [backup](v1.3/production/backup.json) | [history](v1.3/production/history.json) |
 | v1.2 本地 | [business](v1.2/local/business.json) | [language](v1.2/local/language.json) | [backup](v1.2/local/backup.json) | — |
@@ -13,7 +17,7 @@ v1.4 本地：[多窗口专项](v1.4/local/coordination.json)、[业务](v1.4/lo
 | v1.1 本地 | [business](v1.1/local/business.json) | [language](v1.1/local/language.json) | — | — |
 | v1.1 线上 | [business](v1.1/production/business.json) | [language](v1.1/production/language.json) | — | — |
 
-v1.3 线上业务、语言和历史，以及 v1.2 线上业务文件是**覆盖汇总**，包含连接中断后单独重跑的结果，不代表一次连续全通过。它们的 `source_files` 和每项 `source` 相对于该汇总文件解析，指向同目录下 `raw/` 内的原始报告。重跑数量与限制见 [v1.3 验收说明](../15-HISTORY.md)及 [v1.2 验收说明](../14-BACKUP.md)。
+v1.4 的多窗口、历史、业务、语言文件（分别含 7 / 2 / 9 / 2 项连接故障重跑），v1.3 线上业务、语言和历史，以及 v1.2 线上业务文件是**覆盖汇总**，包含连接中断后单独重跑的结果，不代表一次连续全通过。它们的 `source_files` 和每项 `source` 相对于该汇总文件解析，指向同目录下 `raw/` 内的原始报告。重跑数量与限制见 [v1.4 验收说明](../16-RELIABILITY.md)、[v1.3 验收说明](../15-HISTORY.md)及 [v1.2 验收说明](../14-BACKUP.md)。
 
 其他保留记录：
 

@@ -1,0 +1,23 @@
+{
+  "url": "https://clear1613.github.io/FocusFlow/",
+  "expected_version": "1.4.0",
+  "clock": "Script-controlled page clocks; isolated Edge processes; tabs share one real browser context and LocalStorage; built chunks aborted only in named failure cases",
+  "results": [
+    {
+      "case": "chart-chunk-failure",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "expected_chunk_errors": [
+    {
+      "case": "chart-chunk-failure",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "case": "chart-chunk-failure",
+      "message": "TypeError: Failed to fetch dynamically imported module: https://clear1613.github.io/FocusFlow/assets/WeeklyChart-Bi1qAilZ.js"
+    }
+  ],
+  "navigation_retries": []
+}
