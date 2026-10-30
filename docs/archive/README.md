@@ -10,5 +10,6 @@
 | 数据统计 | [Phase 4](v1.0/07-PHASE4-ANALYTICS.md) |
 | 交互与适配 | [Phase 5](v1.0/08-PHASE5-UX.md) |
 | GitHub 交付 | [Phase 6](v1.0/09-PHASE6-GITHUB-DELIVERY.md) |
+| 首版发布清单 | [v1.0 检查项与当时结果](v1.0/RELEASE_CHECKLIST.md) |
 
 [返回文档导航](../README.md)

@@ -19,6 +19,7 @@ import { useSettingsStore } from '../stores/settingsStore';
 import { useTaskStore } from '../stores/taskStore';
 import { showToast } from '../stores/toastStore';
 import { useTimerStore } from '../stores/timerStore';
+import { canWriteAppData } from '../stores/tabStore';
 import type { FocusSession, TimerMode } from '../types';
 import { generateId } from '../utils/id';
 import {
@@ -33,6 +34,7 @@ export function usePomodoroTimer() {
   const activeTaskId = useTaskStore((s) => s.activeTaskId);
 
   const start = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
 
     if (current.status !== 'idle' && current.status !== 'paused') return;
@@ -97,6 +99,7 @@ export function usePomodoroTimer() {
   }, []);
 
   const complete = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     if (current.status !== 'running' || !current.activeSessionId) return;
 
@@ -163,6 +166,7 @@ export function usePomodoroTimer() {
   }, [start]);
 
   const pause = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     if (current.status !== 'running' || current.endAt === null) return;
 
@@ -181,6 +185,7 @@ export function usePomodoroTimer() {
   }, [complete]);
 
   const reset = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     const now = Date.now();
 
@@ -222,6 +227,7 @@ export function usePomodoroTimer() {
   }, [complete]);
 
   const skip = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     const now = Date.now();
 
@@ -262,6 +268,7 @@ export function usePomodoroTimer() {
   }, [complete]);
 
   const syncNow = useCallback(() => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     if (current.status !== 'running' || current.endAt === null) return;
 
@@ -276,6 +283,7 @@ export function usePomodoroTimer() {
   }, [complete]);
 
   const changeMode = useCallback((mode: TimerMode) => {
+    if (!canWriteAppData()) return;
     const current = useTimerStore.getState().timer;
     if (current.status !== 'idle') return;
 

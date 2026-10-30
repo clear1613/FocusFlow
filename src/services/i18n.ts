@@ -2,6 +2,13 @@ import type { AppLocale } from '../types';
 import { useSettingsStore } from '../stores/settingsStore';
 
 const en = {
+  'tabs.readOnly': 'Read-only', 'tabs.reader': 'This window is following your active window',
+  'tabs.checking': 'Checking window access',
+  'tabs.readerHint': 'Use your other FocusFlow window to edit tasks and control the timer. This window stays in sync and takes over automatically when that window closes.',
+  'tabs.unsupported': 'This browser is in read-only mode',
+  'tabs.unsupportedHint': 'Open FocusFlow in an up-to-date browser over HTTPS or localhost to enable editing. Window coordination is unavailable here, so your saved data stays protected.',
+  'tabs.snapshotHint': 'Saved tasks, settings and focus records are synced within this browser. Only the active window completes sessions and sends reminders.',
+  'panel.loading': 'Loading…', 'panel.failed': 'This section could not be loaded. Your timer keeps running.', 'panel.reload': 'Reload page',
   'history.title': 'Focus history', 'history.open': 'View focus history', 'history.back': 'Back to focus',
   'history.description': 'Review focus sessions by end date. Your timer keeps running.',
   'history.range': 'Date range', 'history.range.today': 'Today', 'history.range.7d': 'Last 7 days', 'history.range.30d': 'Last 30 days', 'history.range.custom': 'Custom dates',
@@ -133,6 +140,13 @@ export type MessageKey = keyof typeof en;
 type Values = Record<string, string | number>;
 
 const zh: Record<MessageKey, string> = {
+  'tabs.readOnly': '只读', 'tabs.reader': '此窗口正在同步查看',
+  'tabs.checking': '正在确认窗口状态',
+  'tabs.readerHint': '请在另一个 FocusFlow 窗口编辑任务和操作计时。此窗口会同步显示数据；关闭正在使用的窗口后，此窗口将自动接管。',
+  'tabs.unsupported': '当前浏览器处于只读模式',
+  'tabs.unsupportedHint': '请使用较新版本的浏览器，通过 HTTPS 或 localhost 打开 FocusFlow。当前环境无法协调多个窗口，已保留本地数据并暂停编辑。',
+  'tabs.snapshotHint': '任务、设置和专注记录在同一浏览器内同步。只有正在使用的窗口会完成计时和发送提醒。',
+  'panel.loading': '正在加载…', 'panel.failed': '此区域加载失败，计时仍在继续。', 'panel.reload': '刷新页面',
   'history.title': '专注历史', 'history.open': '查看专注历史', 'history.back': '返回专注',
   'history.description': '按结束日期回顾每次专注。查看历史不会中断正在进行的计时。',
   'history.range': '日期范围', 'history.range.today': '今天', 'history.range.7d': '近七天', 'history.range.30d': '近三十天', 'history.range.custom': '自定义日期',

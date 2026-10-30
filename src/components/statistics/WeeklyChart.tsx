@@ -12,7 +12,7 @@ import {
 import {
   getLast7DaysFocusMinutes,
   getWeeklyFocusSummary,
-} from '../../services/statisticsService';
+} from '../../services/weeklyStatisticsService';
 import { useSessionStore } from '../../stores/sessionStore';
 
 export function WeeklyChart() {

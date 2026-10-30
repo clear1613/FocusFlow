@@ -1,10 +1,11 @@
 # FocusFlow —— 技术设计文档
 
+> 本文保留 v1.0 基础需求与设计。当前 v1.4 行为见[可靠性说明](16-RELIABILITY.md)，历次交付见[发布记录](11-RELEASE.md)。
 > 文档版本：V1.0  
 > 对应产品文档：`01-PRD.md`  
 > 项目阶段：技术设计  
 > 技术形态：纯前端 Local-first Web App  
-> 目标交付：GitHub 开源仓库 + GitHub Pages 在线 Demo
+> 目标交付：GitHub 开源仓库 + GitHub Pages 在线应用
 
 ---
 
@@ -78,7 +79,7 @@ V1.0 技术目标如下：
 | 音频 | HTMLAudioElement | Focus/Break 完成提示音 |
 | 测试 | Vitest | 单元测试 |
 | 组件测试 | React Testing Library | 关键交互验证 |
-| 部署 | GitHub Pages | 在线 Demo |
+| 部署 | GitHub Pages | 在线应用 |
 | CI | GitHub Actions | 自动测试与构建 |
 
 ---

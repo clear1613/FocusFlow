@@ -2,10 +2,9 @@ import { describe, expect, it } from 'vitest';
 import type { FocusSession, Task } from '../types';
 import {
   getCurrentStreak,
-  getLast7DaysFocusMinutes,
   getTodayStats,
-  getWeeklyFocusSummary,
 } from './statisticsService';
+import { getLast7DaysFocusMinutes, getWeeklyFocusSummary } from './weeklyStatisticsService';
 
 function localTime(
   year: number,

@@ -1,6 +1,8 @@
 # 验收文件索引
 
-结果按版本与环境保存。当前版本为 **v1.3.0**；这些文件是已归档证据，新运行默认写入 `.artifacts/acceptance/`，不覆盖历史文件。
+结果按版本与环境保存。当前代码版本为 **v1.4.0**；这些文件是已归档证据，新运行默认写入 `.artifacts/acceptance/`，不覆盖历史文件。
+
+v1.4 本地：[多窗口专项](v1.4/local/coordination.json)、[业务](v1.4/local/business.json)、[语言](v1.4/local/language.json)、[备份](v1.4/local/backup.json)、[历史](v1.4/local/history.json)、[包体](v1.4/local/bundle.json)、[真实等待后台计时与接管](v1.4/local/background.json)。设计与验证口径见[可靠性记录](../16-RELIABILITY.md)。
 
 | 版本 / 环境 | 业务 | 语言 | 备份 | 历史 |
 | --- | --- | --- | --- | --- |

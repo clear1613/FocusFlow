@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, History } from 'lucide-react';
-import { HistoryView } from './components/history/HistoryView';
+import { DeferredPanel } from './components/common/DeferredPanel';
 import { ToastViewport } from './components/common/ToastViewport';
 import { LanguageSwitcher } from './components/common/LanguageSwitcher';
 import { useI18n } from './hooks/useI18n';
 import { SettingsDialog } from './components/settings/SettingsDialog';
 import { TodayStats } from './components/statistics/TodayStats';
-import { WeeklyChart } from './components/statistics/WeeklyChart';
-import { TaskList } from './components/task/TaskList';
 import { TimerCard } from './components/timer/TimerCard';
 import { useTheme } from './hooks/useTheme';
 import type { StorageNotice } from './services/initializeApp';
+
+const HistoryView = lazy(() => import('./components/history/HistoryView').then(module => ({ default: module.HistoryView })));
+const WeeklyChart = lazy(() => import('./components/statistics/WeeklyChart').then(module => ({ default: module.WeeklyChart })));
+const TaskList = lazy(() => import('./components/task/TaskList').then(module => ({ default: module.TaskList })));
 
 export default function App({ initialStorageNotice = null }: { initialStorageNotice?: StorageNotice }) {
   useTheme();
@@ -89,7 +91,7 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
           </div>
         ) : null}
 
-        {showHistory ? <HistoryView /> : null}
+        {showHistory ? <DeferredPanel><HistoryView /></DeferredPanel> : null}
 
         {/* Keep the timer and task draft mounted while history is visible. */}
         <div hidden={showHistory}>
@@ -103,10 +105,10 @@ export default function App({ initialStorageNotice = null }: { initialStorageNot
               <TodayStats />
             </div>
             <div className="min-w-0 lg:col-span-2 lg:col-start-1 lg:row-start-3">
-              <TaskList />
+              <DeferredPanel><TaskList /></DeferredPanel>
             </div>
             <div className="min-w-0 lg:col-start-2 lg:row-start-2">
-              {!showHistory ? <WeeklyChart /> : null}
+              {!showHistory ? <DeferredPanel><WeeklyChart /></DeferredPanel> : null}
             </div>
           </div>
         </div>

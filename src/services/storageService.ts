@@ -5,6 +5,7 @@ import {
 import type { PersistedAppData } from '../types';
 import { migratePersistedData } from './storageMigration';
 import { validatePersistedAppData } from './storageSchema';
+import { canWriteAppData } from '../stores/tabStore';
 
 export type StorageRecoveryReason =
   | 'read_error'
@@ -102,6 +103,7 @@ export const storageService = {
   },
 
   save(data: PersistedAppData): boolean {
+    if (!canWriteAppData()) return false;
     if (writeBlockedByIncompatibleVersion) {
       console.warn(
         '[FocusFlow] Persistence is write-protected because stored data uses an incompatible schema version.',
@@ -128,6 +130,7 @@ export const storageService = {
   },
 
   clear(): boolean {
+    if (!canWriteAppData()) return false;
     try {
       localStorage.removeItem(STORAGE_KEY);
       writeBlockedByIncompatibleVersion = false;

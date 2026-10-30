@@ -6,6 +6,7 @@ import { useSettingsStore } from '../stores/settingsStore';
 import { useTaskStore } from '../stores/taskStore';
 import { useTimerStore } from '../stores/timerStore';
 import { usePomodoroTimer } from './usePomodoroTimer';
+import { useTabStore } from '../stores/tabStore';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -23,6 +24,25 @@ beforeEach(() => {
 });
 
 afterEach(() => { cleanup(); vi.useRealTimers(); });
+
+it('ignores stale timer callbacks and actions after losing the write lock', () => {
+  const { result } = renderHook(usePomodoroTimer);
+  act(() => result.current.actions.start());
+  const timer = useTimerStore.getState().timer;
+  const sessions = useSessionStore.getState().sessions;
+  const stored = localStorage.getItem('focusflow:data');
+  useTabStore.setState({ role: 'reader' });
+  act(() => {
+    vi.advanceTimersByTime(1_600_000);
+    result.current.actions.pause(); result.current.actions.reset();
+    result.current.actions.skip(); result.current.actions.changeMode('short_break');
+    result.current.actions.start(); result.current.actions.syncNow();
+  });
+  expect(useTimerStore.getState().timer).toEqual(timer);
+  expect(useSessionStore.getState().sessions).toEqual(sessions);
+  expect(useTaskStore.getState().tasks[0].completedPomodoros).toBe(0);
+  expect(localStorage.getItem('focusflow:data')).toBe(stored);
+});
 
 describe('timer workflow integration', () => {
   it('keeps one session through repeated start, pause, refresh-style hydration and resume', () => {

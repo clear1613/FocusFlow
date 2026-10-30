@@ -1,0 +1,59 @@
+{
+  "url": "http://127.0.0.1:4173/FocusFlow/",
+  "expected_version": "1.4.0",
+  "clock": "Script-controlled page clocks; isolated Edge processes; tabs share one real browser context and LocalStorage; built chunks aborted only in named failure cases",
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "PASS"
+    },
+    {
+      "case": "landscape-en",
+      "result": "PASS"
+    },
+    {
+      "case": "reload-and-return",
+      "result": "PASS"
+    },
+    {
+      "case": "unsupported-lock",
+      "result": "PASS"
+    },
+    {
+      "case": "history-chunk-failure",
+      "result": "PASS"
+    },
+    {
+      "case": "chart-chunk-failure",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "expected_chunk_errors": [
+    {
+      "case": "history-chunk-failure",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "case": "history-chunk-failure",
+      "message": "TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:4173/FocusFlow/assets/HistoryView-Cs3NzIdL.js"
+    },
+    {
+      "case": "chart-chunk-failure",
+      "message": "Failed to load resource: net::ERR_FAILED"
+    },
+    {
+      "case": "chart-chunk-failure",
+      "message": "TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:4173/FocusFlow/assets/WeeklyChart-Bi1qAilZ.js"
+    }
+  ],
+  "navigation_retries": []
+}

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import { version } from '../../../package.json';
 import { useI18n } from '../../hooks/useI18n';
 import { Modal } from '../common/Modal';
-import { SettingsPanel } from './SettingsPanel';
+import { DeferredPanel } from '../common/DeferredPanel';
+
+const SettingsPanel = lazy(() => import('./SettingsPanel').then(module => ({ default: module.SettingsPanel })));
 
 /**
  * Settings entry point: a single icon in the header that opens a dialog.
@@ -50,7 +52,7 @@ export function SettingsDialog() {
           </p>
         }
       >
-        <SettingsPanel />
+        <DeferredPanel><SettingsPanel /></DeferredPanel>
       </Modal>
     </>
   );

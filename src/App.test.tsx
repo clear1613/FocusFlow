@@ -1,14 +1,27 @@
 import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import App from './App';
+// Load real modules during collection so cold transforms do not consume an
+// interaction test's timeout. Built-site acceptance tests chunk delivery.
+import './components/task/TaskList';
+import './components/history/HistoryView';
+import './components/statistics/WeeklyChart';
+import './components/settings/SettingsPanel';
 import { createDefaultAppData } from './constants/defaults';
 import { initializeApp } from './services/initializeApp';
 import { storageService } from './services/storageService';
+import type { StorageNotice } from './services/initializeApp';
 import { useSessionStore } from './stores/sessionStore';
 import { useSettingsStore } from './stores/settingsStore';
 import { useTaskStore } from './stores/taskStore';
 import { useTimerStore } from './stores/timerStore';
 import { useToastStore } from './stores/toastStore';
+
+async function renderApp(notice: StorageNotice = null) {
+  const rendered = render(<App initialStorageNotice={notice} />);
+  await act(async () => { await vi.dynamicImportSettled(); });
+  return rendered;
+}
 
 beforeEach(() => {
   localStorage.clear();
@@ -30,29 +43,33 @@ beforeEach(() => {
 
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); vi.restoreAllMocks(); });
 
-it('keeps the timer and task draft alive while viewing history and completes a session once', () => {
-  vi.useFakeTimers();
+it('keeps the timer and task draft alive while viewing history and completes a session once', async () => {
   useSettingsStore.getState().patch({ focusMinutes: 1 });
   useTaskStore.getState().createTask({ title: '完成后进入历史', estimatedPomodoros: 1 });
   useTaskStore.getState().setActiveTask(useTaskStore.getState().tasks[0].id);
-  render(<App />);
+  await renderApp();
+  vi.useFakeTimers();
   fireEvent.change(screen.getByRole('textbox', { name: '任务名称' }), { target: { value: '保留输入草稿' } });
   fireEvent.click(screen.getByRole('button', { name: '开始专注' }));
   const id = useTimerStore.getState().timer.activeSessionId;
-  fireEvent.click(screen.getByRole('button', { name: '查看专注历史' }));
+  await act(async () => { fireEvent.click(screen.getByRole('button', { name: '查看专注历史' })); });
   expect(screen.queryByRole('button', { name: '暂停一下' })).toBeNull();
   act(() => vi.advanceTimersByTime(61000));
   expect(useSessionStore.getState().sessions).toHaveLength(1);
   expect(useSessionStore.getState().sessions[0]).toMatchObject({ id, status: 'completed' });
   expect(useTaskStore.getState().tasks[0].completedPomodoros).toBe(1);
-  expect(screen.getByText('1 次完成 · 专注 1 分钟')).toBeVisible();
+  // The timer was advanced deterministically; allow the lazy module and its
+  // Suspense boundary to finish loading before asserting the visible summary.
+  vi.useRealTimers();
+  await act(async () => { await vi.dynamicImportSettled(); });
+  expect(await screen.findByText('1 次完成 · 专注 1 分钟')).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: '返回专注' }));
   expect(screen.getByRole('textbox', { name: '任务名称' })).toHaveValue('保留输入草稿');
   expect(screen.getByRole('button', { name: '开始休息' })).toBeVisible();
 });
 
-it('opens in Chinese with the timer first and settings behind an icon', () => {
-  render(<App />);
+it('opens in Chinese with the timer first and settings behind an icon', async () => {
+  await renderApp();
   expect(screen.getByRole('heading', { name: '今日概览' })).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: '任务清单' })).toBeInTheDocument();
   expect(screen.getByRole('button', { name: '开始专注' })).toBeInTheDocument();
@@ -62,15 +79,16 @@ it('opens in Chinese with the timer first and settings behind an icon', () => {
   // Settings are not part of the main screen any more: they open from the header.
   expect(screen.queryByRole('dialog')).toBeNull();
   fireEvent.click(screen.getByRole('button', { name: '打开设置' }));
+  await act(async () => { await vi.dynamicImportSettled(); });
   const dialog = within(screen.getByRole('dialog', { name: '设置' }));
   expect(dialog.getByRole('switch', { name: '声音提醒' })).toBeInTheDocument();
   expect(dialog.getByRole('spinbutton', { name: '专注' })).toBeInTheDocument();
 });
 
-it('switches both ways while preserving the active session, task and input draft', () => {
+it('switches both ways while preserving the active session, task and input draft', async () => {
   useTaskStore.getState().createTask({ title: '保留我的任务', estimatedPomodoros: 2 });
   useTaskStore.getState().setActiveTask(useTaskStore.getState().tasks[0].id);
-  render(<App />);
+  await renderApp();
   fireEvent.change(screen.getByRole('textbox', { name: '任务名称' }), { target: { value: '未提交的草稿' } });
   fireEvent.click(screen.getByRole('button', { name: '开始专注' }));
   const timer = useTimerStore.getState().timer;
@@ -96,18 +114,18 @@ it('switches both ways while preserving the active session, task and input draft
   expect(useTimerStore.getState().timer.activeSessionId).toBe(timer.activeSessionId);
 });
 
-it('restores English after reinitializing from persisted settings', () => {
-  const first = render(<App />);
+it('restores English after reinitializing from persisted settings', async () => {
+  const first = await renderApp();
   fireEvent.change(screen.getByRole('combobox', { name: '界面语言' }), { target: { value: 'en' } });
   first.unmount();
   useSettingsStore.getState().reset();
   initializeApp();
-  render(<App />);
+  await renderApp();
   expect(screen.getByRole('combobox', { name: 'Interface language' })).toHaveValue('en');
   expect(screen.getByRole('button', { name: 'Open settings' })).toBeInTheDocument();
 });
 
-it.each([undefined, 'unsupported'])('loads older or unsupported language preferences without losing business data (%s)', (locale) => {
+it.each([undefined, 'unsupported'])('loads older or unsupported language preferences without losing business data (%s)', async (locale) => {
   const data = createDefaultAppData();
   data.tasks = [{ id: 'kept', title: '已有任务', estimatedPomodoros: 2, completedPomodoros: 1, status: 'todo', createdAt: 1, completedAt: null }];
   data.activeTaskId = 'kept';
@@ -122,11 +140,11 @@ it.each([undefined, 'unsupported'])('loads older or unsupported language prefere
   expect(useTaskStore.getState().activeTaskId).toBe('kept');
 });
 
-it('preserves future-version data when switching language under write protection', () => {
+it('preserves future-version data when switching language under write protection', async () => {
   const future = '{"version":999,"keep":"original"}';
   localStorage.setItem('focusflow:data', future);
   const notice = initializeApp();
-  render(<App initialStorageNotice={notice} />);
+  await renderApp(notice);
   fireEvent.change(screen.getByRole('combobox', { name: '界面语言' }), { target: { value: 'en' } });
   expect(screen.getByRole('button', { name: 'Open settings' })).toBeInTheDocument();
   expect(localStorage.getItem('focusflow:data')).toBe(future);

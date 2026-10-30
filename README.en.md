@@ -1,5 +1,7 @@
 # FocusFlow · Personal Focus and Task Management
 
+> The live release remains v1.3.0. The v1.4.0 upgrade has passed local checks but has not been pushed or deployed. See the [checkpoint and next steps](docs/16-RELIABILITY.md#当前断点与继续步骤).
+
 **A released web application for tasks, Pomodoro timing, focus sessions and daily analytics.**
 
 Create tasks, focus, and review progress through daily analytics and individual session history. Filter records, review daily totals and export CSV. Tasks, timer state and records stay in the current browser, with file backup and restore across browsers.

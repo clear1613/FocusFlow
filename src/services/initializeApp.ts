@@ -7,23 +7,32 @@ import { notificationService } from './notificationService';
 import { storageService } from './storageService';
 import { recoverPersistedTimer } from './timerRecoveryService';
 import { getText } from './i18n';
+import type { PersistedAppData } from '../types';
 
 export type StorageNotice = 'recovered' | 'migrated' | 'incompatible' | null;
 
 // Hydrate before mounting React so child effects cannot run against partial
 // state and StrictMode cannot replay startup persistence or recovery feedback.
-export function initializeApp(): StorageNotice {
+function hydrateApp(data: PersistedAppData): void {
+  useTaskStore.getState().hydrate(data.tasks, data.activeTaskId);
+  useSessionStore.getState().hydrate(data.sessions);
+  useSettingsStore.getState().hydrate(data.settings);
+  useTimerStore.getState().hydrate(data.timer);
+}
+
+export function initializeApp({ readOnly = false }: { readOnly?: boolean } = {}): StorageNotice {
   const loaded = storageService.load();
+  if (readOnly) {
+    hydrateApp(loaded.data);
+    return null;
+  }
   const recovery = recoverPersistedTimer(loaded.data, Date.now());
   const data = recovery.data;
   const revokeNotifications = data.settings.notificationEnabled &&
     notificationService.getPermission() !== 'granted';
   if (revokeNotifications) data.settings.notificationEnabled = false;
 
-  useTaskStore.getState().hydrate(data.tasks, data.activeTaskId);
-  useSessionStore.getState().hydrate(data.sessions);
-  useSettingsStore.getState().hydrate(data.settings);
-  useTimerStore.getState().hydrate(data.timer);
+  hydrateApp(data);
 
   if (!loaded.writeBlocked && (recovery.changed || loaded.migrated || revokeNotifications ||
     (loaded.recovered && loaded.recoveryReason !== 'read_error'))) {

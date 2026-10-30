@@ -1,0 +1,30 @@
+{
+  "url": "http://127.0.0.1:4173/FocusFlow/",
+  "clock": "script-controlled time; sample data; isolated Edge contexts",
+  "results": [
+    {
+      "case": "desktop-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-375-zh",
+      "result": "PASS"
+    },
+    {
+      "case": "mobile-390-en-dark",
+      "result": "PASS"
+    },
+    {
+      "case": "landscape-en",
+      "result": "PASS"
+    }
+  ],
+  "unexpected_errors": [],
+  "injected_storage_errors": [
+    "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure",
+    "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure",
+    "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure",
+    "[FocusFlow] Failed to persist app data. QuotaExceededError: Injected quota failure"
+  ],
+  "navigation_retries": []
+}

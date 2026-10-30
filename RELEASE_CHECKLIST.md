@@ -1,38 +1,23 @@
-# FocusFlow V1.0 Release Checklist
+# FocusFlow 发布清单
 
-Official host: GitHub Pages. Vercel is optional. See [release evidence](docs/11-RELEASE.md) and the [acceptance record](docs/10-ACCEPTANCE.md).
+当前交付版本：**v1.4.0**。历史首版检查结果保留在 [v1.0 归档](docs/archive/v1.0/RELEASE_CHECKLIST.md)，不将旧版数字当作新版验收。
 
-## Repository
+## 质量与兼容
 
-- [x] Public repository, main branch, product description and Topics verified.
-- [x] Source/tests/docs/CI/screenshots tracked; generated and private files excluded.
-- [x] LICENSE is a plain MIT file; no vendored third-party source in the tree.
-- [x] Screenshots use sample tasks and their captions match the capture source.
+- [x] 独占写入、只读同步、接管、暂停 / 恢复与旧回调保护有回归测试。
+- [x] V2 数据与版本 1 备份格式保持兼容。
+- [x] 构建执行入口 JavaScript 300,000 字节预算。
+- [x] 最终 lint、全部测试、类型检查、构建与发布结构校验通过。
+- [x] 本地专项、历史、业务、语言和备份验收通过。
 
-## Local quality
+## 线上与仓库
 
-- [x] npm install and clean npm ci have succeeded.
-- [x] Lint passes; rules retained.
-- [x] 78/78 tests pass; TypeScript strict retained.
-- [x] Build and release verification pass.
-- [x] Timer/tasks/persistence/analytics/notifications/themes/modals pass locally.
-- [x] Mobile 375×812 / 390×844 and 80-character task titles pass locally.
-- [x] Real elapsed-time background recovery matches endAt.
+- [ ] 推送前取回远端并检查分歧，普通推送，不重写 main。
+- [ ] 当前提交 CI 和 Pages 部署成功，资源指纹与本地构建一致。
+- [ ] 线上专项及既有功能回归完成，失败与重跑分别记录。
+- [ ] README 截图、版本、测试数和链接对应当前交付。
+- [ ] 证据按版本 / 环境 / 类型归档，本机产物由 Git 忽略。
+- [x] 本任务开发 / 预览服务已关闭。
+- [x] 本地检查点已提交，工作区干净。
 
-## GitHub Pages production
-
-- [x] Pages source is GitHub Actions.
-- [x] Vite supports the subpath; deployment depends on quality checks.
-- [x] Actual Pages workflow and deployment succeed.
-- [x] Real Pages URL and refresh load JS/CSS/favicon correctly.
-- [x] Desktop, 375×812 and 390×844 online acceptance passes (11/11).
-- [x] Live site has no unexpected Console Error / Page Error in acceptance.
-- [x] README contains actual Live Demo and production screenshots refreshed from final 1.0.0.
-
-## Formal release
-
-- [x] package.json and package-lock.json use 1.0.0 after production acceptance.
-- [x] Clean npm ci, lint, test, build and verify:release pass for 1.0.0 (78/78 tests).
-- [x] Release commit's quality job and Pages deployment are green.
-- [x] Final published version 1.0.0 and core workflow are checked online; application assets match full production acceptance.
-- [x] Annotated v1.0.0 Tag is pushed and points to the verified release commit.
+新版本按本清单逐项验证；版本标签单独确认，不重复移动已有标签。详情见[部署说明](DEPLOYMENT.md)和[发布记录](docs/11-RELEASE.md)。

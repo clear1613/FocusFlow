@@ -12,7 +12,7 @@ from acceptance_navigation import navigate
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--url', default='http://127.0.0.1:5173')
-parser.add_argument('--expected-version', default='1.3.0')
+parser.add_argument('--expected-version', default=json.loads(Path('package.json').read_text(encoding='utf-8'))['version'])
 parser.add_argument('--output', default='.artifacts/acceptance/local/history.json')
 parser.add_argument('--screenshots-dir', default='.artifacts/screenshots/local/history')
 parser.add_argument('--case', choices=['desktop-zh', 'mobile-375-zh', 'mobile-390-en-dark', 'landscape-en'])
@@ -70,7 +70,8 @@ def exercise(page, language, theme, name, temporary):
     setting()
     expect(page.get_by_text(('FocusFlow 版本 ' if zh else 'FocusFlow version ') + args.expected_version, exact=True)).to_be_visible()
     page.keyboard.press('Escape')
-    page.clock.pause_at(datetime.fromtimestamp(page.evaluate('Date.now()') / 1000, timezone.utc) + timedelta(seconds=1))
+    # Freeze business time while leaving scheduling alive for lazy UI modules.
+    page.clock.set_fixed_time(NOW)
     data = fixture(json.loads(raw()), language, theme, page.evaluate('Date.now()'))
     page.evaluate("data => localStorage.setItem('focusflow:data', JSON.stringify(data))", data)
     page.reload(wait_until='networkidle')
@@ -137,7 +138,8 @@ def exercise(page, language, theme, name, temporary):
     button(labels['back']).click()
     expect(page.get_by_role('textbox', name='任务名称' if zh else 'Task name', exact=True)).to_have_value('留在工作台的草稿')
     button(labels['open']).click()
-    page.clock.fast_forward(61000)
+    page.clock.set_fixed_time(NOW + timedelta(seconds=61))
+    page.clock.fast_forward(1000)
     restored = json.loads(raw())
     assert len(restored['sessions']) == len(data['sessions'])
     assert next(row for row in restored['sessions'] if row['id'] == 'active')['status'] == 'completed'

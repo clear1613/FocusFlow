@@ -91,3 +91,12 @@
 - [x] Timer continuity, draft retention, bilingual and dark / mobile interfaces
 - [x] Unit tests and local history browser acceptance
 - [x] Production regression and release evidence
+
+## V1.4 — Multi-window reliability and loading
+- [x] Browser-managed exclusive writer and live read-only followers
+- [x] Rehydrate and recover latest data before automatic takeover
+- [x] Guard storage and stale timer callbacks; fail read-only without coordination
+- [x] Lazy task, chart, settings and history panels with local error boundaries
+- [x] Entry JavaScript budget checked by every build
+- [x] Local browser acceptance; versioned evidence and screenshots
+- [ ] Push, CI, production browser acceptance and updated live screenshots

@@ -1,8 +1,10 @@
 # 界面截图索引
 
-当前版本为 **v1.3.0**。README 中文首图使用 [desktop-zh-CN.png](v1.3/production/language/desktop-zh-CN.png)，英文首图使用 [desktop-en.png](v1.3/production/language/desktop-en.png)，均来自正式站点的独立验收上下文，画面使用固定示例任务。
+当前线上版本为 **v1.3.0**，本地升级版本为 **v1.4.0**。README 中文首图使用 [desktop-zh-CN.png](v1.3/production/language/desktop-zh-CN.png)，英文首图使用 [desktop-en.png](v1.3/production/language/desktop-en.png)，均来自正式站点的独立验收上下文，画面使用固定示例任务。
 
 ## 当前版本
+
+v1.4 本地截图已归档于 [local](v1.4/local)，包含多窗口只读与接管、模块失败、历史、业务、语言与备份。下列 v1.3 线上截图保留其原版本含义，README 首图在 v1.4 生产复验后更新。
 
 所有截图统一采用 `版本 / 环境 / 验收类型 / 图片` 的路径：
 

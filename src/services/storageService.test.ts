@@ -1,6 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { STORAGE_KEY, createDefaultAppData } from '../constants/defaults';
 import { storageService } from './storageService';
+import { useTabStore } from '../stores/tabStore';
+
+it.each(['reader', 'checking', 'unsupported'] as const)('blocks all persisted writes for a %s tab', (role) => {
+  const saved = JSON.stringify(createDefaultAppData());
+  localStorage.setItem(STORAGE_KEY, saved);
+  useTabStore.setState({ role });
+  expect(storageService.save(createDefaultAppData())).toBe(false);
+  expect(storageService.clear()).toBe(false);
+  expect(localStorage.getItem(STORAGE_KEY)).toBe(saved);
+});
 
 describe('storageService', () => {
   beforeEach(() => localStorage.clear());
